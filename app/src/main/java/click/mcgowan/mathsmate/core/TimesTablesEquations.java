@@ -15,15 +15,18 @@ public class TimesTablesEquations extends Equations {
     /**
      * Create a new Times Table Equations object
      *
-     * Since we know the type and number of equations, we statically set all base parameters
+     * operandCount, precision and negative is statically set for timestables
      *
+     * @param range  Allow adjustment of range for timestables
      * @param random One extra parameter for times tables. Do we want the questions out of order
      */
-    public TimesTablesEquations (boolean random) {
+    public TimesTablesEquations (
+            int range,
+            boolean random
+    ) {
         super (
-                144,
                 2,
-                12,
+                range,
                 0,
                 false
         );
@@ -31,6 +34,8 @@ public class TimesTablesEquations extends Equations {
         this.random = random;
 
         Log.i ("EQUATIONS_TT_INIT", "Equations Object Initialized");
+
+        this.genEquations();
     }
 
     /**
@@ -39,7 +44,7 @@ public class TimesTablesEquations extends Equations {
      * Unlike other equation types, this is predefined and not random
      * Exactly 144 questions from 1x1 to 12x12
      */
-    public void genEquations () {
+    protected void genEquations () {
         TimesTablesEquation prepEquation;
         int index = 0;
         int operanda, operandb;

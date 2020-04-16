@@ -23,7 +23,7 @@ public abstract class Equations {
     protected int currentEquationIndex = -1;                               //Index of current equation. Since it's incremented immediately, we set to -1
 
     /**
-     * Create a new equations object. Set parameters
+     * Create a new equations object. Set all parameters based on input from inheriting class
      *
      * @param equationCount Number of equations
      * @param operandCount  Largest number of the operand
@@ -47,9 +47,35 @@ public abstract class Equations {
     }
 
     /**
-     * Generate the actual equations. Must be defined in the extended classes
+     * Create a new equations object. Set all parameters based on input from inheriting class
+     *
+     * Exclusion: Under this constructor equation count is calculated by the ranges. This is applicable for equations where every possible combination results in an equation (e.g. timestables)
+     *
+     * @param operandCount  Largest number of the operand
+     * @param range         Precision of the operand (0 means no decimals)
+     * @param precision     Precision of the operand (0 means no decimals)
+     * @param negative      Are negative operands allowed?
      */
-    abstract public void genEquations ();
+    public Equations (
+            int operandCount,
+            int range,
+            int precision,
+            boolean negative
+    ) {
+        this.equationCount = range * range;
+        this.operandCount = operandCount;
+        this.range = range;
+        this.precision = precision;
+        this.negative = negative;
+        this.startDate = new Date ();
+    }
+
+    /**
+     * Generate the actual equations. Must be defined in the extended classes
+     *
+     * genEquations is protected and called directly by the inheriting constructor
+     */
+    abstract protected void genEquations ();
 
     /**
      * Return the start date for these equations

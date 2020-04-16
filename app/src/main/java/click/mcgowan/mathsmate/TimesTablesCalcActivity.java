@@ -30,6 +30,7 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
     private String equationString = "";
     private String equationAnswer = "?";
     private boolean equationUserReset = true;
+    private boolean lockKeypad = true;
 
     /**
      * Render the Calculator Activity
@@ -85,8 +86,7 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
                 incBody.setDisplayedChild(1);
 
                 //Create new times table equations object and generate equations
-                tte = new TimesTablesEquations(true);
-                tte.genEquations();
+                tte = new TimesTablesEquations(4, true);
 
                 //Call private method to actually render the equation
                 renderNewEquation();
@@ -141,7 +141,10 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
                 break;
         }
 
-        renderAddThisEquation(btnValue);
+        //Do not process input if lockKeypad is true
+        if (lockKeypad != true) {
+            renderAddThisEquation(btnValue);
+        }
     }
 
     /**
@@ -185,14 +188,18 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
             }
         }
 
-        //Set the user answer to ? and set user reset to true to indicate new input is expected
+        //Set the user answer to ?
         equationAnswer = "?";
-        equationUserReset = true;
 
         //Render equation and status
         tvEquation.setText(getString(R.string.equation_mask, equationString, equationAnswer));
         tvStatus.setText(getString(R.string.status_input));
         tvStatus.setTextColor(getColor(R.color.colorNeutral));
+
+        //Set equationUserRest flag to true telling renderAddThisEquation to expect brand new input
+        equationUserReset = true;
+        //Unlock the keypad so it can call renderAddThsEquation
+        lockKeypad = false;
     }
 
     /**
@@ -221,6 +228,7 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
         //If this method was called again and equationUserReset is still false, then additional entries are needed in equation answer. Append rather than replace
         else {
 
+            //Append entry in equation answer
             equationAnswer = equationAnswer + btnValue;
             tvEquation.setText(getString(R.string.equation_mask, equationString, equationAnswer));
         }
@@ -229,6 +237,11 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
         if (equationAnswer.length() == tte.getAnswerCalcThisEquation().length()) {
 
             if (tte.verifyAnswerUserThisEquation(equationAnswer) == true) {
+
+                //Lock the keypad so new input cant be added while success is been rendered
+                lockKeypad = true;
+
+                //Render success msg
                 tvStatus.setText(getString(R.string.status_pass));
                 tvStatus.setTextColor(getColor(R.color.colorPass));
 
