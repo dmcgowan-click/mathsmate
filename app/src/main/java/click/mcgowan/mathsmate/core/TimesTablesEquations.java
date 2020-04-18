@@ -3,6 +3,10 @@ package click.mcgowan.mathsmate.core;
 import android.util.Log;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Generate and return a map of times table equations in accordance with provided parameters
@@ -46,8 +50,15 @@ public class TimesTablesEquations extends Equations {
      */
     protected void genEquations () {
         TimesTablesEquation prepEquation;
+        Random random = new Random();
+        List<Integer> rndIndex = new ArrayList<>();
         int index = 0;
-        int operanda, operandb;
+
+        //We create a random index regardless of if its needed
+        for (int counter = 0; counter < this.equationCount; counter++) {
+            rndIndex.add(counter);
+        }
+        Collections.shuffle(rndIndex);
 
         //Loop exactly 12 times for x axis
         for (int countx=0; countx < this.range; countx++) {
@@ -55,26 +66,27 @@ public class TimesTablesEquations extends Equations {
             //Loop exactly 12 times for y axis
             for (int county=0; county < this.range; county++) {
 
-                //If random was true, we use some more complex logic to create the operands
-                if (this.random == true) {
-                    operanda = countx + 1;
-                    operandb = county + 1;
-                }
-                //If random was false, we just use the countx and county to set the operands
-                else {
-                    operanda = countx + 1;
-                    operandb = county + 1;
-                }
-
                 //Create new TimesTableEquation object and generate the equation
                 prepEquation = new TimesTablesEquation(
-                        operanda,
-                        operandb
+                        this.range,
+                        countx + 1,
+                        county + 1
                 );
-                prepEquation.genEquation();
 
-                //Add new equation to map and increment index
-                equationMap.put(String.valueOf(index),prepEquation);
+                //If random was true, use the collections to set the index
+                if (this.random == true) {
+
+                    //Add new equation to map based on random index
+                    equationMap.put(String.valueOf(rndIndex.get(index)),prepEquation);
+                }
+                //If random was false, just use the index counter
+                else {
+
+                    //Add new equation to map based on incremented index
+                    equationMap.put(String.valueOf(index),prepEquation);
+                }
+
+                //Increment Index
                 index++;
             }
         }
@@ -83,52 +95,70 @@ public class TimesTablesEquations extends Equations {
     }
 
     /**
-     * Return the operands for a specific equation in map identified by key. Return as a String array for easy rendering at the GUI side
+     * Return specific operand IN equation. Use key to locate the equation and index to locate the operand
      *
      * Values in map will always be of type TimesTablesEquation
      *
-     * @param key Key to the map element that contains the desired Equation
+     * @param key   Key to the map element that contains the desired Equation
+     * @param index Index to the operand IN the map element
      * @return    An array with the operands for the equation
      */
-    public String[] getOperandsForEquation (String key) {
+    public String getOperandForEquation (String key, int index) {
 
         TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(key);
-        Operand operand[] = tte.getOperands();
-        String operandAsString[] = new String[operand.length];
 
-        //We want to extract the values from the operand object and return them as a simple String array for easy rendering at the GUI side
-        for (int counter = 0; counter < operand.length; counter++) {
-
-            operandAsString[counter] = String.valueOf(operand[counter].getOperand());
-        }
-
-        return (operandAsString);
+        return (String.valueOf(tte.getOperandForIndex(index)));
     }
 
     /**
-     * Return the operands for the next equation in map. Key is incremented automatically each time this method is called. Return as a String array for easy rendering at the GUI side
+     * Return the next operand IN the next equation in map. Key is incremented automatically each time this method is called
      *
      * Values in map will always be of type TimesTablesEquation
      *
-     * @return An array with the operands for the equation
+     * @return The current operands for the current equation
      */
-    public String[] getOperandsNextEquation () {
+    public String getNextOperandNextEquation () {
 
-        //Increment the current equation. We need to do this first as other methods depend on this index
-        this.currentEquationIndex++;
-
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationIndex));
-        Operand operand[] = tte.getOperands();
-        String operandAsString[] = new String[operand.length];
+        //Always get the equation for the current key in equation map
+        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
-        //We want to extract the values from the operand object and return them as a simple String array for easy rendering at the GUI side
-        for (int counter = 0; counter < operand.length; counter++) {
+        //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
+        if ((tte.getIndexPosition() + 1) == tte.getOperandsLength()) {
 
-            operandAsString[counter] = String.valueOf(zeroPrecision.format(operand[counter].getOperand()));
+            this.currentEquationKey++;
+            tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
         }
 
-        return (operandAsString);
+        return (String.valueOf(zeroPrecision.format(tte.getOperandNextIndex())));
+    }
+
+    /**
+     * Return the current operand index FOR the equation in map. Index is incremented automatically each time getNextOperandNextEquation is called
+     *
+     * Values in map will always be of type TimesTablesEquation
+     *
+     * @return The current operand index for the current equation
+     */
+    public int getOperandIndexCurrentEquation () {
+
+        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+
+        return (tte.getIndexPosition());
+    }
+
+    /**
+     * Return the length of the operand array FOR the equation in map
+     *
+     * Values in map will always be of type TimesTablesEquation
+     *
+     * @return The current operand array length
+     */
+    public int getOperandLengthCurrentEquation () {
+
+        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+
+        return (tte.getOperandsLength());
     }
 
     /**
@@ -139,9 +169,9 @@ public class TimesTablesEquations extends Equations {
      * @param key Key to the map element that contains the desired Equation
      * @return    The calculated answer
      */
-    public String getAnswerCalcForEquation (String key) {
+    public String getAnswerCalcForEquation (int key) {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(key);
+        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(key));
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         return (String.valueOf(zeroPrecision.format(tte.getAnswerCalc())));
@@ -157,7 +187,7 @@ public class TimesTablesEquations extends Equations {
      */
     public String getAnswerCalcThisEquation () {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationIndex));
+        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         return (String.valueOf(zeroPrecision.format(tte.getAnswerCalc())));
@@ -192,7 +222,7 @@ public class TimesTablesEquations extends Equations {
      */
     public boolean verifyAnswerUserThisEquation (String answerUser) {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationIndex));
+        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
 
         return (tte.verifyAnswerUser(Double.parseDouble(answerUser)));
     }

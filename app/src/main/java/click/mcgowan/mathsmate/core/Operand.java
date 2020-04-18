@@ -16,7 +16,7 @@ class Operand {
     private double operand = 0; //The actual operand once generated
 
     /**
-     * Create a new Operand object. Set the parameters
+     * Create a new Operand object, set the parameters and generate an operand based on parameters. Store in variable
      *
      * @param range     Largest number of the operand
      * @param precision Precision of the operand (0 means no decimals)
@@ -27,22 +27,14 @@ class Operand {
             int precision,
             boolean negative
     ) {
+        String precisionMask="#.";
+        Random random = new Random();
+
         this.range     = range;
         this.precision = precision;
         this.negative  = negative;
 
         Log.i("OPERAND_INIT", "Operand Object Initialized");
-    }
-
-    /**
-     * Generate an operand and store in the operand variable
-     *
-     * Not really happy about elements of this design, but will need to revisit at a later date
-     */
-    void genOperand() {
-
-        String precisionMask="#.";
-        Random random = new Random();
 
         //Create plain integer
         this.operand = random.nextInt(this.range) + 1;
@@ -63,13 +55,24 @@ class Operand {
     }
 
     /**
-     * Take in a value and store in the operand variable.
+     * Create a new Operand object, set the parameters including the operand verified against parameters. Store in variable
      *
-     * This is used in situations where we may want to predetermine the values (Example, TimesTables where we need 144 x 144 exactly)
-     *
-     * @param operand User provided operand
+     * @param range     Largest number of the operand
+     * @param precision Precision of the operand (0 means no decimals)
+     * @param negative  Are negative operands allowed?
+     * @param operand   The operand you want to set
      */
-    void setOperand(double operand) {
+    public Operand(
+            int range,
+            int precision,
+            boolean negative,
+            double operand
+    ) {
+
+        this.range     = range;
+        this.precision = precision;
+        this.negative  = negative;
+
         //Eventually will have error checking against parameters
         this.operand = operand;
 
@@ -81,7 +84,7 @@ class Operand {
      *
      * @return return the operand value
      */
-    double getOperand() {
+    public double getOperand() {
         return (this.operand);
     }
 }

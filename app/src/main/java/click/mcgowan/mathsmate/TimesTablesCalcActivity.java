@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import click.mcgowan.mathsmate.core.TimesTablesEquation;
 import click.mcgowan.mathsmate.core.TimesTablesEquations;
 
 /**
@@ -24,7 +25,8 @@ import click.mcgowan.mathsmate.core.TimesTablesEquations;
 public class TimesTablesCalcActivity extends AppCompatActivity {
 
     //Times Tables Equations
-    private TimesTablesEquations tte;
+    private TimesTablesEquations ttes;
+    private int currentEquationKey;
 
     //Calculated Vars
     private String equationString = "";
@@ -86,7 +88,7 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
                 incBody.setDisplayedChild(1);
 
                 //Create new times table equations object and generate equations
-                tte = new TimesTablesEquations(4, true);
+                ttes = new TimesTablesEquations(4, true);
 
                 //Call private method to actually render the equation
                 renderNewEquation();
@@ -168,27 +170,26 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
      */
     private void renderNewEquation () {
 
-        String[] operandAsString;
+        String operandAsString;
         TextView tvEquation = (TextView)findViewById(R.id.tvEquation);
         TextView tvStatus = (TextView)findViewById(R.id.tvStatus);
 
-        operandAsString = tte.getOperandsNextEquation();
+        //Loop until we have retrieved all operands for the equation
+        do {
+            operandAsString = ttes.getNextOperandNextEquation();
 
-        for (int counter = 0; counter < operandAsString.length; counter++) {
-
-            //Set the First Operand and append Multiplication Symbol during the first loop
-            if (counter == 0) {
-                equationString = operandAsString[counter];
+            //For first run, set first operand AND append the multiplication symbol
+            if (ttes.getOperandIndexCurrentEquation() < 1) {
+                equationString = operandAsString;
                 equationString = equationString + getString(R.string.multiplication_symbol);
             }
-            //Set the Second Operand and Equal Symbol during the second loop
-            else if ( counter == 1) {
-                equationString = equationString + operandAsString[counter];
+            //For second run, set the second operand AND append the equals symbol
+            else if (ttes.getOperandIndexCurrentEquation() < 2) {
+                equationString = equationString + operandAsString;
                 equationString = equationString + getString(R.string.equals_symbol);
             }
-        }
+        } while ((ttes.getOperandIndexCurrentEquation() + 1) < ttes.getOperandLengthCurrentEquation());
 
-        //Set the user answer to ?
         equationAnswer = "?";
 
         //Render equation and status
@@ -234,9 +235,11 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
         }
 
         //If length of equationAnswer and calculated answer match, where ready to actually check the answer
-        if (equationAnswer.length() == tte.getAnswerCalcThisEquation().length()) {
+        if (equationAnswer.length() == ttes.getAnswerCalcThisEquation().length()) {
 
-            if (tte.verifyAnswerUserThisEquation(equationAnswer) == true) {
+
+            //If answer is correct, perform necessary steps to inform the user and prepare a new equation
+            if (ttes.verifyAnswerUserThisEquation(equationAnswer) == true) {
 
                 //Lock the keypad so new input cant be added while success is been rendered
                 lockKeypad = true;
@@ -254,17 +257,18 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
                     //On finishing, check the current equation index for next actions
                     public void onFinish() {
 
-                        //If index + 1 is a match to equation map size, where all done. Render the finish page
-                        if ((tte.getCurrentEquationIndex() + 1) == tte.getEquationMapSize()) {
-                            renderEquationsComplete();
-                        }
-                        //Otherwise, we render the next equation
-                        else {
+                        //If index is less than equation map size, move to next equation
+                        if ((ttes.getCurrentEquationKey() + 1) < ttes.getEquationMapSize()) {
                             renderNewEquation();
+                        }
+                        //Otherwise, we render the completed page
+                        else {
+                            renderEquationsComplete();
                         }
                     }
                 }.start();
             }
+            //If answer is incorrect, inform user and set flags so further input will replace previous input. We do not change the question
             else {
                 tvStatus.setText(getString(R.string.status_fail));
                 tvStatus.setTextColor(getColor(R.color.colorFail));
@@ -273,8 +277,6 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
                 equationUserReset = true;
             }
         }
-
-        Log.d("SIZE",String.valueOf(tte.getAnswerCalcThisEquation().length()));
     }
 
     /**

@@ -16,6 +16,7 @@
     <string name="status_fail">Incorrect</string>
     <string name="status_pass">Correct</string>
     <string name="status_complete">Complete!</string>
+    <string name="time_taken">Completed in %1$s Minutes</string>
 
     <string name="one">1</string>
     <string name="two">2</string>

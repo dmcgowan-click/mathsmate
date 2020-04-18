@@ -6,24 +6,27 @@ package click.mcgowan.mathsmate.core;
 public abstract class Equation {
 
     //Parameters
-    private int operandCount; //Number of operands in the equation
-    private int range;        //Largest number of the operand
-    private int precision;    //Precision of the operand (0 means no decimals)
-    private boolean negative; //Are negative operands allowed?
+    protected int operandCount; //Number of operands in the equation
+    protected int range;        //Largest number of the operand
+    protected int precision;    //Precision of the operand (0 means no decimals)
+    protected boolean negative; //Are negative operands allowed?
 
     //Calculated values
-    Operand[] operands;
-    double answerCalc;
+    protected Operand[] operands; //Array of operands
+    protected double answerCalc;  //The calculated answer
+    protected int index=-1;       //Index of current operand. Since it's incremented immediately, we set to -1
 
     /**
-     * Create a new Equation object. Set parameters
+     * Create a new Equation object. Set parameters from inheriting class
+     *
+     * All inheriting classes should have a step in the constructor to call genEquations
      *
      * @param operandCount Number of operands in the equation
      * @param range        Largest number of the operand
      * @param precision    Precision of the operand (0 means no decimals)
      * @param negative     Are negative operands allowed?
      */
-    Equation(
+    public Equation(
             int operandCount,
             int range,
             int precision,
@@ -36,53 +39,9 @@ public abstract class Equation {
     }
 
     /**
-     * Generate all operands for the equation. Internal and to be called by the genEquation method if applicable for this type of equation
+     * Generate the actual equation including the answer. This must be defined in the extended classes and take utilize either genOperands or setOperands
      */
-    protected void genOperands () {
-
-        //Create an operand based on operandCount
-        this.operands = new Operand[this.operandCount];
-
-        for (int counter=0; counter < this.operands.length; counter++) {
-
-            this.operands[counter] = new Operand(
-                    this.range,
-                    this.precision,
-                    this.negative
-            );
-
-            this.operands[counter].genOperand();
-        }
-    }
-
-    /**
-     * Set all operands for the equation. Internal and to be called by the genEquation method if applicable for this type of equation
-     *
-     * Number of elements in operands and size of operandCount must match or this method will die!
-     *
-     * @param operands An array of the operands you want to set
-     */
-    void setOperands(double[] operands) {
-
-        //Set operands for the size of operandCount. operands must match in length
-        this.operands = new Operand[this.operandCount];
-
-        for (int counter=0; counter < this.operands.length; counter++) {
-
-            this.operands[counter] = new Operand(
-                    this.range,
-                    this.precision,
-                    this.negative
-            );
-
-            this.operands[counter].setOperand(operands[counter]);
-        }
-    }
-
-    /**
-     * Generate the actual equation. This must be defined in the extended classes and take utilize either genOperands or setOperands
-     */
-    abstract public void genEquation ();
+    abstract protected void genEquation ();
 
     /**
      * Get the user provided answer, check against the calculated answer. If correct, return true, otherwise return false
@@ -90,7 +49,7 @@ public abstract class Equation {
      * @param answerUser User provided answer
      * @return           True for match, False for mismatch
      */
-    public boolean verifyAnswerUser (double answerUser) {
+    protected boolean verifyAnswerUser(double answerUser) {
         if (answerUser == this.answerCalc) {
             return (true);
         }
@@ -100,12 +59,51 @@ public abstract class Equation {
     }
 
     /**
-     * Get the array of operands. Required for rendering the answer correctly
+     * Get operand from array of operands based on provided index
      *
-     * @return Array of the operands in this equation
+     * @param index index of the operand object that contains the operand value
+     * @return The operand based on index
      */
-    public Operand[] getOperands () {
-        return (this.operands);
+    public double getOperandForIndex (int index) {
+
+        return (this.operands[index].getOperand());
+    }
+
+    /**
+     * Get next operand from array of operands. Index incremented automatically each time method called
+     *
+     * WARNING! No protection for out of bounds. That really should be added in at some point
+     *
+     * @return The operand based on the index
+     */
+    public double getOperandNextIndex () {
+
+        //Increment the index for operand. We need to do this first as other methods may rely on this index AFTER this method was called
+        this.index++;
+
+        return(this.operands[this.index].getOperand());
+    }
+
+    /**
+     * Get the total size of operands array
+     *
+     * NOTE: Technically we should already know this based on passed in parameters, but it's pretty bad practice to rely on that. This will give you the exact answer
+     *
+     * @return Size of the operands array
+     */
+    public int getOperandsLength () {
+
+        return(this.operands.length);
+    }
+
+    /**
+     * Get the current operand index position
+     *
+     * @return
+     */
+    public int getIndexPosition () {
+
+        return (this.index);
     }
 
     /**

@@ -20,10 +20,13 @@ public abstract class Equations {
     //Calculated Values
     protected Date startDate;                                              //Timestamp of when the equations start
     protected HashMap<String,Object> equationMap = new LinkedHashMap<String,Object>(); //A map of all equations. Using map as eventually, we want to be able to mix and match different types of equations
-    protected int currentEquationIndex = -1;                               //Index of current equation. Since it's incremented immediately, we set to -1
+    protected int currentEquationKey = 0;                                  //Index of current equation
+    protected int operandIndexLength;                                      //Size of the operand array IN the equation MAY NOT NEED
 
     /**
      * Create a new equations object. Set all parameters based on input from inheriting class
+     *
+     * Inheriting constructor should call the genEquations method to actually generate the equations
      *
      * @param equationCount Number of equations
      * @param operandCount  Largest number of the operand
@@ -48,6 +51,8 @@ public abstract class Equations {
 
     /**
      * Create a new equations object. Set all parameters based on input from inheriting class
+     *
+     * Inheriting constructor should call the genEquations method to actually generate the equations
      *
      * Exclusion: Under this constructor equation count is calculated by the ranges. This is applicable for equations where every possible combination results in an equation (e.g. timestables)
      *
@@ -91,8 +96,8 @@ public abstract class Equations {
      *
      * @return Current equation index
      */
-    public int getCurrentEquationIndex () {
-        return (this.currentEquationIndex);
+    public int getCurrentEquationKey () {
+        return (this.currentEquationKey);
     }
 
     /**
@@ -107,23 +112,42 @@ public abstract class Equations {
     }
 
     /**
-     * Return the operands for a specific equation in map identified by key. Return as a String array for easy rendering at the GUI side
+     * Return specific operand IN equation. Use key to locate the equation and index to locate the operand
      *
      * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
      *
-     * @param key Key to the map element that contains the desired Equation
-     * @return    An array with the operands for the equation
+     * @param key   Key to the map element that contains the desired Equation
+     * @param index Index to the operand IN the map element
+     * @return      An array with the operands for the equation
      */
-    abstract public String[] getOperandsForEquation (String key);
+    abstract public String getOperandForEquation (String key, int index);
 
     /**
-     * Return the operands for the next equation in the map. Key is incremented automatically each time this method is called. Return as a String array for easy rendering at the GUI side
+     * Return the next operand IN the next equation in map. Key is incremented automatically each time this method is called
      *
      * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
      *
      * @return An array with the operands for the equation
      */
-    abstract public String[] getOperandsNextEquation ();
+    abstract public String getNextOperandNextEquation ();
+
+    /**
+     * Return the current operand index FOR the equation in map. Index is incremented automatically each time getNextOperandNextEquation is called
+     *
+     * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
+     *
+     * @return The current operand index for the current equation
+     */
+    abstract public int getOperandIndexCurrentEquation ();
+
+    /**
+     * Return the length of the operand array FOR the equation in map
+     *
+     * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
+     *
+     * @return The current operand array length
+     */
+    abstract public int getOperandLengthCurrentEquation ();
 
     /**
      * Return the calculated answer for a specific equation in map identified by key. Return as a String for easy rendering at the GUI side
@@ -133,7 +157,7 @@ public abstract class Equations {
      * @param key Key to the map element that contains the desired Equation
      * @return    The calculated answer
      */
-    abstract public String getAnswerCalcForEquation (String key);
+    abstract public String getAnswerCalcForEquation (int key);
 
     /**
      * Return the calculated answer for the this equation in the map. Key is incremented by the getOperandsNextEquation so this must be called before getting the next set of operands
