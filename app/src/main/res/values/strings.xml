@@ -18,6 +18,14 @@
     <string name="status_complete">Complete!</string>
     <string name="time_taken">Completed in %1$s Minutes</string>
 
+    <string name="settings_save">Save</string>
+    <string name="settings_saved">Settings Saved</string>
+    <string name="settings_timestables">Times Tables Settings</string>
+    <string name="settings_range">Equation Range</string>
+    <string name="settings_random">Random Order?</string>
+    <string name="settings_true">True</string>
+    <string name="settings_false">False</string>
+
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>

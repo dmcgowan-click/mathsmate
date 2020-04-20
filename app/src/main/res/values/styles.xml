@@ -16,6 +16,14 @@
         <item name="android:textSize">25sp</item>
     </style>
 
+    <style name="Paragraph1">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Paragraph2">
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="Keypad">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">70dp</item>

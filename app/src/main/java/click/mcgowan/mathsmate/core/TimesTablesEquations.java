@@ -46,11 +46,10 @@ public class TimesTablesEquations extends Equations {
      * Generate Equations for Times Tables
      *
      * Unlike other equation types, this is predefined and not random
-     * Exactly 144 questions from 1x1 to 12x12
+     * x*x where x is the desired range
      */
     protected void genEquations () {
         TimesTablesEquation prepEquation;
-        Random random = new Random();
         List<Integer> rndIndex = new ArrayList<>();
         int index = 0;
 
