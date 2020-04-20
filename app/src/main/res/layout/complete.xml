@@ -13,4 +13,12 @@
         android:gravity="center"
         android:text="@string/status_complete"/>
 
+    <TextView
+        style="@style/Header2"
+        android:id="@+id/tvCompIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Completed in"/>
+
 </LinearLayout>

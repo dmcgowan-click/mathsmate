@@ -110,8 +110,6 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
 
                 //Call private method to actually render the equation
                 renderNewEquation();
-                //Log.d("DEBUG_NEXT_GEN",ttes.getOperandForEquation("0",0));
-                Log.d("DEBUG_NEXT_GEN",String.valueOf(ttes.getEquationMapSize()));
             }
         }.start();
     }
@@ -272,6 +270,8 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
+        TextView tvRenderCount = (TextView) findViewById(R.id.tvRenderCount);
+        Button btnBegin = (Button) findViewById(R.id.btnBegin);
 
         //Save settings and commit them
         SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
@@ -282,9 +282,11 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
         //Notify settings saved
         Toast.makeText(getApplicationContext(), getString(R.string.settings_saved), Toast.LENGTH_SHORT).show();
 
-        //Reset buttons and displayed child
+        //Reset buttons and displayed child so we can start the equations again
         saveSettings.setVisibility(View.GONE);
         openSettings.setVisibility(View.VISIBLE);
+        tvRenderCount.setVisibility(View.GONE);
+        btnBegin.setVisibility(View.VISIBLE);
         incBody.setDisplayedChild(0);
     }
 
@@ -356,6 +358,10 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
         TextView tvEquation = (TextView)findViewById(R.id.tvEquation);
         TextView tvStatus = (TextView)findViewById(R.id.tvStatus);
 
+        //Always set status to input when this method is called
+        tvStatus.setText(getString(R.string.status_input));
+        tvStatus.setTextColor(getColor(R.color.colorNeutral));
+
         //If equationUserReset is set to true, this is the first entry
         if (equationUserReset == true) {
 
@@ -376,7 +382,6 @@ public class TimesTablesCalcActivity extends AppCompatActivity {
 
         //If length of equationAnswer and calculated answer match, where ready to actually check the answer
         if (equationAnswer.length() == ttes.getAnswerCalcThisEquation().length()) {
-
 
             //If answer is correct, perform necessary steps to inform the user and prepare a new equation
             if (ttes.verifyAnswerUserThisEquation(equationAnswer) == true) {

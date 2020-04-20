@@ -7,11 +7,11 @@
 
     <string name="addition">Addition</string>
     <string name="timestables">Times Tables</string>
-    <string name="addition_symbol"> + </string>
-    <string name="multiplication_symbol"> * </string>
-    <string name="equals_symbol"> = </string>
+    <string name="addition_symbol">\u0020\u0020+\u0020\u0020</string>
+    <string name="multiplication_symbol">\u0020\u0020\u00D7\u0020\u0020</string>
+    <string name="equals_symbol">\u0020\u0020=\u0020\u0020</string>
 
-    <string name="equation_mask">%1$s %2$s</string>
+    <string name="equation_mask">%1$s%2$s</string>
     <string name="status_input">Enter Answer</string>
     <string name="status_fail">Incorrect</string>
     <string name="status_pass">Correct</string>
