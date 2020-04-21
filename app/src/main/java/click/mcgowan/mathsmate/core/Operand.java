@@ -69,9 +69,9 @@ class Operand {
             double operand
     ) {
 
-        this.range     = range;
+        this.range = range;
         this.precision = precision;
-        this.negative  = negative;
+        this.negative = negative;
 
         //Eventually will have error checking against parameters
         this.operand = operand;

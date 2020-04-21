@@ -104,9 +104,16 @@ public class TimesTablesEquations extends Equations {
      */
     public String getOperandForEquation (String key, int index) {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(key);
+        TimesTablesEquation tte;
 
-        return (String.valueOf(tte.getOperandForIndex(index)));
+        try {
+            tte = (TimesTablesEquation) this.equationMap.get(key);
+
+            return (String.valueOf(tte.getOperandForIndex(index)));
+
+        } catch (Exception e) {
+            return(e.getMessage());
+        }
     }
 
     /**
@@ -119,17 +126,24 @@ public class TimesTablesEquations extends Equations {
     public String getNextOperandNextEquation () {
 
         //Always get the equation for the current key in equation map
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        TimesTablesEquation tte;
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
-        //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
-        if ((tte.getIndexPosition() + 1) == tte.getOperandsLength()) {
-
-            this.currentEquationKey++;
+        try {
             tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
-        }
 
-        return (String.valueOf(zeroPrecision.format(tte.getOperandNextIndex())));
+            //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
+            if ((tte.getIndexPosition() + 1) == tte.getOperandsLength()) {
+
+                this.currentEquationKey++;
+                tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+            }
+
+            return (String.valueOf(zeroPrecision.format(tte.getOperandNextIndex())));
+
+        } catch (Exception e) {
+            return(e.getMessage());
+        }
     }
 
     /**

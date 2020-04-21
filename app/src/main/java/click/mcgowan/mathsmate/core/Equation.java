@@ -81,7 +81,8 @@ public abstract class Equation {
         //Increment the index for operand. We need to do this first as other methods may rely on this index AFTER this method was called
         this.index++;
 
-        return(this.operands[this.index].getOperand());
+        return (this.operands[this.index].getOperand());
+
     }
 
     /**

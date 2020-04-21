@@ -40,4 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intentTimesTablesCalcActivity);
     }
+
+    /**
+     * Open master settings activity for settings that effect the whole program
+     *
+     * @param view
+     */
+    public void masterSettings (View view) {
+
+        Toast.makeText(getApplicationContext(), "Under Construction",Toast.LENGTH_LONG).show();
+    }
 }

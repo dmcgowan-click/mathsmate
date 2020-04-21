@@ -83,12 +83,16 @@ public abstract class Equations {
     abstract protected void genEquations ();
 
     /**
-     * Return the start date for these equations
+     * Return time taken based on current time when this method was called - time recorded when object was created
      *
-     * @return Equation Start Date
+     * @return Time taken as a string
      */
-    public Date getStartDate () {
-        return (this.startDate);
+    public String getTimeTaken () {
+
+        Date currentDate = new Date ();
+        Long dateDifference = currentDate.getTime() - this.startDate.getTime();
+
+        return (String.valueOf(dateDifference));
     }
 
     /**

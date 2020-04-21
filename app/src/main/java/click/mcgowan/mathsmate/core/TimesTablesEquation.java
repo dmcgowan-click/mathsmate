@@ -3,7 +3,14 @@ package click.mcgowan.mathsmate.core;
 import android.util.Log;
 
 /**
- * Generate and return an times table equation in accordance with provided parameters
+ * Generate and return a times table equation in accordance with provided parameters
+ *
+ * Some important notes about this class:
+ *
+ * * Operand count is hard coded to 2. Should never be more
+ * * Precision hard coded to 0. Never decimal places in times tables
+ * * Negative is hard coded to false. Never negative numbers in times tables
+ * * The parent constructor calculates the number of questions based on the range. Where range is x, total questions are always x*x
  */
 public class TimesTablesEquation extends Equation {
 
@@ -14,7 +21,7 @@ public class TimesTablesEquation extends Equation {
     /**
      * Create a new Times Table Equations object and call genEquation to create the actual equation
      *
-     * Since we know the type of equations, we statically set all parameters and just take in two operands
+     * Since we know the type of equations, we statically set all parameters except for range and take in two operands
      *
      * @param operandA Value of the first operand
      * @param operandB Value of the second operand
