@@ -10,6 +10,7 @@ public abstract class Equation {
     protected int range;        //Largest number of the operand
     protected int precision;    //Precision of the operand (0 means no decimals)
     protected boolean negative; //Are negative operands allowed?
+    protected char[] operators; //Array of operators permitted for equation. Operators are randomly selected based on what is permitted
 
     //Calculated values
     protected Operand[] operands; //Array of operands
@@ -19,23 +20,26 @@ public abstract class Equation {
     /**
      * Create a new Equation object. Set parameters from inheriting class
      *
-     * All inheriting classes should have a step in the constructor to call genEquations
+     * Inheriting constructor should call the genEquation method to actually generate the equations
      *
      * @param operandCount Number of operands in the equation
      * @param range        Largest number of the operand
      * @param precision    Precision of the operand (0 means no decimals)
      * @param negative     Are negative operands allowed?
+     * @param operators    Array of operators permitted for equation. Operators are randomly selected based on what is permitted during generation of equation
      */
     public Equation(
             int operandCount,
             int range,
             int precision,
-            boolean negative
+            boolean negative,
+            char[] operators
     ) {
         this.operandCount = operandCount;
         this.range = range;
         this.precision = precision;
         this.negative = negative;
+        this.operators = operators;
     }
 
     /**
@@ -61,8 +65,10 @@ public abstract class Equation {
     /**
      * Get operand from array of operands based on provided index
      *
+     * NOTE: Out of bounds protection should reside in calling method
+     *
      * @param index index of the operand object that contains the operand value
-     * @return The operand based on index
+     * @return      The operand based on index
      */
     public double getOperandForIndex (int index) {
 
@@ -70,9 +76,22 @@ public abstract class Equation {
     }
 
     /**
+     * Get operator from array of operands based on provided index
+     *
+     * NOTE: Out of bounds protection should reside in calling method
+     *
+     * @param index index of the operand object that contains the operator value
+     * @return      The operand based on index
+     */
+    public char getOperatorForIndex (int index) {
+
+        return (this.operands[index].getOperator());
+    }
+
+    /**
      * Get next operand from array of operands. Index incremented automatically each time method called
      *
-     * WARNING! No protection for out of bounds. That really should be added in at some point
+     * NOTE: Out of bounds protection should reside in calling method
      *
      * @return The operand based on the index
      */
@@ -82,13 +101,27 @@ public abstract class Equation {
         this.index++;
 
         return (this.operands[this.index].getOperand());
+    }
 
+    /**
+     * Get next operator from array of operands. Index incremented automatically each time method called
+     *
+     * NOTE: Out of bounds protection should reside in calling method
+     *
+     * @return
+     */
+    public char getOperatorNextIndex () {
+
+        //Increment the index for operand. We need to do this first as other methods may rely on this index AFTER this method was called
+        this.index++;
+
+        return (this.operands[this.index].getOperator());
     }
 
     /**
      * Get the total size of operands array
      *
-     * NOTE: Technically we should already know this based on passed in parameters, but it's pretty bad practice to rely on that. This will give you the exact answer
+     * NOTE: Out of bounds protection should reside in calling method
      *
      * @return Size of the operands array
      */

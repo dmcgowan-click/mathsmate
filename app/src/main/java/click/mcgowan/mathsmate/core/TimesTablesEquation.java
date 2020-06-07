@@ -14,6 +14,9 @@ import android.util.Log;
  */
 public class TimesTablesEquation extends Equation {
 
+    //Operand class needs an operator. It will ALWAYS be *
+    private final char operator = '*';
+
     //For timestables, we take in preset operands. Will always be 0 decimal precision positive. Never dynamically calculated
     private int operandA;
     private int operandB;
@@ -36,7 +39,8 @@ public class TimesTablesEquation extends Equation {
                 2,
                 range,
                 0,
-                false
+                false,
+                new char[]{'*'}
         );
 
         this.operandA = operandA;
@@ -50,22 +54,23 @@ public class TimesTablesEquation extends Equation {
     /**
      * Generate a times table equation. Use operands passed in via the constructor.
      *
-     * Operand count will always be exactly 2. 0 decimal precision positive number
+     * Operand count will always be exactly 2. 0 decimal precision. positive number. Operator always *
      */
     protected void genEquation () {
 
         //Set operands into array. This makes handling the operands array easier
         double[] tteOperands = {this.operandA,this.operandB};
-        operands = new Operand[tteOperands.length];
+        this.operands = new Operand[tteOperands.length];
 
         //Loop through each operand and calculate the actual answer
         for (int counter=0; counter < this.operands.length; counter++) {
 
             //Set the operand object
-            operands[counter] = new Operand(
+            this.operands[counter] = new Operand(
                     this.range,
                     this.precision,
                     this.negative,
+                    this.operator,
                     tteOperands[counter]
             );
 

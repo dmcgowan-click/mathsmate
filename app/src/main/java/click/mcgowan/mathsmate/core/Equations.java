@@ -16,6 +16,7 @@ public abstract class Equations {
     protected int range;         //Largest number of the operand
     protected int precision;     //Precision of the operand (0 means no decimals)
     protected boolean negative;  //Are negative operands allowed?
+    protected char[] operators;  //Array of operators permitted for equations. Operators are randomly selected based on what is permitted
 
     //Calculated Values
     protected Date startDate;                                              //Timestamp of when the equations start
