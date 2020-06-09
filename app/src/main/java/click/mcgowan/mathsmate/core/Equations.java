@@ -30,8 +30,8 @@ public abstract class Equations {
      * Inheriting constructor should call the genEquations method to actually generate the equations
      *
      * @param equationCount Number of equations
-     * @param operandCount  Largest number of the operand
-     * @param range         Precision of the operand (0 means no decimals)
+     * @param operandCount  Number of operands in the equation
+     * @param range         Largest number of the operand
      * @param precision     Precision of the operand (0 means no decimals)
      * @param negative      Are negative operands allowed?
      */
@@ -57,6 +57,7 @@ public abstract class Equations {
      *
      * Exclusion: Under this constructor equation count is calculated by the ranges. This is applicable for equations where every possible combination results in an equation (e.g. timestables)
      *
+     * NOTE: May not be needed. Look at removing
      * @param operandCount  Largest number of the operand
      * @param range         Precision of the operand (0 means no decimals)
      * @param precision     Precision of the operand (0 means no decimals)
@@ -123,18 +124,38 @@ public abstract class Equations {
      *
      * @param key   Key to the map element that contains the desired Equation
      * @param index Index to the operand IN the map element
-     * @return      An array with the operands for the equation
+     * @return      Operand as a String
      */
     abstract public String getOperandForEquation (String key, int index);
+
+    /**
+     * Return specific operator IN equation. Use key to locate the equation and index to locate the operator
+     *
+     * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
+     *
+     * @param key   Key to the map element that contains the desired Equation
+     * @param index Index to the operator IN the map element
+     * @return      Operator as a String
+     */
+    abstract public String getOperatorForEquation (String key, int index);
 
     /**
      * Return the next operand IN the next equation in map. Key is incremented automatically each time this method is called
      *
      * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
      *
-     * @return An array with the operands for the equation
+     * @return Operand as a String
      */
     abstract public String getNextOperandNextEquation ();
+
+    /**
+     * Return the next operator IN the next equation in map. Key is incremented automatically each time this method is called
+     *
+     * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
+     *
+     * @return Operator as a String
+     */
+    abstract public String getNextOperatorNextEquation ();
 
     /**
      * Return the current operand index FOR the equation in map. Index is incremented automatically each time getNextOperandNextEquation is called

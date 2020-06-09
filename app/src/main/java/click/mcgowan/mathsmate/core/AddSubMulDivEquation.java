@@ -47,119 +47,80 @@ public class AddSubMulDivEquation extends Equation {
     /**
      * This is quite a bit more complex than i'd like!
      *
-     * This will generate operands matching the value in operandCount. The random generation of the operand is handled by the Operand class based on provided parameters
+     * This will generate an array of operands. The number of these operands based on the operandCount.
+     * The range, precision and whether to be negative or positive is controlled by the parameters set when this class was created
      *
-     * For each loop, it will also randomly select an operator based on the operators provided. So it works like this:
+     * Some special considerations:
      *
-     * * If operator array has just +, then a random number of always 0 will be generated each loop and + will be used in the next step of the equation
-     * * If operator array has +,-, then a random number of 0 or 1 will be generated each loop and either + or - will be used in the next step of the equation
+     * * For subtraction, the range will be adjusted so it's never bigger than the previous number. This is to eliminate unwanted negatives
+     * * Additional work is needed to handle division correctly. We want numbers to be divisible without decimals or remainders
      */
     protected void genEquation () {
 
-        //set up random selection of operator
-        Random randomOpt = new Random();
-        Random randomOpa = new Random();
-        int randomIndex;
-        int add = -1;
-        int sub = -1;
-        int mul = -1;
-        int div = -1;
+        //Local vars to assist with calculation of equation
+        int calcRange = this.range;
+
+        //Set answerCalc to -1 This is to avoid null issues
+        this.answerCalc = -1;
 
         //Init the operands array based on operandCount length
         this.operands = new Operand[this.operandCount];
 
         //Loop till operand count is reached
-        for (int counterOpa = 0; counterOpa < this.operandCount; counterOpa++) {
+        for (int counter = 0; counter < this.operandCount; counter++) {
 
-            //Loop through each value of operators. Set an integer value for each operator that was found
-            for(int counterOpt = 0; counterOpt < this.operators.length; counterOpt++) {
+            //Set the operand object
+            this.operands[counter] = new Operand(
+                    calcRange,
+                    this.precision,
+                    this.negative,
+                    this.operators
+            );
 
-                //Where an operator is found, set the counterOpt number to the different operator types to indicate the array index it was found
-                switch (this.operators[counterOpt]) {
-                    case '+' : add = counterOpt;
+            //If counter == 0, this is our first run. Set calculated answer to the generated operand
+            if (counter == 0) {
+
+                this.answerCalc = this.operands[counter].getOperand();
+            }
+            //If counter != 0, we have generated our first operand and operator. We can now start to calculate our answer
+            //For - and /, some special considerations are needed
+            else {
+
+                //Perform different equations based on last operator
+                switch (this.operands[counter - 1].getOperator()) {
+                    case '+' :
+                        this.answerCalc = this.answerCalc + this.operands[counter].getOperand();
                         break;
-                    case '-' : sub = counterOpt;
+                    case '-' :
+                        this.answerCalc = this.answerCalc - this.operands[counter].getOperand();
                         break;
-                    case '*' : mul = counterOpt;
+                    case '*' :
+                        this.answerCalc = this.answerCalc * this.operands[counter].getOperand();
                         break;
-                    case '/' : div = counterOpt;
+                    case '/' :
+                        this.answerCalc = this.answerCalc / this.operands[counter].getOperand();
                 }
             }
 
-            //Now generate a random number which will be a random index to the desired operator.
-            randomIndex = randomOpt.nextInt(this.operators.length);
+            //If operator is -, some special considerations needed for range on the next loop, hence the calculated range
+            //We want to ensure the range does not exceed the value of this operand so we don't get negative numbers
+            if (this.operands[counter].getOperator() == '-') {
 
-            //If the random operator index matches the index that was set for add, we are adding
-            if (add == randomIndex) {
-                this.operands[counterOpa] = new Operand(
-                        this.range,
-                        this.precision,
-                        this.negative,
-                        '+'
-                );
-                if (counterOpa == 0) {
-                    this.answerCalc = this.operands[counterOpa].getOperand();
+                //If counter is 0, ensure range is equal to the newly generated operand
+                if (counter == 0) {
+                    calcRange = (int) Math.round(this.operands[counter].getOperand());
                 }
+                //If counter != 0 and calculated answer is less than the overall range, ensure range is equal to calculated answer
+                else if (this.answerCalc < this.range) {
+                    calcRange = (int) Math.round(this.answerCalc);
+                }
+                //If counter != 0 and calculated answer is > than overall range, set range as per normal
                 else {
-                    this.answerCalc = this.answerCalc + this.operands[counterOpa].getOperand();
+                    calcRange = this.range;
                 }
             }
-            //If the random operator index matches the index that was set for sub, we are subtracting
-            else if (sub == randomIndex) {
-                this.operands[counterOpa] = new Operand(
-                        this.range,
-                        this.precision,
-                        this.negative,
-                        '-'
-                );
-                if (counterOpa == 0) {
-                    this.answerCalc = this.operands[counterOpa].getOperand();
-                }
-                else {
-                    this.answerCalc = this.answerCalc - this.operands[counterOpa].getOperand();
-                }
-            }
-            //If the random operator index matches the index that was set for mul, we are multiplying
-            else if (mul == randomIndex) {
-                this.operands[counterOpa] = new Operand(
-                        this.range,
-                        this.precision,
-                        this.negative,
-                        '*'
-                );
-                if (counterOpa == 0) {
-                    this.answerCalc = this.operands[counterOpa].getOperand();
-                }
-                else {
-                    this.answerCalc = this.answerCalc * this.operands[counterOpa].getOperand();
-                }
-            }
-            //If the random operator index matches the index that was set for mul, we are multiplying
-            else if (div == randomIndex) {
-                this.operands[counterOpa] = new Operand(
-                        this.range,
-                        this.precision,
-                        this.negative,
-                        '/'
-                );
-                if (counterOpa == 0) {
-                    this.answerCalc = this.operands[counterOpa].getOperand();
-                }
-                else {
-                    this.answerCalc = this.answerCalc / this.operands[counterOpa].getOperand();
-                }
-            }
-
-            //When the
-            //Set an operand
-
-            //Set the Operand object and generate the operand
-//            this.operands[counter] = new Operand(
-//                    this.range,
-//                    this.precision,
-//                    this.negative);
-
-            //Calculate the actual answer as looping through
         }
+
+        Log.i("EQUATION_TT_GEN", "Generated Equation with Randomly Generated Operands");
     }
 }
