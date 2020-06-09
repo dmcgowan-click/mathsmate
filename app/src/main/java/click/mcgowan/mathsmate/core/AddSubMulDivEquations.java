@@ -6,99 +6,71 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Generate and return a map of times table equations in accordance with provided parameters
  */
-public class TimesTablesEquations extends Equations {
-
-    //Parameters
-    private boolean random; //Do we want the order of equations to be random
+public class AddSubMulDivEquations extends Equations {
 
     /**
-     * Create a new Times Table Equations object
+     * Create a new object for Addition, Subtraction, Multiplication and Division
      *
-     * All parameters except for range are statically defined
-     *
-     * @param range  Allow adjustment of range for timestables
-     * @param random One extra parameter for times tables. Do we want the questions out of order
+     * @param equationCount Number of equations to generate
+     * @param operandCount  Number of operands in the equation
+     * @param range         Largest number of the operand
+     * @param precision     Precision of the operand (0 means no decimals)
+     * @param negative      Are negative operands allowed?
      */
-    public TimesTablesEquations (
+    public AddSubMulDivEquations(
+            int equationCount,
+            int operandCount,
             int range,
-            boolean random
+            int precision,
+            boolean negative,
+            char[] operators
     ) {
         super (
-                range * range,
-                2,
+                equationCount,
+                operandCount,
                 range,
-                0,
-                false,
-                new char[]{'*'}
+                precision,
+                negative,
+                operators
         );
 
-        this.random = random;
-
-        Log.i ("EQUATIONS_TT_INIT", "Equations Object Initialized");
+        Log.i ("EQUATIONS_ASMD_INIT", "Equations Object Initialized");
 
         this.genEquations();
     }
 
     /**
-     * Generate Equations for Times Tables
+     * Generate equations for Addition, Subtraction, Multiplication and Division
      *
-     * Unlike other equation types, operands are predefined and not random. HOWEVER, the actual ordering of the equations themselves can be random
-     * x*x where x is the desired range
+     * Provided parameters will control the type of equations generated
      */
     protected void genEquations () {
-        TimesTablesEquation prepEquation;
-        List<Integer> rndIndex = new ArrayList<>();
-        int index = 0;
+        AddSubMulDivEquation prepEquation;
 
-        //We create a random index regardless of if its needed
         for (int counter = 0; counter < this.equationCount; counter++) {
-            rndIndex.add(counter);
-        }
-        Collections.shuffle(rndIndex);
 
-        //Loop exactly 12 times for x axis
-        for (int countx=0; countx < this.range; countx++) {
+            prepEquation = new AddSubMulDivEquation(
+                    this.operandCount,
+                    this.range,
+                    this.precision,
+                    this.negative,
+                    this.operators
+            );
 
-            //Loop exactly 12 times for y axis
-            for (int county=0; county < this.range; county++) {
-
-                //Create new TimesTableEquation object and generate the equation
-                prepEquation = new TimesTablesEquation(
-                        this.range,
-                        countx + 1,
-                        county + 1
-                );
-
-                //If random was true, use the collections to set the index
-                if (this.random == true) {
-
-                    //Add new equation to map based on random index
-                    equationMap.put(String.valueOf(rndIndex.get(index)),prepEquation);
-                }
-                //If random was false, just use the index counter
-                else {
-
-                    //Add new equation to map based on incremented index
-                    equationMap.put(String.valueOf(index),prepEquation);
-                }
-
-                //Increment Index
-                index++;
-            }
+            equationMap.put(String.valueOf(counter), prepEquation);
         }
 
-        Log.i("EQUATIONS_TT_GEN","Generated " + String.valueOf(index) + " Equations");
+        Log.i("EQUATIONS_TT_GEN","Generated " + this.equationCount + " Equations");
     }
 
     /**
      * Return specific operand IN equation. Use key to locate the equation and index to locate the operand
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @param key   Key to the map element that contains the desired Equation
      * @param index Index to the operand IN the map element
@@ -106,12 +78,13 @@ public class TimesTablesEquations extends Equations {
      */
     public String getOperandForEquation (String key, int index) {
 
-        TimesTablesEquation tte;
+        AddSubMulDivEquation asmde;
 
         try {
-            tte = (TimesTablesEquation) this.equationMap.get(key);
+            asmde = (AddSubMulDivEquation) this.equationMap.get(key);
 
-            return (String.valueOf(tte.getOperandForIndex(index)));
+            return (String.valueOf(asmde.getOperandForIndex(index)));
+
         } catch (Exception e) {
             return(e.getMessage());
         }
@@ -120,19 +93,19 @@ public class TimesTablesEquations extends Equations {
     /**
      * Return specific operator IN equation. Use key to locate the equation and index to locate the operand
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @param key   Key to the map element that contains the desired Equation
      * @param index Index to the operand IN the map element
      * @return      Operator as a String
      */
     public String getOperatorForEquation (String key, int index) {
-        TimesTablesEquation tte;
+        AddSubMulDivEquation asmde;
 
         try {
-            tte = (TimesTablesEquation) this.equationMap.get(key);
+            asmde = (AddSubMulDivEquation) this.equationMap.get(key);
 
-            return (String.valueOf(tte.getOperatorForIndex(index)));
+            return (String.valueOf(asmde.getOperatorForIndex(index)));
 
         } catch (Exception e) {
             return(e.getMessage());
@@ -142,27 +115,27 @@ public class TimesTablesEquations extends Equations {
     /**
      * Return the next operand IN the next equation in map. Key is incremented automatically each time this method is called
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @return The current operands for the current equation
      */
     public String getNextOperandNextEquation () {
 
         //Always get the equation for the current key in equation map
-        TimesTablesEquation tte;
+        AddSubMulDivEquation asmde;
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         try {
-            tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+            asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
 
             //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
-            if ((tte.getIndexPosition() + 1) == tte.getOperandsLength()) {
+            if ((asmde.getIndexPosition() + 1) == asmde.getOperandsLength()) {
 
                 this.currentEquationKey++;
-                tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+                asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
             }
 
-            return (String.valueOf(zeroPrecision.format(tte.getOperandNextIndex())));
+            return (String.valueOf(zeroPrecision.format(asmde.getOperandNextIndex())));
 
         } catch (Exception e) {
             return(e.getMessage());
@@ -172,27 +145,27 @@ public class TimesTablesEquations extends Equations {
     /**
      * Return the next operator IN the next equation in map. Key is incremented automatically each time this method is called
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @return The current operator for the current equation
      */
     public String getNextOperatorNextEquation () {
 
         //Always get the equation for the current key in equation map
-        TimesTablesEquation tte;
+        AddSubMulDivEquation asmde;
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         try {
-            tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+            asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
 
             //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
-            if ((tte.getIndexPosition() + 1) == tte.getOperandsLength()) {
+            if ((asmde.getIndexPosition() + 1) == asmde.getOperandsLength()) {
 
                 this.currentEquationKey++;
-                tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+                asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
             }
 
-            return (String.valueOf(zeroPrecision.format(tte.getOperatorNextIndex())));
+            return (String.valueOf(zeroPrecision.format(asmde.getOperatorNextIndex())));
 
         } catch (Exception e) {
             return(e.getMessage());
@@ -202,67 +175,67 @@ public class TimesTablesEquations extends Equations {
     /**
      * Return the current operand index FOR the equation in map. Index is incremented automatically each time getNextOperandNextEquation is called
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @return The current operand index for the current equation
      */
     public int getOperandIndexCurrentEquation () {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        AddSubMulDivEquation asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
 
-        return (tte.getIndexPosition());
+        return (asmde.getIndexPosition());
     }
 
     /**
      * Return the length of the operand array FOR the equation in map
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @return The current operand array length
      */
     public int getOperandLengthCurrentEquation () {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        AddSubMulDivEquation asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
 
-        return (tte.getOperandsLength());
+        return (asmde.getOperandsLength());
     }
 
     /**
      * Return the calculated answer for a specific equation in map identified by key. Return as a String for easy rendering at the GUI side
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @param key Key to the map element that contains the desired Equation
      * @return    The calculated answer
      */
     public String getAnswerCalcForEquation (int key) {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(key));
+        AddSubMulDivEquation asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(key));
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
-        return (String.valueOf(zeroPrecision.format(tte.getAnswerCalc())));
+        return (String.valueOf(zeroPrecision.format(asmde.getAnswerCalc())));
     }
 
     /**
      * Return the calculated answer for the this equation in the map. Key is incremented by the getOperandsNextEquation so this must be called before getting the next set of operands
      * Return as a String for easy rendering at the GUI side
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @return The calculated answer
      */
     public String getAnswerCalcThisEquation () {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        AddSubMulDivEquation asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
-        return (String.valueOf(zeroPrecision.format(tte.getAnswerCalc())));
+        return (String.valueOf(zeroPrecision.format(asmde.getAnswerCalc())));
     }
 
     /**
      * Verify user answer against calculated answer for a specific equation in map identified by key. Return a bool of true for match and false for mismatch
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @param key        Key to the map element that contains the desired Equation
      * @param answerUser User provided answer
@@ -272,24 +245,24 @@ public class TimesTablesEquations extends Equations {
             String key,
             String answerUser
     ) {
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(key);
+        AddSubMulDivEquation asmde = (AddSubMulDivEquation) this.equationMap.get(key);
 
-        return (tte.verifyAnswerUser(Double.parseDouble(answerUser)));
+        return (asmde.verifyAnswerUser(Double.parseDouble(answerUser)));
     }
 
     /**
      * Verify user answer against calculated answer for a specific equation in map. Key is incremented by the getOperandsNextEquation so this must be called before getting the next set of operands
      * Return a bool of true for match and false for mismatch
      *
-     * Values in map will always be of type TimesTablesEquation
+     * Values in map will always be of type AddSubMulDivEquation
      *
      * @param answerUser User provided answer
      * @return           True for match and false for mismatch
      */
     public boolean verifyAnswerUserThisEquation (String answerUser) {
 
-        TimesTablesEquation tte = (TimesTablesEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        AddSubMulDivEquation asmde = (AddSubMulDivEquation) this.equationMap.get(String.valueOf(this.currentEquationKey));
 
-        return (tte.verifyAnswerUser(Double.parseDouble(answerUser)));
+        return (asmde.verifyAnswerUser(Double.parseDouble(answerUser)));
     }
 }

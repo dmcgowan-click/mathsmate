@@ -7,6 +7,9 @@ import java.util.Map;
 
 /**
  * Generate and return a map of equations in accordance with provided parameters
+ *
+ * Not happy about this design but I lack enough understanding of Java to do it better
+ * Ideally, I want this class to be able to retrieve objects
  */
 public abstract class Equations {
 
@@ -40,13 +43,15 @@ public abstract class Equations {
             int operandCount,
             int range,
             int precision,
-            boolean negative
+            boolean negative,
+            char[] operators
     ) {
         this.equationCount = equationCount;
         this.operandCount = operandCount;
         this.range = range;
         this.precision = precision;
         this.negative = negative;
+        this.operators = operators;
         this.startDate = new Date ();
     }
 
@@ -202,7 +207,7 @@ public abstract class Equations {
      *
      * @param key        Key to the map element that contains the desired Equation
      * @param answerUser User provided answer
-     * @return           The calculated answer
+     * @return           True for match and false for mismatch
      */
     abstract public boolean verifyAnswerUserForEquation (
             String key,
@@ -216,7 +221,7 @@ public abstract class Equations {
      * This is abstract as extended classes may implement a mixture of different equation types, and therefore logic to handle it must be defined there
      *
      * @param answerUser User provided answer
-     * @return           The calculated answer
+     * @return           True for match and false for mismatch
      */
     abstract public boolean verifyAnswerUserThisEquation (String answerUser);
 }

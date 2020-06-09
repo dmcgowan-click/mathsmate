@@ -24,7 +24,8 @@ public class TimesTablesEquation extends Equation {
     /**
      * Create a new Times Table Equations object and call genEquation to create the actual equation
      *
-     * Since we know the type of equations, we statically set all parameters except for range and take in two operands
+     * For times tables, the equations are more or less predetermined.
+     * So we statically set all parameters except for range and take in two operands exactly that should be provided by calling method
      *
      * @param operandA Value of the first operand
      * @param operandB Value of the second operand
@@ -70,6 +71,7 @@ public class TimesTablesEquation extends Equation {
                     this.range,
                     this.precision,
                     this.negative,
+                    this.operators,
                     this.operator,
                     tteOperands[counter]
             );
