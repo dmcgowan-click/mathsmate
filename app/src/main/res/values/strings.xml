@@ -7,8 +7,11 @@
 
     <string name="addition">Addition</string>
     <string name="timestables">Times Tables</string>
+    <string name="addsubmuldiv">Random Arithmetic</string>
     <string name="addition_symbol">\u0020\u0020+\u0020\u0020</string>
+    <string name="subtraction_symbol">\u0020\u0020-\u0020\u0020</string>
     <string name="multiplication_symbol">\u0020\u0020\u00D7\u0020\u0020</string>
+    <string name="division_symbol">\u0020\u0020\u00F7\u0020\u0020</string>
     <string name="equals_symbol">\u0020\u0020=\u0020\u0020</string>
 
     <string name="equation_mask">%1$s%2$s</string>

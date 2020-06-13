@@ -2,6 +2,8 @@ package click.mcgowan.mathsmate.core;
 
 /**
  * Generate and return an equation in accordance with provided parameters
+ *
+ * Extended class must define a getEquation method to actually produce the equation
  */
 public abstract class Equation {
 

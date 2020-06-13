@@ -9,7 +9,8 @@ import java.util.Random;
  *
  * Some important notes about this class:
  *
- * * Operand count
+ * * Operand count, range, precision, negative and allowed operators all set by input parameters by calling class
+ * * Special consideration for subtraction to ensure negative number do not occur unless specifically desired
  */
 public class AddSubMulDivEquation extends Equation {
 

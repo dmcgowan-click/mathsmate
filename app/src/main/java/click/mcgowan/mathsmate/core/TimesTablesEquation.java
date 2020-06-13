@@ -10,7 +10,7 @@ import android.util.Log;
  * * Operand count is hard coded to 2. Should never be more
  * * Precision hard coded to 0. Never decimal places in times tables
  * * Negative is hard coded to false. Never negative numbers in times tables
- * * The parent constructor calculates the number of questions based on the range. Where range is x, total questions are always x*x
+ * * Array of allowed operators is always set to {'*'}
  */
 public class TimesTablesEquation extends Equation {
 

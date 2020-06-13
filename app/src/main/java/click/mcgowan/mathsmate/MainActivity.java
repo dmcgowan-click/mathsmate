@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import click.mcgowan.mathsmate.core.AddSubMulDivEquations;
+
 /**
  * Class for Main Activity
  *
@@ -26,19 +28,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Create intent and start Calculator Activity
+     * Create intent and start Times Table Calculator Activity
      * Determine action to perform based on button ID
      *
      * @param view
      */
     public void startTimesTableCalcActivity (View view) {
 
-        Intent intentTimesTablesCalcActivity = new Intent(this, TimesTablesCalcActivity.class);
+        Intent intentTimesTablesCalcActivity = new Intent(this, CalcActivityTimesTables.class);
 
         //Eventual code to setup and pass in profile
         intentTimesTablesCalcActivity.putExtra("action_id", "timestables");
 
         startActivity(intentTimesTablesCalcActivity);
+    }
+
+    /**
+     * Create intent and start Addition, Subtraction, Multiplication, Division Activity
+     * Determine action to perform based on button ID
+     *
+     * @param view
+     */
+    public void startAddSubMulDivActivity (View view) {
+
+        Intent intentAddSuMulDivActivity = new Intent(this, CalcActivityAddSubMulDiv.class);
+
+        //Eventual code to setup and pass in profile
+        intentAddSuMulDivActivity.putExtra("action_id", "addsubmuldiv");
+
+        startActivity(intentAddSuMulDivActivity);
+    }
+
+    /**
+     * TEMP METHOD FOR DEBUGGING
+     */
+    public void startDebug (View view) {
+
+        String whatwegot="";
+
+        AddSubMulDivEquations equations = new AddSubMulDivEquations(
+                5,
+                3,
+                10,
+                0,
+                false,
+                new char[]{'+','-','*'});
+
+//        for (int counter = 0; counter < equations.; counter++) {
+//
+//            whatwegot = whatwegot + "Operand and Operator : " + counter + "; " + String.valueOf(equation.getOperandNextIndex()) + " and " + String.valueOf(equation.getOperatorForIndex(counter)) + ";; ";
+//        }
+//        Toast.makeText(getApplicationContext(),whatwegot,Toast.LENGTH_LONG).show();
     }
 
     /**
