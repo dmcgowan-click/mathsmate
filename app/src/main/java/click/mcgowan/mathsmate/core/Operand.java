@@ -41,11 +41,10 @@ public class Operand {
             char[] operators
     ) {
         //For random generation of operand
-        Random random = new Random();
+        Random randomOpa = new Random();
 
         //For random generation of operator
         Random randomOpt = new Random();
-        Random randomOpa = new Random();
         int randomIndex;
         int add = -1;
         int sub = -1;
@@ -61,7 +60,7 @@ public class Operand {
         Log.i("OPERAND_INIT", "Operand Object Initialized");
 
         //Create plain integer
-        this.operand = random.nextInt(this.range) + 1;
+        this.operand = randomOpa.nextInt(this.range) + 1;
 
         ///////////////////////////////////////////////////////////////////////////////////
         //Logic to crate negative and decimal precision numbers to be added at a later date
