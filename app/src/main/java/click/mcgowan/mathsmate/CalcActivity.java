@@ -2,30 +2,33 @@ package click.mcgowan.mathsmate;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import click.mcgowan.mathsmate.core.Equations;
-import click.mcgowan.mathsmate.core.TimesTablesEquation;
-import click.mcgowan.mathsmate.core.TimesTablesEquations;
 
 /**
- * Class for Times Table Calculator Activity
+ * Class for all common calculation activities. Uses the following resources
  *
- * Times Table Calculator Activity provides the interactive screen for all calculations
- * If this works, all custom activities use activity_main.xml, activity_calc.xml and in turn, countdown.xml and calculator.xml
+ * * activity_calc.xml - the main calculation layout. Includes a flipper so the following internal resources can be enabled and disabled
+ * * countdown.xml     - countdown layout before starting the render of questions
+ * * calculator.xml    - calculator layout to render equations and provide a keypad for user input
+ * * complete.xml      - complete layout displays when equations are complete and displays some statistics
+ * * settings_*        - a placeholder for settings layouts. These will be unique to each Calculation Activity Type
+ *
+ * Extended classed must implement abstract class to do the following tasks which are unique to each Calculation Activity type
+ *
+ * * Set the header
+ * * Read parameters for the calculation type and set defaults where they don't exist
+ * * Create the desired equations object and pass in required parameters
+ * * Render a settings form and facilitate saving of that form so parameters can be customised
+ *
+ * Specific details about the abstract classes are documented as per normal
  */
 
 public abstract class CalcActivity extends AppCompatActivity {
@@ -35,7 +38,7 @@ public abstract class CalcActivity extends AppCompatActivity {
 
     //Equations
     protected Equations equations;
-    protected int currentEquationKey;
+    protected int currentEquationKey; //May not be needed
 
     //Calculated Vars
     protected StringBuilder equationString;
@@ -44,24 +47,22 @@ public abstract class CalcActivity extends AppCompatActivity {
     protected boolean lockKeypad = true;
 
     /**
-     * Render the Calculator Activity
+     * Render the Calculator Activity as per standard activity onCreate method
      *
      * Additional Actions:
      *
-     * Set the header based on activity type
+     * * Call setParameters method defined in inheriting class to load parameters or set defaults where they don't exist
+     * * Call setCalcHeader method defined in inheriting class to set the activity header as desired
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Required for onCreate
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calc);
 
-        //Read shared settings or set defaults if they don't exist
-        SharedPreferences spr = getSharedPreferences(mathsMateSettings,0);
-
         //Call method to set parameters in extended class
-        setParameters(spr);
+        setParameters();
 
         //Placeholder for intent. We may not need it
 
@@ -70,13 +71,16 @@ public abstract class CalcActivity extends AppCompatActivity {
     }
 
     /**
-     * Triggered by btnBegin in countdown.xml and will perform the following:
+     * Triggered by btnBegin in countdown.xml
      *
-     * * Start the countdown
+     * Perform the following actions:
+     *
+     * * Start the countdown and render the countdown on the calculator.xml resource
      * * Flip view from countdown.xml to calculator.xml in activity_calc.xml so questions can be rendered and answered
-     * * Create TimesTableEquations object and generate new equations
+     * * Call genNewEquations method defined in inheriting class to create desired equations object and pass in parameters as configured in inheriting class
+     * * Call renderNewEquation method to render the first equation
      *
-     * @param view
+     * @param view Required for onClick
      */
     public void startCalculator (View view) {
 
@@ -112,11 +116,14 @@ public abstract class CalcActivity extends AppCompatActivity {
     }
 
     /**
-     * Triggered by any of the keypad buttons in calculator.xml and will perform the following
+     * Triggered by any of the keypad buttons in calculator.xml
      *
-     * Set a value based on button ID
+     * Perform the following actions:
      *
-     * @param view
+     * * Set a value based on the keypad that was clicked
+     * * Where keypad is not locked, call renderAddThisEquation to display this value or answer this equation if enough input provided
+     *
+     * @param view Required for onClick
      */
     public void keypad (View view) {
 
@@ -169,7 +176,7 @@ public abstract class CalcActivity extends AppCompatActivity {
      *
      * Exit view. User will be returned to the MainActivity
      *
-     * @param view
+     * @param view Required for onClick
      */
     public void exitActivity (View view) {
 
@@ -179,18 +186,37 @@ public abstract class CalcActivity extends AppCompatActivity {
     /**
      * Triggered by btnCalcSettings
      *
-     * Define a form that will render settings form unique to the equation type
+     * Render a form using a resource of settings_* so parameters for the equation type can be customised. This must be defined in the extended classes
      *
-     * @param view
+     * @param view Required for onClick
      */
     abstract public void calcSettings (View view);
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    //The following functions are not called directly by buttons but by other functions in this class//
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Triggered by btnCalcSaveSettings
+     *
+     * Saves parameters as configured in calcSettings so they can be loaded for later use. If using standard android shared preferences, see following definition
+     *
+     * public static final String mathsMateSettings = "maths_mate_settings";
+     *
+     * @param view Required for onClick
+     */
+    abstract public void saveSettings (View view);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //The following functions are not called directly by activity actions but by other functions in this class//
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Render new equation based on TimesTableEquation object
+     * Called by startCalculator or renderAddThisEquation methods
+     *
+     * Perform the following actions:
+     *
+     * * Loop through each operand in the current equation and build the equation into a string
+     * * Render equation in the calculator.xml resource with ? as the placeholder for the answer
+     * * Set flags to unlock the keypad and set expectation that any input from keypad is for a brand new equation
+     *
+     * NOTE: each call to getNextOperandNextEquation increases the index for the operands within an equation and key for equation in equations so indexes do not need to be managed in this class itself
      */
     private void renderNewEquation () {
 
@@ -203,14 +229,14 @@ public abstract class CalcActivity extends AppCompatActivity {
         //Reset equation string at the start of every new render equation
         equationString = new StringBuilder();
 
-        //Loop until we have retrieved all operands for the equation
+        //Loop until we have retrieved all operands for the equation. Done once current equation index == total number of operands
         do {
 
-            //Get the operand and operator
+            //Get the operand
             operandAsString = equations.getNextOperandNextEquation();
 
-            //Set the actual Unicode operator value
-            switch (equations.getOperatorForEquation(String.valueOf(equations.getCurrentEquationKey()), equations.getOperandIndexCurrentEquation())) {
+            //Get the operator and set the actual Unicode operator value
+            switch (equations.getOperatorForEquation(equations.getCurrentEquationKey(), equations.getOperandIndexCurrentEquation())) {
                 case "+" : operatorAsString = getString(R.string.addition_symbol);
                 break;
                 case "-" : operatorAsString = getString(R.string.subtraction_symbol);
@@ -246,12 +272,19 @@ public abstract class CalcActivity extends AppCompatActivity {
     }
 
     /**
-     * Render use inputted answer alongside equation.
+     * Called by the keypad method
      *
-     * In event answer is wrong, render error msg and clear on next input so new answer can be validated
+     * Perform the following actions:
      *
-     * In event answer is correct, render success msg and call next equation. If no more equations call equations completed
-     *
+     * * Render the keypad entry to the calculator.xml alongside the equation
+     * * Keep accepting keypad entries and appending to the existing keypad entries until total number of keypad entries aligns with length of calculated answer
+     * * Once number of keypad entries matches length of calculated answer:
+     * * Success:
+     * * * Lock keypad and display render success message for 500 milliseconds
+     * * * Call renderNewEquation where there are still equations to be answered
+     * * * Call renderEquationsComplete where there are no more equations to answer
+     * * Failure:
+     * * * Display failure and reset equation answer so user can attempt again
      */
     private void renderAddThisEquation (String btnValue) {
 
@@ -325,9 +358,9 @@ public abstract class CalcActivity extends AppCompatActivity {
     }
 
     /**
-     * Render a finish page
+     * Called by renderAddThisEquation
      *
-     * At the moment, just a finish message, but eventually will add statistics
+     * Render the complete.xml resource along with some statistics on your effort
      */
     private void renderEquationsComplete () {
 
@@ -336,27 +369,33 @@ public abstract class CalcActivity extends AppCompatActivity {
     }
 
     /**
-     * Set parameters for calculation type.
+     * Called by onCreate method
      *
-     * For each equation type, define the parameters needed to create the equations object
+     * Load parameters or set defaults if they don't exist so they can be provided to the desired Equations class. If using standard android shared preferences, see following definition
      *
-     * @param spr SharedPreference object
+     * public static final String mathsMateSettings = "maths_mate_settings";
+     *
+     * Must be set by inheriting class as number and type of values will vary depending on equation type
      */
-    abstract void setParameters (SharedPreferences spr);
+    abstract void setParameters ();
 
     /**
-     * Set the header for the calculation type
+     * Called by onCreate method
      *
-     * For each equation type, set the header as desired in the defined parameter
+     * Set the desired header to be displayed in teh calculator.xml resource
+     *
+     * Must be set by the inheriting class to represent the type of equations we are creating
      *
      * @param calcHeader TextView for the calculation header
      */
     abstract void setCalcHeader (TextView calcHeader);
 
     /**
-     * Generate equations
+     * Called by startCalculator
      *
-     * For each equation type, create the desired equations object and provide necessary parameters
+     * Create desired Equations object and pass in required parameters as set by setParameters
+     *
+     * Must be created by the inheriting class as each Equations class is different and has different parameter requirements
      */
     abstract void genNewEquations ();
 }

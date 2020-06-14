@@ -45,7 +45,7 @@ public abstract class Equation {
     }
 
     /**
-     * Generate the actual equation including the answer. This must be defined in the extended classes and take utilize either genOperands or setOperands
+     * Generate the actual equation including the answer. This must be defined in the extended classes
      */
     abstract protected void genEquation ();
 
@@ -83,7 +83,7 @@ public abstract class Equation {
      * NOTE: Out of bounds protection should reside in calling method
      *
      * @param index index of the operand object that contains the operator value
-     * @return      The operand based on index
+     * @return      The operator based on index
      */
     public char getOperatorForIndex (int index) {
 
@@ -110,7 +110,7 @@ public abstract class Equation {
      *
      * NOTE: Out of bounds protection should reside in calling method
      *
-     * @return
+     * @return The operator based on the index
      */
     public char getOperatorNextIndex () {
 
@@ -133,9 +133,9 @@ public abstract class Equation {
     }
 
     /**
-     * Get the current operand index position
+     * Get the current operand index position. This is typically used as a reference for the *ForIndex methods
      *
-     * @return
+     * @return The current operand index position
      */
     public int getIndexPosition () {
 

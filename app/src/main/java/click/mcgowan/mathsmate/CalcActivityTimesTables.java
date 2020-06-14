@@ -14,29 +14,39 @@ import click.mcgowan.mathsmate.core.Equations;
 import click.mcgowan.mathsmate.core.TimesTablesEquations;
 
 /**
- * Class for Times Tables Activity.
+ * Class for Times Tables Calculations activities. Extends CalcActivity. Uses the following resources
  *
- * This extends CalcActivity for the bulk of the rendering, and contains methods unique to Times Table Equations
+ * * settings_timestables.xml Layout for the Times Tables settings form. Lets you adjust parameters for Times Tables
+ *
+ * Specific details about the abstract classes are documented as per normal
  */
 public class CalcActivityTimesTables extends CalcActivity{
 
     //Times Tables Parameters
-    final int[] sbTteEqRangeValue = new int[1];
-    final boolean[] rgTteRandomValue = new boolean[1];
+    final int[] sbTteEqRangeValue = new int[1];        //range of the operands. For times tables, the number of equations is range * range
+    final boolean[] rgTteRandomValue = new boolean[1]; //if true, equations will be rendered at random
 
     /**
-     * Load and set parameters required for times table equations. Where parameters do not exist, set defaults
+     * Load parameters or set defaults if they don't exist so they can be provided to the desired Equations class
      *
-     * @param spr
+     * For times tables, this includes
+     *
+     * * sbTtsEqRangeValue - range of the operands
+     * * rgTteRandomValue  - if true, equations will be rendered at random
+     *
      */
-    void setParameters(SharedPreferences spr) {
+    void setParameters() {
+
+        SharedPreferences spr = getSharedPreferences(mathsMateSettings,0);
 
         sbTteEqRangeValue[0] = spr.getInt("tte_eq_range", 1);
         rgTteRandomValue[0] = spr.getBoolean("tte_eq_random", false);
     }
 
     /**
-     * Set calculation header to Times Tables
+     * Set the desired header to be the following value:
+     *
+     * getString(R.string.timestables)
      *
      * @param calcHeader TextView for the calculation header
      */
@@ -46,9 +56,11 @@ public class CalcActivityTimesTables extends CalcActivity{
     }
 
     /**
-     * Generate Times Tables Equations.
+     * Create TimesTablesEquations object and use the following parameters:
      *
-     * Parameters required for this equation should have been set beforehand via the setParameters method
+     * * sbTtsEqRangeValue - range of the operands
+     * * rgTteRandomValue  - if true, equations will be rendered at random
+     *
      */
     void genNewEquations () {
 
@@ -58,11 +70,9 @@ public class CalcActivityTimesTables extends CalcActivity{
     }
 
     /**
-     * Triggered by btnCalcSettings
+     * Render a form using a resource of settings_timestables.xml so parameters for TimesTablesEquations can be customised
      *
-     * Will render a configuration form unique to times table equations and populated based on saved values
-     *
-     * @param view
+     * @param view Required for onClick
      */
     public void calcSettings (View view) {
 
@@ -150,11 +160,9 @@ public class CalcActivityTimesTables extends CalcActivity{
     }
 
     /**
-     * Triggered by btnCalcSaveSettings
+     * Saves parameters as configured in calcSettings so they can be loaded for later use.
      *
-     * Save settings from times tables configuration from to shared preference
-     *
-     * @param view
+     * @param view Required for onClick
      */
     public void saveSettings (View view) {
 

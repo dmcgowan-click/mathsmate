@@ -86,13 +86,13 @@ public class TimesTablesEquations extends Equations {
                 if (this.random == true) {
 
                     //Add new equation to map based on random index
-                    equationMap.put(String.valueOf(rndIndex.get(index)),prepEquation);
+                    equationMap.put(rndIndex.get(index), prepEquation);
                 }
                 //If random was false, just use the index counter
                 else {
 
                     //Add new equation to map based on incremented index
-                    equationMap.put(String.valueOf(index),prepEquation);
+                    equationMap.put(index, prepEquation);
                 }
 
                 //Increment Index

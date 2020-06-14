@@ -65,7 +65,7 @@ public class AddSubMulDivEquations extends Equations {
                     this.operators
             );
 
-            equationMap.put(String.valueOf(counter), prepEquation);
+            equationMap.put(counter, prepEquation);
         }
 
         Log.i("EQUATIONS_TT_GEN","Generated " + this.equationCount + " Equations");

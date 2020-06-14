@@ -7,10 +7,10 @@ import android.util.Log;
  *
  * Some important notes about this class:
  *
- * * Operand count is hard coded to 2. Should never be more
+ * * Operand count is hard coded to 2. Should never be more or less
  * * Precision hard coded to 0. Never decimal places in times tables
  * * Negative is hard coded to false. Never negative numbers in times tables
- * * Array of allowed operators is always set to {'*'}
+ * * Array of allowed operators is always set to {'*'}. It's times tables. Pretty self explanatory!
  */
 public class TimesTablesEquation extends Equation {
 

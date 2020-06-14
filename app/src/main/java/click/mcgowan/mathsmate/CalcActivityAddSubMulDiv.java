@@ -28,9 +28,8 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
     /**
      * Load and set parameters required for times table equations. Where parameters do not exist, set defaults
      *
-     * @param spr
      */
-    void setParameters(SharedPreferences spr) {
+    void setParameters() {
 
         //sbTteEqRangeValue[0] = spr.getInt("tte_eq_range", 1);
         //rgTteRandomValue[0] = spr.getBoolean("tte_eq_random", false);

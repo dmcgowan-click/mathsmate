@@ -4,12 +4,11 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
- * Generate and return a map of equations in accordance with provided parameters
+ * Generate and return equations in accordance with provided parameters
  *
- * Extended class must define a getEquations method to actually produce the equations
+ * Extended class must define a genEquations method to actually produce the equations
  */
 public abstract class Equations {
 
@@ -23,9 +22,8 @@ public abstract class Equations {
 
     //Calculated Values
     protected Date startDate;                                              //Timestamp of when the equations start
-    protected HashMap<String,Object> equationMap = new LinkedHashMap<String,Object>(); //A map of all equations. Using map as eventually, we want to be able to mix and match different types of equations
+    protected HashMap<Integer,Object> equationMap = new LinkedHashMap<Integer, Object>(); //A map of all equations. Using map to mix different equation types, and provide an easy way to random order equations
     protected int currentEquationKey = 0;                                  //Index of current equation
-    protected int operandIndexLength;                                      //Size of the operand array IN the equation MAY NOT NEED
 
     /**
      * Create a new equations object. Set all parameters based on input from inheriting class
@@ -56,33 +54,6 @@ public abstract class Equations {
     }
 
     /**
-     * Create a new equations object. Set all parameters based on input from inheriting class
-     *
-     * Inheriting constructor should call the genEquations method to actually generate the equations
-     *
-     * Exclusion: Under this constructor equation count is calculated by the ranges. This is applicable for equations where every possible combination results in an equation (e.g. timestables)
-     *
-     * NOTE: May not be needed. Look at removing
-     * @param operandCount  Largest number of the operand
-     * @param range         Precision of the operand (0 means no decimals)
-     * @param precision     Precision of the operand (0 means no decimals)
-     * @param negative      Are negative operands allowed?
-     */
-    public Equations (
-            int operandCount,
-            int range,
-            int precision,
-            boolean negative
-    ) {
-        this.equationCount = range * range;
-        this.operandCount = operandCount;
-        this.range = range;
-        this.precision = precision;
-        this.negative = negative;
-        this.startDate = new Date ();
-    }
-
-    /**
      * Generate the actual equations. Must be defined in the extended classes
      *
      * genEquations is protected and called directly by the inheriting constructor
@@ -90,7 +61,9 @@ public abstract class Equations {
     abstract protected void genEquations ();
 
     /**
-     * Return the current index of the equations map. Needed for GUI to know when to render the finished page
+     * Return the current index of the equations map.
+     *
+     * Typically used in conjunction with getEquationIndex to locate an operand or operator and the Activity class to render equations correctly
      *
      * @return Current equation index
      */
@@ -99,7 +72,9 @@ public abstract class Equations {
     }
 
     /**
-     * Return the size of the equation map. Needed for GUI to know when to render the finished page
+     * Return the size of the equation map.
+     *
+     * Typically used by Activity class to render equations correctly
      *
      * NOTE: Reason we do this is some equation types (times tables), the number of equations is pre determined and not a parameter passed in
      *
@@ -118,7 +93,7 @@ public abstract class Equations {
      * @param index Index to the operand IN the map element
      * @return      Operand as a String
      */
-    public String getOperandForEquation (String key, int index) {
+    public String getOperandForEquation (Integer key, int index) {
 
         Equation equation;
 
@@ -140,7 +115,8 @@ public abstract class Equations {
      * @param index Index to the operand IN the map element
      * @return      Operator as a String
      */
-    public String getOperatorForEquation (String key, int index) {
+    public String getOperatorForEquation (Integer key, int index) {
+
         Equation equation;
 
         try {
@@ -154,11 +130,14 @@ public abstract class Equations {
     }
 
     /**
-     * Return the next operand IN the next equation in map. Key is incremented automatically each time this method is called
+     * Return the next operand IN the next equation in the map.
+     *
+     * Each time this method is called, the equation index is incremented and the operand for that index is retrieved.
+     * When this method is called and we have already reached the last operand for an equation, the key equations key is incremented and we start reading from a new equation
      *
      * All objects upcast to Equation class
      *
-     * @return The current operands for the current equation
+     * @return The current operands for the current equation as a string
      */
     public String getNextOperandNextEquation () {
 
@@ -167,13 +146,13 @@ public abstract class Equations {
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         try {
-            equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+            equation = (Equation) this.equationMap.get(this.currentEquationKey);
 
             //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
             if ((equation.getIndexPosition() + 1) == equation.getOperandsLength()) {
 
                 this.currentEquationKey++;
-                equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+                equation = (Equation) this.equationMap.get(this.currentEquationKey);
             }
 
             return (String.valueOf(zeroPrecision.format(equation.getOperandNextIndex())));
@@ -184,9 +163,10 @@ public abstract class Equations {
     }
 
     /**
-     * Return the next operator IN the next equation in map. Key is incremented automatically each time this method is called
+     * Return the next operator IN the next equation in the map
      *
-     * All objects upcast to Equation class
+     * Each time this method is called, the equation index is incremented and the operand for that index is retrieved.
+     * When this method is called and we have already reached the last operand for an equation, the key equations key is incremented and we start reading from a new equation
      *
      * @return The current operator for the current equation
      */
@@ -197,13 +177,13 @@ public abstract class Equations {
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         try {
-            equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+            equation = (Equation) this.equationMap.get(this.currentEquationKey);
 
             //If operand index and operand length match, we have retrieved all operands for an equation. We should then increment and get the latest equation
             if ((equation.getIndexPosition() + 1) == equation.getOperandsLength()) {
 
                 this.currentEquationKey++;
-                equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+                equation = (Equation) this.equationMap.get(this.currentEquationKey);
             }
 
             return (String.valueOf(zeroPrecision.format(equation.getOperatorNextIndex())));
@@ -214,7 +194,9 @@ public abstract class Equations {
     }
 
     /**
-     * Return the current operand index FOR the equation in map. Index is incremented automatically each time getNextOperandNextEquation is called
+     * Return the current operand index FOR the equation in map.
+     *
+     * Index is incremented automatically each time getNextOperandNextEquation OR getNextOperatorNextEquation is called
      *
      * All objects upcast to Equation class
      *
@@ -222,7 +204,7 @@ public abstract class Equations {
      */
     public int getOperandIndexCurrentEquation () {
 
-        Equation equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        Equation equation = (Equation) this.equationMap.get(this.currentEquationKey);
 
         return (equation.getIndexPosition());
     }
@@ -236,7 +218,7 @@ public abstract class Equations {
      */
     public int getOperandLengthCurrentEquation () {
 
-        Equation equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        Equation equation = (Equation) this.equationMap.get(this.currentEquationKey);
 
         return (equation.getOperandsLength());
     }
@@ -249,17 +231,18 @@ public abstract class Equations {
      * @param key Key to the map element that contains the desired Equation
      * @return    The calculated answer
      */
-    public String getAnswerCalcForEquation (int key) {
+    public String getAnswerCalcForEquation (Integer key) {
 
-        Equation equation = (Equation) this.equationMap.get(String.valueOf(key));
+        Equation equation = (Equation) this.equationMap.get(key);
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         return (String.valueOf(zeroPrecision.format(equation.getAnswerCalc())));
     }
 
     /**
-     * Return the calculated answer for the this equation in the map. Key is incremented by the getOperandsNextEquation so this must be called before getting the next set of operands
-     * Return as a String for easy rendering at the GUI side
+     * Return the calculated answer for the this equation in the map. Return as a String for easy rendering at the GUI side
+     *
+     * Key is incremented by the getOperandsNextEquation OR getOperatorNextEquation so this must be called before getting the next set of operands
      *
      * All objects upcast to Equation class
      *
@@ -267,7 +250,7 @@ public abstract class Equations {
      */
     public String getAnswerCalcThisEquation () {
 
-        Equation equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        Equation equation = (Equation) this.equationMap.get(this.currentEquationKey);
         DecimalFormat zeroPrecision = new DecimalFormat("#");
 
         return (String.valueOf(zeroPrecision.format(equation.getAnswerCalc())));
@@ -283,7 +266,7 @@ public abstract class Equations {
      * @return           True for match and false for mismatch
      */
     public boolean verifyAnswerUserForEquation (
-            String key,
+            Integer key,
             String answerUser
     ) {
         Equation equation = (Equation) this.equationMap.get(key);
@@ -302,7 +285,7 @@ public abstract class Equations {
      */
     public boolean verifyAnswerUserThisEquation (String answerUser) {
 
-        Equation equation = (Equation) this.equationMap.get(String.valueOf(this.currentEquationKey));
+        Equation equation = (Equation) this.equationMap.get(this.currentEquationKey);
 
         return (equation.verifyAnswerUser(Double.parseDouble(answerUser)));
     }
