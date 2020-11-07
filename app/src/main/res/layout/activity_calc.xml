@@ -35,10 +35,6 @@
             android:id="@+id/incCompleteBody"
             layout="@layout/complete"/>
 
-        <include
-            android:id="@+id/incSettingsTimesTables"
-            layout="@layout/settings_timestables"/>
-
     </ViewFlipper>
 
     <Button

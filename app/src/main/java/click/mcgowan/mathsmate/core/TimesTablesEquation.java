@@ -76,7 +76,7 @@ public class TimesTablesEquation extends Equation {
                     tteOperands[counter]
             );
 
-            //Calculate the actual answer as looping through
+            //Calculate the actual answer while looping through
             if (counter == 0) {
                 this.answerCalc = this.operands[counter].getOperand();
             }

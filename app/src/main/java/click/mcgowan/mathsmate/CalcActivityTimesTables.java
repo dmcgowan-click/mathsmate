@@ -1,7 +1,9 @@
 package click.mcgowan.mathsmate;
 
 import android.content.SharedPreferences;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -24,7 +26,7 @@ public class CalcActivityTimesTables extends CalcActivity{
 
     //Times Tables Parameters
     final int[] sbTteEqRangeValue = new int[1];        //range of the operands. For times tables, the number of equations is range * range
-    final boolean[] rgTteRandomValue = new boolean[1]; //if true, equations will be rendered at random
+    final boolean[] sbTteRandomValue = new boolean[1]; //if true, equations will be rendered at random
 
     /**
      * Load parameters or set defaults if they don't exist so they can be provided to the desired Equations class
@@ -32,7 +34,7 @@ public class CalcActivityTimesTables extends CalcActivity{
      * For times tables, this includes
      *
      * * sbTtsEqRangeValue - range of the operands
-     * * rgTteRandomValue  - if true, equations will be rendered at random
+     * * sbTteRandomValue  - if true, equations will be rendered at random
      *
      */
     void setParameters() {
@@ -40,7 +42,7 @@ public class CalcActivityTimesTables extends CalcActivity{
         SharedPreferences spr = getSharedPreferences(mathsMateSettings,0);
 
         sbTteEqRangeValue[0] = spr.getInt("tte_eq_range", 1);
-        rgTteRandomValue[0] = spr.getBoolean("tte_eq_random", false);
+        sbTteRandomValue[0] = spr.getBoolean("tte_eq_random", false);
     }
 
     /**
@@ -59,12 +61,12 @@ public class CalcActivityTimesTables extends CalcActivity{
      * Create TimesTablesEquations object and use the following parameters:
      *
      * * sbTtsEqRangeValue - range of the operands
-     * * rgTteRandomValue  - if true, equations will be rendered at random
+     * * sbTteRandomValue  - if true, equations will be rendered at random
      *
      */
     void genNewEquations () {
 
-        TimesTablesEquations ttes = new TimesTablesEquations(sbTteEqRangeValue[0] * 2, rgTteRandomValue[0]);
+        TimesTablesEquations ttes = new TimesTablesEquations(sbTteEqRangeValue[0] * 2, sbTteRandomValue[0]);
 
         equations = (Equations) ttes;
     }
@@ -76,33 +78,70 @@ public class CalcActivityTimesTables extends CalcActivity{
      */
     public void calcSettings (View view) {
 
-        //Setup elements we need to work with
-        TextView calcHeader = (TextView) findViewById(R.id.tvCalcHeader);
+        //Legacy code in case it's needed again
+        //Include settings_timestables to flipper and ensure its displayed
+        //LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        //View childLayout        = inflater.inflate(R.layout.settings_timestables, (ViewGroup) findViewById(R.id.test));
+
+        //Setup flipper and add settings_timestables.xml to it. All other element setting will fail otherwise
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        View childLayout = getLayoutInflater().inflate(R.layout.settings_timestables, null);
+        incBody.addView(childLayout);
+        incBody.setDisplayedChild(3);
+
+        //Setup elements common to all settings
+        TextView calcHeader = (TextView) findViewById(R.id.tvCalcHeader);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
-        SeekBar sbTteEqRange = (SeekBar)findViewById(R.id.sbTteEqRange);
-        RadioGroup rgTteRandom = (RadioGroup)findViewById(R.id.rgTteRandom);
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
-        final String[] finalSeekStatus = {""};
+
+        //Setup elements common to settings_timestables.xml
+        SeekBar sbTteEqRange = (SeekBar)findViewById(R.id.sbTteEqRange);
+        final TextView tvTteEqRangeVal = (TextView)findViewById(R.id.tvTteEqRangeVal);
+        SeekBar sbTteRandom = (SeekBar)findViewById(R.id.sbTteRandom);
+        final TextView tvTteRandomVal = (TextView) findViewById(R.id.tvTteRandomVal);
+
+        //final String[] finalSeekStatus = {""};
 
         //Set header and save button
         calcHeader.setText(R.string.settings_timestables);
         openSettings.setVisibility(View.GONE);
         saveSettings.setVisibility(View.VISIBLE);
-        incBody.setDisplayedChild(3);
 
-        //Set some default settings. First two will eventually be customizable
+        //Set some default settings for range seek bar. First two will eventually be customizable
         sbTteEqRange.setMin(1);
         sbTteEqRange.setMax(12 / 2); //We want to increment this in values of 2. So first we actually reduce the range by half
         sbTteEqRange.setProgress(sbTteEqRangeValue[0]);
         sbTteEqRange.refreshDrawableState();
+        tvTteEqRangeVal.setText(String.valueOf(sbTteEqRangeValue[0] * 2));
 
-        //Setup Handlers for the Seek Bar
+        //Set some default settings for random seek bar
+        sbTteRandom.setMin(0);
+        sbTteRandom.setMax(1);
+
+        if (sbTteRandomValue[0] == false) {
+            sbTteRandom.setProgress(0);
+            sbTteRandom.refreshDrawableState();
+            tvTteRandomVal.setText(String.valueOf('N'));
+        }
+        else {
+            sbTteRandom.setProgress(1);
+            sbTteRandom.refreshDrawableState();
+            tvTteRandomVal.setText(String.valueOf('Y'));
+        }
+
+        //Setup Handlers for the sbTteEqRange
         sbTteEqRange.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-            //Act for onProgressChanged
-            //Take what ever value is entered amd multiply so it's always in increments of 2
-            //Set it in sbTteEqRangeValue and render value in Toast
+            /**
+             * Act for onProgressChanged
+             *
+             * * Save value directly into sbTteEqRangeValue so it can be saved for future use
+             * * Multiply value by 2 and render in tvTteEqRangeVal so we know the current value
+             *
+             * @param seekBar  seekBar object
+             * @param progress actual value from the seek bar
+             * @param fromUser from user
+             */
             @Override
             public void onProgressChanged (
                     SeekBar seekBar,
@@ -110,51 +149,79 @@ public class CalcActivityTimesTables extends CalcActivity{
                     boolean fromUser
             ) {
                 sbTteEqRangeValue[0] = progress;
-
-                StringBuilder seekStatus = new StringBuilder();
-                seekStatus.append(getString(R.string.settings_range));
-                seekStatus.append(" is ");
-                seekStatus.append(sbTteEqRangeValue[0] * 2); //We want to increment this in values of 2, so we double
-                finalSeekStatus[0] = seekStatus.toString();
-
-                Toast.makeText(getApplicationContext(), finalSeekStatus[0], Toast.LENGTH_SHORT).show();
+                tvTteEqRangeVal.setText(String.valueOf(sbTteEqRangeValue[0] * 2));
             }
 
-            //Act for onStartTrackingTouch. Display the set value
+            /**
+             * Act on onStartTrackingTouch. Just render the current value as stored in sbTteEqRangeValue
+             *
+             * @param seekBar seekBar object
+             */
             @Override
             public void onStartTrackingTouch (SeekBar seekBar) {
 
-                if (finalSeekStatus[0].length() > 0 ) {
-                    Toast.makeText(getApplicationContext(), finalSeekStatus[0], Toast.LENGTH_SHORT).show();
-                }
+                tvTteEqRangeVal.setText(String.valueOf(sbTteEqRangeValue[0] * 2));
             }
 
-            //No Action Required for onStopTrackingTouch
+            /**
+             * Act on onStopTrackingTouch. No action needs to be taken
+             *
+             * @param seekBar seekBar object
+             */
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        //Set some default settings
-        if (rgTteRandomValue[0] == false) {
-            rgTteRandom.check(R.id.rbTteRandomFalse);
-        }
-        else {
-            rgTteRandom.check(R.id.rbTteRandomTrue);
-        }
+        //Setup Handlers for the sbTteRandom
+        sbTteRandom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-        //Setup handlers for the radio buttons
-        rgTteRandom.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            //Run when a change is made to radio buttons
+            /**
+             * * Act for onProgressChanged
+             *
+             * * Save boolean equivalent value directly into sbTteRandomValue so it can be saved for future use
+             * * Render N for no and Y for yes in tvTteRandomVal so what option we have selected
+             *
+             * @param seekBar  seekBar object
+             * @param progress actual value from the seek bar
+             * @param fromUser from user
+             */
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (checkedId == 2131165330) {
-                    rgTteRandomValue[0] = false;
+                if (progress == 0) {
+                    sbTteRandomValue[0] = false;
+                    tvTteRandomVal.setText("N");
                 }
                 else {
-                    rgTteRandomValue[0] = true;
+                    sbTteRandomValue[0] = true;
+                    tvTteRandomVal.setText("Y");
                 }
+            }
+
+            /**
+             * Act on onStartTrackingTouch. Either a Y or N based on value in sbTteRandomValue
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                if (sbTteRandomValue[0] == false) {
+                    tvTteRandomVal.setText("N");
+                }
+                else {
+                    tvTteRandomVal.setText("Y");
+                }
+            }
+
+            /**
+             * Act on onStopTrackingTouch. No action needs to be taken
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }
@@ -166,7 +233,7 @@ public class CalcActivityTimesTables extends CalcActivity{
      */
     public void saveSettings (View view) {
 
-        //Get flipper resource. We need to flip it. Get it!
+        //Get flipper resource. Once saved, we need to flip it back to times tables
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
@@ -176,8 +243,8 @@ public class CalcActivityTimesTables extends CalcActivity{
         //Save settings and commit them
         SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
         spe.putInt("tte_eq_range", sbTteEqRangeValue[0]);
-        spe.putBoolean("tte_eq_random", rgTteRandomValue[0]);
-        spe.commit(); //Was going to use commit. But Android insisted of apply!
+        spe.putBoolean("tte_eq_random", sbTteRandomValue[0]);
+        spe.apply(); //Was going to use commit. But Android insisted on apply!
 
         //Notify settings saved
         Toast.makeText(getApplicationContext(), getString(R.string.settings_saved), Toast.LENGTH_SHORT).show();

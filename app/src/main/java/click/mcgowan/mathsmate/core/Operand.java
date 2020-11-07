@@ -5,7 +5,11 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
- * Generate and return a random generated operand in accordance with provided parameters
+ * Generate and return a random generated operand and operator in accordance with provided parameters
+ *
+ * OR
+ *
+ * Set and return desired operand and operator in validated against provided parameters
  */
 public class Operand {
 
@@ -62,9 +66,9 @@ public class Operand {
         //Create plain integer
         this.operand = randomOpa.nextInt(this.range) + 1;
 
-        ///////////////////////////////////////////////////////////////////////////////////
-        //Logic to crate negative and decimal precision numbers to be added at a later date
-        ///////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        //Logic to create negative and decimal precision numbers to be added at a later date
+        ////////////////////////////////////////////////////////////////////////////////////
 
         //Loop through each value of operators. Set an integer value for each operator that was found
         for(int counterOpt = 0; counterOpt < this.operators.length; counterOpt++) {

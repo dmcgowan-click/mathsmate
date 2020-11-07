@@ -63,7 +63,7 @@ public abstract class Equations {
     /**
      * Return the current index of the equations map.
      *
-     * Typically used in conjunction with getEquationIndex to locate an operand or operator and the Activity class to render equations correctly
+     * Typically used in conjunction with getEquationIndex to locate an operand or operator by the Activity class to render equations correctly
      *
      * @return Current equation index
      */

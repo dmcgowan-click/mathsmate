@@ -21,9 +21,9 @@ import click.mcgowan.mathsmate.core.TimesTablesEquations;
  */
 public class CalcActivityAddSubMulDiv extends CalcActivity{
 
-    //Times Tables Parameters
-    //final int[] sbTteEqRangeValue = new int[1];
-    //final boolean[] rgTteRandomValue = new boolean[1];
+    //Add Sub Mul Div Parameters
+    final int[] sbTteEqRangeValue = new int[1];
+    final boolean[] rgTteRandomValue = new boolean[1];
 
     /**
      * Load and set parameters required for times table equations. Where parameters do not exist, set defaults
@@ -71,7 +71,6 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
         SeekBar sbTteEqRange = (SeekBar)findViewById(R.id.sbTteEqRange);
-        RadioGroup rgTteRandom = (RadioGroup)findViewById(R.id.rgTteRandom);
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
         final String[] finalSeekStatus = {""};
 

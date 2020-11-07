@@ -73,8 +73,8 @@ public class AddSubMulDivEquation extends Equation {
         for (int counter = 0; counter < this.operandCount; counter++) {
 
             //If counter == 0, this is our first run. Generate operand per normal and set calcAnswer to operand
-            if (counter == 0)
-            {
+            if (counter == 0) {
+
                 //Set range as per normal
                 calcRange = this.range;
 
@@ -88,6 +88,7 @@ public class AddSubMulDivEquation extends Equation {
 
                 this.answerCalc = this.operands[counter].getOperand();
             }
+
             //On our second run, we need to begin calculating our equations AND making special considerations for subtraction and division
             //NOTE: Special considerations not implemented for division. At this point, division is NOT supported
             else {
@@ -158,8 +159,6 @@ public class AddSubMulDivEquation extends Equation {
                                         false,
                                         this.operators
                                 );
-
-                                //Subtract the operands
                             }
                         }
                         //Special considerations not applicable. Calculate as per normal
