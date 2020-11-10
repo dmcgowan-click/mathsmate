@@ -540,6 +540,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
 
         //Get flipper resource. We need to flip it. Get it!
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        TextView tvCalcHeader = (TextView)findViewById(R.id.tvCalcHeader);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
         TextView tvRenderCount = (TextView) findViewById(R.id.tvRenderCount);
@@ -564,6 +565,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         openSettings.setVisibility(View.VISIBLE);
         tvRenderCount.setVisibility(View.GONE);
         btnBegin.setVisibility(View.VISIBLE);
+        setCalcHeader(tvCalcHeader);
         incBody.setDisplayedChild(0);
     }
 }

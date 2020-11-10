@@ -233,6 +233,7 @@ public class CalcActivityTimesTables extends CalcActivity{
 
         //Get flipper resource. Once saved, we need to flip it back to times tables
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        TextView tvCalcHeader = (TextView)findViewById(R.id.tvCalcHeader);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
         TextView tvRenderCount = (TextView) findViewById(R.id.tvRenderCount);
@@ -252,6 +253,7 @@ public class CalcActivityTimesTables extends CalcActivity{
         openSettings.setVisibility(View.VISIBLE);
         tvRenderCount.setVisibility(View.GONE);
         btnBegin.setVisibility(View.VISIBLE);
+        setCalcHeader(tvCalcHeader);
         incBody.setDisplayedChild(0);
     }
 }
