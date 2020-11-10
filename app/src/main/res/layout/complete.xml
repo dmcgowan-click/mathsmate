@@ -15,7 +15,7 @@
 
     <TextView
         style="@style/Header2"
-        android:id="@+id/tvCompIn"
+        android:id="@+id/tvCompleteIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

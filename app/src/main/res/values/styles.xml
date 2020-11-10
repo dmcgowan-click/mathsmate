@@ -25,7 +25,7 @@
     </style>
 
     <style name="Paragraph3">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Keypad">

@@ -1,6 +1,11 @@
 package click.mcgowan.mathsmate.core;
 
+import android.util.Log;
+
 import java.text.DecimalFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.Period;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -21,7 +26,7 @@ public abstract class Equations {
     protected char[] operators;  //Array of operators permitted for equations. Operators are randomly selected based on what is permitted
 
     //Calculated Values
-    protected Date startDate;                                              //Timestamp of when the equations start
+    protected LocalTime startTime;                                         //Timestamp of when the equations start
     protected HashMap<Integer,Object> equationMap = new LinkedHashMap<Integer, Object>(); //A map of all equations. Using map to mix different equation types, and provide an easy way to random order equations
     protected int currentEquationKey = 0;                                  //Index of current equation
 
@@ -50,7 +55,7 @@ public abstract class Equations {
         this.precision = precision;
         this.negative = negative;
         this.operators = operators;
-        this.startDate = new Date ();
+        this.startTime = LocalTime.now();
     }
 
     /**
@@ -297,9 +302,15 @@ public abstract class Equations {
      */
     public String getTimeTaken () {
 
-        Date currentDate = new Date ();
-        Long dateDifference = currentDate.getTime() - this.startDate.getTime();
+        StringBuilder finishedIn = new StringBuilder();
 
-        return (String.valueOf(dateDifference));
+        LocalTime finishTime = LocalTime.now();
+        Duration timeDiff = Duration.between(this.startTime, finishTime);
+
+        //Eventually add logic so if time runs over a 60 seconds, time displayed in minutes
+        finishedIn.append(String.valueOf(timeDiff.toMillis() / 1000));
+        finishedIn.append(" Seconds");
+
+        return (finishedIn.toString());
     }
 }

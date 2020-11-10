@@ -19,11 +19,19 @@
     <string name="status_fail">Incorrect</string>
     <string name="status_pass">Correct</string>
     <string name="status_complete">Complete!</string>
-    <string name="time_taken">Completed in %1$s Minutes</string>
+    <string name="time_taken">Completed in %1$s</string>
 
     <string name="settings_save">Save</string>
     <string name="settings_saved">Settings Saved</string>
     <string name="settings_timestables">Times Tables Settings</string>
+    <string name="settings_addsubmuldiv">Random Arithmetic Settings</string>
+    <string name="settings_eq_count">Number of Equations</string>
+    <string name="settings_op_count">Number of Operands</string>
+    <string name="settings_range_count">Operand Range</string>
+    <string name="settings_add">Enable Addition?</string>
+    <string name="settings_sub">Enable Subtraction?</string>
+    <string name="settings_mul">Enable Multiplication?</string>
+    <string name="settings_div">Enable Division?</string>
     <string name="settings_range">Equation Range</string>
     <string name="settings_random">Random Order?</string>
     <string name="settings_true">True</string>

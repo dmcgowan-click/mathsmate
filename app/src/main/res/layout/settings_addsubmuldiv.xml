@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        style="@style/Paragraph3"
+        android:id="@+id/tvAsmdEqCount"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_eq_count"/><!-- Not Happy about using marginTop, but unable to get appConstraint setting to work as desired-->
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdEqCount"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" /><!-- Not Happy about using marginTop, but unable to get appConstraint setting to work as desired-->
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdEqCountVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="0"
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:gravity="center_vertical" /><!-- Not Happy about using marginTop, but unable to get appConstraint setting to work as desired-->
+
+    <TextView
+        style="@style/Paragraph3"
+        android:id="@+id/tvAsmdOpCount"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_op_count"/>
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdOpCount"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdOpCountVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="1"
+        android:padding="10dp"
+        android:gravity="center_vertical" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdRangeCount"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="2"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_range_count"/>
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdRangeCount"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdRangeCountVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="2"
+        android:padding="10dp"
+        android:gravity="center_vertical" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdAdd"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="3"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_add"/>
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdAdd"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdAddVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="3"
+        android:padding="10dp"
+        android:gravity="center_vertical" />
+
+    <TextView
+        style="@style/Paragraph3"
+        android:id="@+id/tvAsmdSub"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="4"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_sub"/>
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdSub"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_row="4"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdSubVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="4"
+        android:padding="10dp"
+        android:gravity="center_vertical" />
+
+    <TextView
+        style="@style/Paragraph3"
+        android:id="@+id/tvAsmdMul"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="5"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_mul"/>
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdMul"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_row="5"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdMulVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="5"
+        android:padding="10dp"
+        android:gravity="center_vertical" />
+
+    <!-- Division settings will eventually be added -->
+
+</GridLayout>

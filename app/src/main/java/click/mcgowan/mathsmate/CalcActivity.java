@@ -364,8 +364,13 @@ public abstract class CalcActivity extends AppCompatActivity {
      */
     private void renderEquationsComplete () {
 
+        //StringBuilder completeMeta = new StringBuilder();
+        TextView completeIn = (TextView)findViewById(R.id.tvCompleteIn);
+        //completeMeta
+
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
         incBody.setDisplayedChild(2);
+        completeIn.setText(getString(R.string.time_taken, equations.getTimeTaken()));
     }
 
     /**

@@ -23,78 +23,79 @@
 
     <GridLayout
         style="@style/Keypad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnOne"
-            android:layout_column="1"
-            android:layout_row="1"
-            android:text="@string/one"/>
+            style="@style/Keypad"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="@string/one" />
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnTwo"
-            android:layout_column="2"
-            android:layout_row="1"
-            android:text="@string/two"/>
+            style="@style/Keypad"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="@string/two" />
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnThree"
-            android:layout_column="3"
-            android:layout_row="1"
-            android:text="@string/three"/>
+            style="@style/Keypad"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:text="@string/three" />
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnFour"
-            android:layout_column="1"
-            android:layout_row="2"
-            android:text="@string/four"/>
+            style="@style/Keypad"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="@string/four" />
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnFive"
-            android:layout_column="2"
-            android:layout_row="2"
-            android:text="@string/five"/>
-
-        <Button
             style="@style/Keypad"
-            android:id="@+id/btnSix"
-            android:layout_column="3"
-            android:layout_row="2"
-            android:text="@string/six"/>
-
-        <Button
-            style="@style/Keypad"
-            android:id="@+id/btnSeven"
+            android:layout_row="1"
             android:layout_column="1"
-            android:layout_row="3"
-            android:text="@string/seven"/>
+            android:text="@string/five" />
 
         <Button
+            android:id="@+id/btnSix"
             style="@style/Keypad"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:text="@string/six" />
+
+        <Button
+            android:id="@+id/btnSeven"
+            style="@style/Keypad"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:text="@string/seven" />
+
+        <Button
             android:id="@+id/btnEight"
-            android:layout_column="2"
-            android:layout_row="3"
-            android:text="@string/eight"/>
+            style="@style/Keypad"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:text="@string/eight" />
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnNine"
-            android:layout_column="3"
-            android:layout_row="3"
-            android:text="@string/nine"/>
+            style="@style/Keypad"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:text="@string/nine" />
 
         <Button
-            style="@style/Keypad"
             android:id="@+id/btnZero"
-            android:layout_column="2"
-            android:layout_row="4"
-            android:text="@string/zero"/>
+            style="@style/Keypad"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:text="@string/zero" />
     </GridLayout>
 
 </LinearLayout>

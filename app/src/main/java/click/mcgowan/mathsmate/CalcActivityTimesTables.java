@@ -100,8 +100,6 @@ public class CalcActivityTimesTables extends CalcActivity{
         SeekBar sbTteRandom = (SeekBar)findViewById(R.id.sbTteRandom);
         final TextView tvTteRandomVal = (TextView) findViewById(R.id.tvTteRandomVal);
 
-        //final String[] finalSeekStatus = {""};
-
         //Set header and save button
         calcHeader.setText(R.string.settings_timestables);
         openSettings.setVisibility(View.GONE);
@@ -244,7 +242,7 @@ public class CalcActivityTimesTables extends CalcActivity{
         SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
         spe.putInt("tte_eq_range", sbTteEqRangeValue[0]);
         spe.putBoolean("tte_eq_random", sbTteRandomValue[0]);
-        spe.apply(); //Was going to use commit. But Android insisted on apply!
+        spe.apply(); //Using apply over commit
 
         //Notify settings saved
         Toast.makeText(getApplicationContext(), getString(R.string.settings_saved), Toast.LENGTH_SHORT).show();
