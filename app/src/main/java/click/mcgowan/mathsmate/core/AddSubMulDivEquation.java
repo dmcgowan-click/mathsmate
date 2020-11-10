@@ -3,6 +3,8 @@ package click.mcgowan.mathsmate.core;
 import android.graphics.Path;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -62,6 +64,10 @@ public class AddSubMulDivEquation extends Equation {
 
         //Local vars to assist with calculation of equation
         int calcRange;
+        int divint;
+        int modulus;
+        List<Integer> validDiv = new ArrayList<Integer>();
+        Operand selectValidDiv;
 
         //Set answerCalc to -1 This is to avoid null issues
         this.answerCalc = -1;
@@ -72,13 +78,13 @@ public class AddSubMulDivEquation extends Equation {
         //Loop till operand count is reached
         for (int counter = 0; counter < this.operandCount; counter++) {
 
-            //If counter == 0, this is our first run. Generate operand per normal and set calcAnswer to operand
+            //If counter == 0, this is our first run. Generate operand normally and set calcAnswer to operand
             if (counter == 0) {
 
                 //Set range as per normal
                 calcRange = this.range;
 
-                //Set the operand object
+                //Set the operand object normally
                 this.operands[counter] = new Operand(
                         calcRange,
                         this.precision,
@@ -196,7 +202,44 @@ public class AddSubMulDivEquation extends Equation {
                         break;
 
                     case '/' :
-                        //Special considerations not added yet
+                        //Special considerations for division to ensure all equations are divisible
+                        //Build an array of numbers that will divide the previous operand without remainders
+                        for (int divCounter = 0; divCounter < this.operands[counter-1].getOperand(); divCounter++) {
+
+                            divint = (int)this.operands[counter-1].getOperand();
+                            modulus = divint % (divCounter + 1);
+
+                            if (modulus == 0) {
+                                validDiv.add(divCounter + 1);
+                            }
+                        }
+
+                        //Use the Operand class, to generate a random index for validDiv
+                        //Randomly selected operator will be used for the new operand
+                        selectValidDiv = new Operand(
+                                validDiv.size(),
+                                0,
+                                false,
+                                this.operators);
+
+                        //Now set the new operand
+                        this.operands[counter] = new Operand(
+                                this.range,
+                                this.precision,
+                                this.negative,
+                                this.operators,
+                                selectValidDiv.getOperator(),
+                                validDiv.get((int) selectValidDiv.getOperand())
+                        );
+//                        calcRange = this.range;
+//
+//                        //Create new operand as per normal
+//                        this.operands[counter] = new Operand(
+//                                calcRange,
+//                                this.precision,
+//                                this.negative,
+//                                this.operators
+//                        );
 
                         this.answerCalc = this.answerCalc / this.operands[counter].getOperand();
                 }

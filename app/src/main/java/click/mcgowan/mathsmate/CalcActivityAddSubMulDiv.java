@@ -106,6 +106,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             operatorsList.add('*');
         }
         //Division not added yet
+        operatorsList.add('/');
 
         //This garbage takes the values and adds them to a regular char array. If there is a better way of doing this, please let me know!
         operators = new char[operatorsList.size()];

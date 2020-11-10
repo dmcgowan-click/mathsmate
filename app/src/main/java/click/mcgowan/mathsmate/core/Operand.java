@@ -46,6 +46,8 @@ public class Operand {
     ) {
         //For random generation of operand
         Random randomOpa = new Random();
+        int divint;
+        int modulus;
 
         //For random generation of operator
         Random randomOpt = new Random();
@@ -63,12 +65,9 @@ public class Operand {
 
         Log.i("OPERAND_INIT", "Operand Object Initialized");
 
-        //Create plain integer
-        this.operand = randomOpa.nextInt(this.range) + 1;
-
-        ////////////////////////////////////////////////////////////////////////////////////
-        //Logic to create negative and decimal precision numbers to be added at a later date
-        ////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+        //Logic to create negative and decimal precision numbers to be added at a later date//
+        //////////////////////////////////////////////////////////////////////////////////////
 
         //Loop through each value of operators. Set an integer value for each operator that was found
         for(int counterOpt = 0; counterOpt < this.operators.length; counterOpt++) {
@@ -107,6 +106,18 @@ public class Operand {
         else if (div == randomIndex) {
 
             this.operator = '/';
+        }
+
+        //Create operand. Special consideration for Division to ensure divisible numbers
+        if (this.operator == '/') {
+            do {
+                this.operand = randomOpa.nextInt(this.range) + 1;
+                divint = (int)this.operand;
+                modulus = divint % 2;
+            } while (modulus > 0);
+        }
+        else {
+            this.operand = randomOpa.nextInt(this.range) + 1;
         }
 
         Log.i("OPERAND_GEN", "Operand " + String.valueOf(this.operand) + " Generated");
