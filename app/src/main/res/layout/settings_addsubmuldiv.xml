@@ -188,6 +188,34 @@
         android:padding="10dp"
         android:gravity="center_vertical" />
 
-    <!-- Division settings will eventually be added -->
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdDiv"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="6"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_div"/>
+
+    <SeekBar
+        style="@style/Paragraph2"
+        android:id="@+id/sbAsmdDiv"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_row="6"
+        android:layout_column="1"
+        android:gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvAsmdDivVal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_row="6"
+        android:padding="10dp"
+        android:gravity="center_vertical" />
 
 </GridLayout>

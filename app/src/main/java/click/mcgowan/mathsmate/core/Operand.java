@@ -113,7 +113,14 @@ public class Operand {
             do {
                 this.operand = randomOpa.nextInt(this.range) + 1;
                 divint = (int)this.operand;
-                modulus = divint % 2;
+
+                if (divint == 1) {
+                    modulus = 0;
+                }
+                else {
+                    modulus = divint % 2;
+                }
+
             } while (modulus > 0);
         }
         else {

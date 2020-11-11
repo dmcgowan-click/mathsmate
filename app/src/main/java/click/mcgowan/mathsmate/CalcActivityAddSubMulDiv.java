@@ -25,8 +25,6 @@ import click.mcgowan.mathsmate.core.TimesTablesEquations;
  * * settings_addsubmuldiv.xml Layout for the Times Tables settings form. Lets you adjust parameters for Addition, Subtraction, Multiplication, Division equations
  *
  * Specific details about the abstract classes are documented as per normal
- *
- * WARNING: Division not yet implemented. Setting will be disabled
  */
 public class CalcActivityAddSubMulDiv extends CalcActivity{
 
@@ -37,7 +35,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
     final boolean[] sbAsmdAddValue = new boolean[1];
     final boolean[] sbAsmdSubValue = new boolean[1];
     final boolean[] sbAsmdMulValue = new boolean[1];
-    //final boolean[] sbAsmdDivValue = new boolean[1];
+    final boolean[] sbAsmdDivValue = new boolean[1];
 
     /**
      * Load parameters or set defaults if they don't exist so they can be provided to the desired Equations class
@@ -63,7 +61,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         sbAsmdAddValue[0] = spr.getBoolean("asmd_add", true);
         sbAsmdSubValue[0] = spr.getBoolean("asmd_sub", false);
         sbAsmdMulValue[0] = spr.getBoolean("asmd_mul", false);
-        //sbAsmdDivValue[0] = spr.getBoolean("asmd_div", true);
+        sbAsmdDivValue[0] = spr.getBoolean("asmd_div", false);
     }
 
     /**
@@ -105,8 +103,9 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         if (sbAsmdMulValue[0] == true) {
             operatorsList.add('*');
         }
-        //Division not added yet
-        operatorsList.add('/');
+        if (sbAsmdDivValue[0] == true) {
+            operatorsList.add('/');
+        }
 
         //This garbage takes the values and adds them to a regular char array. If there is a better way of doing this, please let me know!
         operators = new char[operatorsList.size()];
@@ -120,7 +119,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                 sbAsmdOpCountValue[0],
                 sbAsmdRangeCountValue[0],
                 0, //not yet customisable
-                false,
+                false, //not yet customisable
                 operators);
 
         equations = (Equations) asmds;
@@ -157,7 +156,8 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         final TextView tvAsmdSubVal = (TextView) findViewById(R.id.tvAsmdSubVal);
         SeekBar sbAsmdMul = (SeekBar)findViewById(R.id.sbAsmdMul);
         final TextView tvAsmdMulVal = (TextView) findViewById(R.id.tvAsmdMulVal);
-        //Division to be added
+        SeekBar sbAsmdDiv = (SeekBar)findViewById(R.id.sbAsmdDiv);
+        final TextView tvAsmdDivVal = (TextView) findViewById(R.id.tvAsmdDivVal);
 
         //Set header and save button
         calcHeader.setText(R.string.settings_addsubmuldiv);
@@ -224,6 +224,20 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             sbAsmdMul.setProgress(1);
             sbAsmdMul.refreshDrawableState();
             tvAsmdMulVal.setText(String.valueOf('Y'));
+        }
+
+        sbAsmdDiv.setMin(0);
+        sbAsmdDiv.setMax(1);
+
+        if (sbAsmdDivValue[0] == false) {
+            sbAsmdDiv.setProgress(0);
+            sbAsmdDiv.refreshDrawableState();
+            tvAsmdDivVal.setText(String.valueOf('N'));
+        }
+        else {
+            sbAsmdDiv.setProgress(1);
+            sbAsmdDiv.refreshDrawableState();
+            tvAsmdDivVal.setText(String.valueOf('Y'));
         }
 
         //Setup Handlers for the sbAsmdEqCount
@@ -434,7 +448,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                     tvAsmdSubVal.setText("Y");
                 }
 
-                if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false) {
+                if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
                     sbAsmdAdd.setProgress(1);
                     sbAsmdAdd.refreshDrawableState();
                     tvAsmdAddVal.setText(String.valueOf('Y'));
@@ -493,7 +507,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                     tvAsmdMulVal.setText("Y");
                 }
 
-                if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false) {
+                if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
                     sbAsmdAdd.setProgress(1);
                     sbAsmdAdd.refreshDrawableState();
                     tvAsmdAddVal.setText(String.valueOf('Y'));
@@ -527,7 +541,64 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             }
         });
 
-        //Division settings to be added
+        //Setup Handlers for the sbAsmdDiv
+        sbAsmdDiv.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            /**
+             * * Act for onProgressChanged
+             *
+             * * Save boolean equivalent value directly into sbAsmdDivValue so it can be saved for future use
+             * * Render N for no and Y for yes in tvAsmdDivVal so what option we have selected
+             *
+             * @param seekBar  seekBar object
+             * @param progress actual value from the seek bar
+             * @param fromUser from user
+             */
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                if (progress == 0) {
+                    sbAsmdDivValue[0] = false;
+                    tvAsmdDivVal.setText("N");
+                }
+                else {
+                    sbAsmdDivValue[0] = true;
+                    tvAsmdDivVal.setText("Y");
+                }
+
+                if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
+                    sbAsmdAdd.setProgress(1);
+                    sbAsmdAdd.refreshDrawableState();
+                    tvAsmdAddVal.setText(String.valueOf('Y'));
+                }
+            }
+
+            /**
+             * Act on onStartTrackingTouch. Either a Y or N based on value in sbAsmdDivValue
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                if (sbAsmdDivValue[0] == false) {
+                    tvAsmdDivVal.setText("N");
+                }
+                else {
+                    tvAsmdDivVal.setText("Y");
+                }
+            }
+
+            /**
+             * Act on onStopTrackingTouch. No action needs to be taken
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     /**
@@ -555,7 +626,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         spe.putBoolean("asmd_add", sbAsmdAddValue[0]);
         spe.putBoolean("asmd_sub", sbAsmdSubValue[0]);
         spe.putBoolean("asmd_mul", sbAsmdMulValue[0]);
-        //spe.putBoolean("asmd_div", sbAsmdDivValue[0]); Division to be added. Logic not ready
+        spe.putBoolean("asmd_div", sbAsmdDivValue[0]);
         spe.apply(); //Using apply over commit
 
         //Notify settings saved

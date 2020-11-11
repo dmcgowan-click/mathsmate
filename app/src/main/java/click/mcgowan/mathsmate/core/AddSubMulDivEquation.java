@@ -66,7 +66,7 @@ public class AddSubMulDivEquation extends Equation {
         int calcRange;
         int divint;
         int modulus;
-        List<Integer> validDiv = new ArrayList<Integer>();
+        List<Integer> validDiv;
         Operand selectValidDiv;
 
         //Set answerCalc to -1 This is to avoid null issues
@@ -96,12 +96,12 @@ public class AddSubMulDivEquation extends Equation {
             }
 
             //On our second run, we need to begin calculating our equations AND making special considerations for subtraction and division
-            //NOTE: Special considerations not implemented for division. At this point, division is NOT supported
             else {
 
                 //Look at operator of previous operand to decide how to calculate AND if any special considerations are needed
                 switch (this.operands[counter - 1].getOperator()) {
 
+                    //No special consideration needed for addition
                     case '+' :
                         //Set range as per normal
                         calcRange = this.range;
@@ -118,11 +118,12 @@ public class AddSubMulDivEquation extends Equation {
                         this.answerCalc = this.answerCalc + this.operands[counter].getOperand();
                         break;
 
+                    //Special consideration for subtraction where negatives are not allowed
+                    //Need to ensure the new operand is never more than the previous number
                     case '-' :
-                        //Special consideration only applies if negatives are not allowed
+                        //If negatives are not permitted
                         if (this.negative == false) {
 
-                            //We want to avoid negatives
                             //If the current calculated answer less than our desired range, we need to alter the range to avoid a negative equation
                             if (this.answerCalc < this.range) {
 
@@ -139,6 +140,7 @@ public class AddSubMulDivEquation extends Equation {
                                             0
                                     );
                                 }
+
                                 //If calculated answer is 1 or more, we can still generate an equation, though range is the value of the current answer and could be as low as 1
                                 else {
                                     calcRange = (int) this.answerCalc;
@@ -152,6 +154,7 @@ public class AddSubMulDivEquation extends Equation {
                                     );
                                 }
                             }
+
                             //If calculated answer is greater than overall range, no risk of negatives. Set range and hence operands as per normal
                             else {
 
@@ -167,6 +170,7 @@ public class AddSubMulDivEquation extends Equation {
                                 );
                             }
                         }
+
                         //Special considerations not applicable. Calculate as per normal
                         else {
 
@@ -186,6 +190,7 @@ public class AddSubMulDivEquation extends Equation {
                         this.answerCalc = this.answerCalc - this.operands[counter].getOperand();
                         break;
 
+                    //No special consideration needed for multiplication
                     case '*' :
                         //Set range as per normal
                         calcRange = this.range;
@@ -201,9 +206,12 @@ public class AddSubMulDivEquation extends Equation {
                         this.answerCalc = this.answerCalc * this.operands[counter].getOperand();
                         break;
 
+                    //Special considerations for division to ensure all equations are divisible
                     case '/' :
-                        //Special considerations for division to ensure all equations are divisible
+
                         //Build an array of numbers that will divide the previous operand without remainders
+                        validDiv = new ArrayList<Integer>();
+
                         for (int divCounter = 0; divCounter < this.operands[counter-1].getOperand(); divCounter++) {
 
                             divint = (int)this.operands[counter-1].getOperand();
@@ -229,7 +237,7 @@ public class AddSubMulDivEquation extends Equation {
                                 this.negative,
                                 this.operators,
                                 selectValidDiv.getOperator(),
-                                validDiv.get((int) selectValidDiv.getOperand())
+                                validDiv.get((int) selectValidDiv.getOperand() - 1) //A bit dodgy. Operand was already incremented causing out of bounds exception. So lets roll it back
                         );
 //                        calcRange = this.range;
 //
