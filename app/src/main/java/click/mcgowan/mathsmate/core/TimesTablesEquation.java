@@ -71,7 +71,6 @@ public class TimesTablesEquation extends Equation {
                     this.range,
                     this.precision,
                     this.negative,
-                    this.operators,
                     this.operator,
                     tteOperands[counter]
             );
