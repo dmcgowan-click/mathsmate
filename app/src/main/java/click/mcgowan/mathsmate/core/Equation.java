@@ -127,20 +127,14 @@ public abstract class Equation {
      *
      * @return Size of the operands array
      */
-    public int getOperandsLength () {
-
-        return(this.operands.length);
-    }
+    public int getOperandsLength () { return(this.operands.length); }
 
     /**
      * Get the current operand index position. This is typically used as a reference for the *ForIndex methods
      *
      * @return The current operand index position
      */
-    public int getIndexPosition () {
-
-        return (this.index);
-    }
+    public int getIndexPosition () { return (this.index); }
 
     /**
      * Get calculated answer
