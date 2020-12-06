@@ -21,14 +21,16 @@ public class AddSubMulDivEquations extends Equations {
      *
      * @param equationCount Number of equations to generate
      * @param operandCount  Number of operands in the equation
-     * @param range         Largest number of the operand
+     * @param rangeHigh    Highest number of the operand
+     * @param rangeLow     Lowest number of the operand
      * @param precision     Precision of the operand (0 means no decimals)
      * @param negative      Are negative operands allowed?
      */
     public AddSubMulDivEquations(
             int equationCount,
             int operandCount,
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int precision,
             boolean negative,
             char[] operators
@@ -36,7 +38,8 @@ public class AddSubMulDivEquations extends Equations {
         super (
                 equationCount,
                 operandCount,
-                range,
+                rangeHigh,
+                rangeLow,
                 precision,
                 negative,
                 operators
@@ -59,7 +62,8 @@ public class AddSubMulDivEquations extends Equations {
 
             prepEquation = new AddSubMulDivEquation(
                     this.operandCount,
-                    this.range,
+                    this.rangeHigh,
+                    this.rangeLow,
                     this.precision,
                     this.negative,
                     this.operators

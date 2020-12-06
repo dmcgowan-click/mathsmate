@@ -31,7 +31,8 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
     //Add Sub Mul Div Parameters
     final int[] sbAsmdEqCountValue = new int[1];
     final int[] sbAsmdOpCountValue = new int[1];
-    final int[] sbAsmdRangeCountValue = new int[1];
+    final int[] sbAsmdRangeHighCountValue = new int[1];
+    final int[] sbAsmdRangeLowCountValue = new int[1];
     final boolean[] sbAsmdAddValue = new boolean[1];
     final boolean[] sbAsmdSubValue = new boolean[1];
     final boolean[] sbAsmdMulValue = new boolean[1];
@@ -57,7 +58,8 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
 
         sbAsmdEqCountValue[0] = spr.getInt("asmd_eq_count", 1);
         sbAsmdOpCountValue[0] = spr.getInt("asmd_op_count", 2);
-        sbAsmdRangeCountValue[0] = spr.getInt("asmd_op_range", 5);
+        sbAsmdRangeHighCountValue[0] = spr.getInt("asmd_op_range_high", 5);
+        sbAsmdRangeLowCountValue[0] = spr.getInt("asmd_op_range_low", 1);
         sbAsmdAddValue[0] = spr.getBoolean("asmd_add", true);
         sbAsmdSubValue[0] = spr.getBoolean("asmd_sub", false);
         sbAsmdMulValue[0] = spr.getBoolean("asmd_mul", false);
@@ -117,8 +119,9 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         AddSubMulDivEquations asmds = new AddSubMulDivEquations(
                 sbAsmdEqCountValue[0] * 10,
                 sbAsmdOpCountValue[0],
-                sbAsmdRangeCountValue[0],
-                0, //not yet customisable
+                sbAsmdRangeHighCountValue[0],
+                sbAsmdRangeLowCountValue[0],
+                2,
                 false, //not yet customisable
                 operators);
 
@@ -148,15 +151,17 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         final TextView tvAsmdEqCountVal = (TextView)findViewById(R.id.tvAsmdEqCountVal);
         SeekBar sbAsmdOpCount = (SeekBar)findViewById(R.id.sbAsmdOpCount);
         final TextView tvAsmdOpCountVal = (TextView) findViewById(R.id.tvAsmdOpCountVal);
-        SeekBar sbAsmdRangeCount = (SeekBar)findViewById(R.id.sbAsmdRangeCount);
-        final TextView tvAsmdRangeCountVal = (TextView) findViewById(R.id.tvAsmdRangeCountVal);
+        final SeekBar sbAsmdRangeHighCount = (SeekBar)findViewById(R.id.sbAsmdRangeHighCount);
+        final TextView tvAsmdRangeHighCountVal = (TextView) findViewById(R.id.tvAsmdRangeHighCountVal);
+        final SeekBar sbAsmdRangeLowCount = (SeekBar)findViewById(R.id.sbAsmdRangeLowCount);
+        final TextView tvAsmdRangeLowCountVal = (TextView) findViewById(R.id.tvAsmdRangeLowCountVal);
         final SeekBar sbAsmdAdd = (SeekBar)findViewById(R.id.sbAsmdAdd);
         final TextView tvAsmdAddVal = (TextView) findViewById(R.id.tvAsmdAddVal);
-        SeekBar sbAsmdSub = (SeekBar)findViewById(R.id.sbAsmdSub);
+        final SeekBar sbAsmdSub = (SeekBar)findViewById(R.id.sbAsmdSub);
         final TextView tvAsmdSubVal = (TextView) findViewById(R.id.tvAsmdSubVal);
-        SeekBar sbAsmdMul = (SeekBar)findViewById(R.id.sbAsmdMul);
+        final SeekBar sbAsmdMul = (SeekBar)findViewById(R.id.sbAsmdMul);
         final TextView tvAsmdMulVal = (TextView) findViewById(R.id.tvAsmdMulVal);
-        SeekBar sbAsmdDiv = (SeekBar)findViewById(R.id.sbAsmdDiv);
+        final SeekBar sbAsmdDiv = (SeekBar)findViewById(R.id.sbAsmdDiv);
         final TextView tvAsmdDivVal = (TextView) findViewById(R.id.tvAsmdDivVal);
 
         //Set header and save button
@@ -177,11 +182,17 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         sbAsmdOpCount.refreshDrawableState();
         tvAsmdOpCountVal.setText(String.valueOf(sbAsmdOpCountValue[0]));
 
-        sbAsmdRangeCount.setMin(5);
-        sbAsmdRangeCount.setMax(20); //Will eventually allow for more
-        sbAsmdRangeCount.setProgress(sbAsmdRangeCountValue[0]);
-        sbAsmdRangeCount.refreshDrawableState();
-        tvAsmdRangeCountVal.setText(String.valueOf(sbAsmdRangeCountValue[0]));
+        sbAsmdRangeHighCount.setMin(5);
+        sbAsmdRangeHighCount.setMax(20); //Will eventually allow for more
+        sbAsmdRangeHighCount.setProgress(sbAsmdRangeHighCountValue[0]);
+        sbAsmdRangeHighCount.refreshDrawableState();
+        tvAsmdRangeHighCountVal.setText(String.valueOf(sbAsmdRangeHighCountValue[0]));
+
+        sbAsmdRangeLowCount.setMin(1);
+        sbAsmdRangeLowCount.setMax(20); //Will eventually allow for more
+        sbAsmdRangeLowCount.setProgress(sbAsmdRangeLowCountValue[0]);
+        sbAsmdRangeLowCount.refreshDrawableState();
+        tvAsmdRangeLowCountVal.setText(String.valueOf(sbAsmdRangeLowCountValue[0]));
 
         //Set some defaults settings for operator seek bars
         sbAsmdAdd.setMin(0);
@@ -326,14 +337,14 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        //Setup Handlers for the sbAsmdRangeCount
-        sbAsmdRangeCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        //Setup Handlers for the sbAsmdRangeHighCount
+        sbAsmdRangeHighCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             /**
              * Act for onProgressChanged
              *
-             * * Save value directly into sbAsmdRangeCountValue so it can be saved for future use
-             * * Multiply value by 10 and render in tvAsmdRangeCountVal so we know the current value
+             * * Save value directly into sbAsmdRangeHighCountValue so it can be saved for future use
+             * * Multiply value by 10 and render in tvAsmdRangeHighCountVal so we know the current value
              *
              * @param seekBar  seekBar object
              * @param progress actual value from the seek bar
@@ -345,19 +356,74 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                     int progress,
                     boolean fromUser
             ) {
-                sbAsmdRangeCountValue[0] = progress;
-                tvAsmdRangeCountVal.setText(String.valueOf(sbAsmdRangeCountValue[0]));
+                sbAsmdRangeHighCountValue[0] = progress;
+                tvAsmdRangeHighCountVal.setText(String.valueOf(sbAsmdRangeHighCountValue[0]));
+
+                if (sbAsmdRangeLowCountValue[0] > progress) {
+                    sbAsmdRangeLowCount.setProgress(progress);
+                    sbAsmdRangeLowCount.refreshDrawableState();
+                    tvAsmdRangeLowCountVal.setText(String.valueOf(progress));
+                }
             }
 
             /**
-             * Act on onStartTrackingTouch. Just render the current value as stored in sbAsmdRangeCountValue
+             * Act on onStartTrackingTouch. Just render the current value as stored in sbAsmdRangeHighCountValue
              *
              * @param seekBar seekBar object
              */
             @Override
             public void onStartTrackingTouch (SeekBar seekBar) {
 
-                tvAsmdRangeCountVal.setText(String.valueOf(sbAsmdRangeCountValue[0]));
+                tvAsmdRangeHighCountVal.setText(String.valueOf(sbAsmdRangeHighCountValue[0]));
+            }
+
+            /**
+             * Act on onStopTrackingTouch. No action needs to be taken
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        //Setup Handlers for the sbAsmdRangeLowCount
+        sbAsmdRangeLowCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            /**
+             * Act for onProgressChanged
+             *
+             * * Save value directly into sbAsmdRangeLowCountValue so it can be saved for future use
+             * * Multiply value by 10 and render in tvAsmdRangeLowCountVal so we know the current value
+             *
+             * @param seekBar  seekBar object
+             * @param progress actual value from the seek bar
+             * @param fromUser from user
+             */
+            @Override
+            public void onProgressChanged (
+                    SeekBar seekBar,
+                    int progress,
+                    boolean fromUser
+            ) {
+                sbAsmdRangeLowCountValue[0] = progress;
+                tvAsmdRangeLowCountVal.setText(String.valueOf(sbAsmdRangeLowCountValue[0]));
+
+                if (sbAsmdRangeHighCountValue[0] < progress) {
+                    sbAsmdRangeHighCount.setProgress(progress);
+                    sbAsmdRangeHighCount.refreshDrawableState();
+                    tvAsmdRangeHighCountVal.setText(String.valueOf(progress));
+                }
+            }
+
+            /**
+             * Act on onStartTrackingTouch. Just render the current value as stored in sbAsmdRangeLowCountValue
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStartTrackingTouch (SeekBar seekBar) {
+
+                tvAsmdRangeLowCountVal.setText(String.valueOf(sbAsmdRangeLowCountValue[0]));
             }
 
             /**
@@ -622,7 +688,8 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
         spe.putInt("asmd_eq_count", sbAsmdEqCountValue[0]);
         spe.putInt("asmd_op_count", sbAsmdOpCountValue[0]);
-        spe.putInt("asmd_op_range", sbAsmdRangeCountValue[0]);
+        spe.putInt("asmd_op_range_high", sbAsmdRangeHighCountValue[0]);
+        spe.putInt("asmd_op_range_low", sbAsmdRangeLowCountValue[0]);
         spe.putBoolean("asmd_add", sbAsmdAddValue[0]);
         spe.putBoolean("asmd_sub", sbAsmdSubValue[0]);
         spe.putBoolean("asmd_mul", sbAsmdMulValue[0]);

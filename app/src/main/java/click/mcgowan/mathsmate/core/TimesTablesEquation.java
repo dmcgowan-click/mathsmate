@@ -27,18 +27,22 @@ public class TimesTablesEquation extends Equation {
      * For times tables, the equations are more or less predetermined.
      * So we statically set all parameters except for range and take in two operands exactly that should be provided by calling method
      *
-     * @param operandA Value of the first operand
-     * @param operandB Value of the second operand
+     * @param rangeHigh Highest number of the operand
+     * @param rangeLow  Lowest number of the operand
+     * @param operandA  Value of the first operand
+     * @param operandB  Value of the second operand
      */
     public TimesTablesEquation(
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int operandA,
             int operandB
     ) {
         //As operands are been statically defined, so can parameters except for range
         super (
                 2,
-                range,
+                rangeHigh,
+                rangeLow,
                 0,
                 false,
                 new char[]{'*'}
@@ -68,7 +72,8 @@ public class TimesTablesEquation extends Equation {
 
             //Set the operand object
             this.operands[counter] = new Operand(
-                    this.range,
+                    this.rangeHigh,
+                    this.rangeLow,
                     this.precision,
                     this.negative,
                     this.operator,

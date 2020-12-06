@@ -17,7 +17,8 @@ import java.util.Random;
  * * Precision hard coded to 0. Never decimal places in times tables
  * * Negative is hard coded to false. Never negative numbers in times tables
  * * Array of allowed operators is always set to {'*'}
- * * Number of questions based on the range. Where range is x, total questions are always x*x
+ * * rangeHigh and rangeLow parameters also control number of questions. Number questions are calculated as follows:
+ * * * (rangeHigh - (rangeLow - 1)) * 12,
  */
 public class TimesTablesEquations extends Equations {
 
@@ -29,17 +30,20 @@ public class TimesTablesEquations extends Equations {
      *
      * All parameters except for range are statically defined
      *
-     * @param range  Allow adjustment of range for timestables
-     * @param random One extra parameter for times tables. Do we want the questions out of order
+     * @param rangeHigh Highest number of the operand (applicable for first operand only)
+     * @param rangeLow  Lowest number of the operand  (applicable for first operand only)
+     * @param random    One extra parameter for times tables. Do we want the questions out of order
      */
     public TimesTablesEquations (
-            int range,
+            int rangeHigh,
+            int rangeLow,
             boolean random
     ) {
         super (
-                range * range,
+                (rangeHigh - (rangeLow - 1)) * 12,
                 2,
-                range,
+                rangeHigh,
+                rangeLow,
                 0,
                 false,
                 new char[]{'*'}
@@ -69,15 +73,16 @@ public class TimesTablesEquations extends Equations {
         }
         Collections.shuffle(rndIndex);
 
-        //Loop exactly 12 times for x axis
-        for (int countx=0; countx < this.range; countx++) {
+        //Loop from start of rangeLow to the upper limit of rangeHigh
+        for (int countx = (this.rangeLow -1); countx < this.rangeHigh; countx++) {
 
             //Loop exactly 12 times for y axis
-            for (int county=0; county < this.range; county++) {
+            for (int county=0; county < 12; county++) {
 
                 //Create new TimesTableEquation object and generate the equation
                 prepEquation = new TimesTablesEquation(
-                        this.range,
+                        this.rangeHigh,
+                        this.rangeLow,
                         countx + 1,
                         county + 1
                 );

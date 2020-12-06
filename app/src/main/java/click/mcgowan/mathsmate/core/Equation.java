@@ -9,7 +9,8 @@ public abstract class Equation {
 
     //Parameters
     protected int operandCount; //Number of operands in the equation
-    protected int range;        //Largest number of the operand
+    protected int rangeHigh;    //Highest number of the operand
+    protected int rangeLow;     //Lowest number of the operand
     protected int precision;    //Precision of the operand (0 means no decimals)
     protected boolean negative; //Are negative operands allowed?
     protected char[] operators; //Array of operators permitted for equation. Operators are randomly selected based on what is permitted
@@ -25,20 +26,23 @@ public abstract class Equation {
      * Inheriting constructor should call the genEquation method to actually generate the equations
      *
      * @param operandCount Number of operands in the equation
-     * @param range        Largest number of the operand
+     * @param rangeHigh    Highest number of the operand
+     * @param rangeLow     Lowest number of the operand
      * @param precision    Precision of the operand (0 means no decimals)
      * @param negative     Are negative operands allowed?
      * @param operators    Array of operators permitted for equation. Operators are randomly selected based on what is permitted during generation of equation
      */
     public Equation(
             int operandCount,
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int precision,
             boolean negative,
             char[] operators
     ) {
         this.operandCount = operandCount;
-        this.range = range;
+        this.rangeHigh = rangeHigh;
+        this.rangeLow = rangeLow;
         this.precision = precision;
         this.negative = negative;
         this.operators = operators;

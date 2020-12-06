@@ -27,7 +27,8 @@
     <string name="settings_addsubmuldiv">Random Arithmetic Settings</string>
     <string name="settings_eq_count">Number of Equations</string>
     <string name="settings_op_count">Number of Operands</string>
-    <string name="settings_range_count">Operand Range</string>
+    <string name="settings_range_high_count">Operand Range High</string>
+    <string name="settings_range_low_count">Operand Range Low</string>
     <string name="settings_add">Enable Addition?</string>
     <string name="settings_sub">Enable Subtraction?</string>
     <string name="settings_mul">Enable Multiplication?</string>

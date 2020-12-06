@@ -25,7 +25,8 @@ import click.mcgowan.mathsmate.core.TimesTablesEquations;
 public class CalcActivityTimesTables extends CalcActivity{
 
     //Times Tables Parameters
-    final int[] sbTteEqRangeValue = new int[1];        //range of the operands. For times tables, the number of equations is range * range
+    final int[] sbTteEqRangeHighValue = new int[1];    //high range of the operands. For times tables, the number of equations are (rangeHigh - (rangeLow - 1)) * 12
+    final int[] sbTteEqRangeLowValue = new int[1];     //low range of the operands. For times tables, the number of equations are (rangeHigh - (rangeLow - 1)) * 12
     final boolean[] sbTteRandomValue = new boolean[1]; //if true, equations will be rendered at random
 
     /**
@@ -33,15 +34,17 @@ public class CalcActivityTimesTables extends CalcActivity{
      *
      * For times tables, this includes
      *
-     * * sbTtsEqRangeValue - range of the operands
-     * * sbTteRandomValue  - if true, equations will be rendered at random
+     * * sbTtsEqRangeHighValue - Highest number of the operand (applicable for first operand only)
+     * * sbTtsEqRangeLowValue  - Lowest number of the operand (applicable for first operand only)
+     * * sbTteRandomValue      - if true, equations will be rendered at random
      *
      */
     void setParameters() {
 
         SharedPreferences spr = getSharedPreferences(mathsMateSettings,0);
 
-        sbTteEqRangeValue[0] = spr.getInt("tte_eq_range", 1);
+        sbTteEqRangeHighValue[0] = spr.getInt("tte_eq_range_high", 1);
+        sbTteEqRangeLowValue[0] = spr.getInt("tte_eq_range_low", 1);
         sbTteRandomValue[0] = spr.getBoolean("tte_eq_random", false);
     }
 
@@ -66,7 +69,10 @@ public class CalcActivityTimesTables extends CalcActivity{
      */
     void genNewEquations () {
 
-        TimesTablesEquations ttes = new TimesTablesEquations(sbTteEqRangeValue[0] * 2, sbTteRandomValue[0]);
+        TimesTablesEquations ttes = new TimesTablesEquations(
+                sbTteEqRangeHighValue[0],
+                sbTteEqRangeLowValue[0],
+                sbTteRandomValue[0]);
 
         equations = (Equations) ttes;
     }
@@ -95,9 +101,11 @@ public class CalcActivityTimesTables extends CalcActivity{
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
 
         //Setup elements common to settings_timestables.xml
-        SeekBar sbTteEqRange = (SeekBar)findViewById(R.id.sbTteEqRange);
-        final TextView tvTteEqRangeVal = (TextView)findViewById(R.id.tvTteEqRangeVal);
-        SeekBar sbTteRandom = (SeekBar)findViewById(R.id.sbTteRandom);
+        final SeekBar sbTteEqRangeHigh = (SeekBar)findViewById(R.id.sbTteEqRangeHigh);
+        final TextView tvTteEqRangeHighVal = (TextView)findViewById(R.id.tvTteEqRangeHighVal);
+        final SeekBar sbTteEqRangeLow = (SeekBar)findViewById(R.id.sbTteEqRangeLow);
+        final TextView tvTteEqRangeLowVal = (TextView)findViewById(R.id.tvTteEqRangeLowVal);
+        final SeekBar sbTteRandom = (SeekBar)findViewById(R.id.sbTteRandom);
         final TextView tvTteRandomVal = (TextView) findViewById(R.id.tvTteRandomVal);
 
         //Set header and save button
@@ -105,12 +113,19 @@ public class CalcActivityTimesTables extends CalcActivity{
         openSettings.setVisibility(View.GONE);
         saveSettings.setVisibility(View.VISIBLE);
 
-        //Set some default settings for range seek bar. First two will eventually be customizable
-        sbTteEqRange.setMin(1);
-        sbTteEqRange.setMax(12 / 2); //We want to increment this in values of 2. So first we actually reduce the range by half
-        sbTteEqRange.setProgress(sbTteEqRangeValue[0]);
-        sbTteEqRange.refreshDrawableState();
-        tvTteEqRangeVal.setText(String.valueOf(sbTteEqRangeValue[0] * 2));
+        //Set some default settings for range high seek bar
+        sbTteEqRangeHigh.setMin(1);
+        sbTteEqRangeHigh.setMax(12);
+        sbTteEqRangeHigh.setProgress(sbTteEqRangeHighValue[0]);
+        sbTteEqRangeHigh.refreshDrawableState();
+        tvTteEqRangeHighVal.setText(String.valueOf(sbTteEqRangeHighValue[0]));
+
+        //Set some default settings for range low seek bar
+        sbTteEqRangeLow.setMin(1);
+        sbTteEqRangeLow.setMax(12);
+        sbTteEqRangeLow.setProgress(sbTteEqRangeLowValue[0]);
+        sbTteEqRangeLow.refreshDrawableState();
+        tvTteEqRangeLowVal.setText(String.valueOf(sbTteEqRangeLowValue[0]));
 
         //Set some default settings for random seek bar
         sbTteRandom.setMin(0);
@@ -127,14 +142,14 @@ public class CalcActivityTimesTables extends CalcActivity{
             tvTteRandomVal.setText(String.valueOf('Y'));
         }
 
-        //Setup Handlers for the sbTteEqRange
-        sbTteEqRange.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        //Setup Handlers for the sbTteEqRangeHigh
+        sbTteEqRangeHigh.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             /**
              * Act for onProgressChanged
              *
-             * * Save value directly into sbTteEqRangeValue so it can be saved for future use
-             * * Multiply value by 2 and render in tvTteEqRangeVal so we know the current value
+             * * Save value directly into sbTteEqRangeHighValue so it can be saved for future use
+             * * Multiply value by 2 and render in tvTteEqRangeHighVal so we know the current value
              *
              * @param seekBar  seekBar object
              * @param progress actual value from the seek bar
@@ -146,8 +161,15 @@ public class CalcActivityTimesTables extends CalcActivity{
                     int progress,
                     boolean fromUser
             ) {
-                sbTteEqRangeValue[0] = progress;
-                tvTteEqRangeVal.setText(String.valueOf(sbTteEqRangeValue[0] * 2));
+                sbTteEqRangeHighValue[0] = progress;
+                tvTteEqRangeHighVal.setText(String.valueOf(sbTteEqRangeHighValue[0]));
+
+                //We need to make sure High range is never less than low range
+                if (sbTteEqRangeLowValue[0] > progress) {
+                    sbTteEqRangeLow.setProgress(progress);
+                    sbTteEqRangeLow.refreshDrawableState();
+                    tvTteEqRangeLowVal.setText(String.valueOf(progress));
+                }
             }
 
             /**
@@ -158,7 +180,57 @@ public class CalcActivityTimesTables extends CalcActivity{
             @Override
             public void onStartTrackingTouch (SeekBar seekBar) {
 
-                tvTteEqRangeVal.setText(String.valueOf(sbTteEqRangeValue[0] * 2));
+                tvTteEqRangeHighVal.setText(String.valueOf(sbTteEqRangeHighValue[0]));
+            }
+
+            /**
+             * Act on onStopTrackingTouch. No action needs to be taken
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        //Setup Handlers for the sbTteEqRangeLow
+        sbTteEqRangeLow.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            /**
+             * Act for onProgressChanged
+             *
+             * * Save value directly into sbTteEqRangeLowValue so it can be saved for future use
+             * * Multiply value by 2 and render in tvTteEqRangeLowVal so we know the current value
+             *
+             * @param seekBar  seekBar object
+             * @param progress actual value from the seek bar
+             * @param fromUser from user
+             */
+            @Override
+            public void onProgressChanged (
+                    SeekBar seekBar,
+                    int progress,
+                    boolean fromUser
+            ) {
+                sbTteEqRangeLowValue[0] = progress;
+                tvTteEqRangeLowVal.setText(String.valueOf(sbTteEqRangeLowValue[0]));
+
+                //We need to make sure High range is never less than low range
+                if (sbTteEqRangeHighValue[0] < progress) {
+                    sbTteEqRangeHigh.setProgress(progress);
+                    sbTteEqRangeHigh.refreshDrawableState();
+                    tvTteEqRangeHighVal.setText(String.valueOf(progress));
+                }
+            }
+
+            /**
+             * Act on onStartTrackingTouch. Just render the current value as stored in sbTteEqRangeValue
+             *
+             * @param seekBar seekBar object
+             */
+            @Override
+            public void onStartTrackingTouch (SeekBar seekBar) {
+
+                tvTteEqRangeLowVal.setText(String.valueOf(sbTteEqRangeLowValue[0]));
             }
 
             /**
@@ -241,7 +313,8 @@ public class CalcActivityTimesTables extends CalcActivity{
 
         //Save settings and commit them
         SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
-        spe.putInt("tte_eq_range", sbTteEqRangeValue[0]);
+        spe.putInt("tte_eq_range_high", sbTteEqRangeHighValue[0]);
+        spe.putInt("tte_eq_range_low", sbTteEqRangeLowValue[0]);
         spe.putBoolean("tte_eq_random", sbTteRandomValue[0]);
         spe.apply(); //Using apply over commit
 

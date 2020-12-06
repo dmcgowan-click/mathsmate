@@ -20,21 +20,24 @@ public class AddSubMulDivEquation extends Equation {
      * Set parameters so an equation can be generated in line with these parameters
      *
      * @param operandCount Number of operands for this equation
-     * @param range        Range of operands in equation
+     * @param rangeHigh    Highest number of the operand
+     * @param rangeLow     Lowest number of the operand
      * @param precision    Precision of the operands
      * @param negative     Are negative operands allowed?
      * @param operators    Array of operators permitted for equation. Operators are randomly selected based on what is permitted during generation of equation
      */
     public AddSubMulDivEquation (
             int operandCount,
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int precision,
             boolean negative,
             char[] operators
     ) {
         super(
                 operandCount,
-                range,
+                rangeHigh,
+                rangeLow,
                 precision,
                 negative,
                 operators
@@ -67,7 +70,8 @@ public class AddSubMulDivEquation extends Equation {
 
                 //Set the operand object without providing previous operator or calculated answer
                 this.operands[counter] = new Operand(
-                        this.range,
+                        this.rangeHigh,
+                        this.rangeLow,
                         this.precision,
                         this.negative,
                         this.operators
@@ -81,7 +85,8 @@ public class AddSubMulDivEquation extends Equation {
 
                 //Set the operand object and provide previous operator and calculated answer
                 this.operands[counter] = new Operand(
-                        this.range,
+                        this.rangeHigh,
+                        this.rangeLow,
                         this.precision,
                         this.negative,
                         this.operators,

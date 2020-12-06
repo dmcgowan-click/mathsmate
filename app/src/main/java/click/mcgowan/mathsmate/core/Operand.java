@@ -20,7 +20,8 @@ import java.util.Random;
 public class Operand {
 
     //Parameters
-    private int range;         //Largest number of the operand
+    private int rangeHigh;      //Highest number of the operand
+    private int rangeLow;      //Lowest number of the operand
     private int precision;     //Precision of the operand (0 means no decimals)
     private boolean negative;  //Are negative operands allowed?
     private char operator;     //The operator to use after the operand. Ignored if this is the last operand in the equation
@@ -40,23 +41,26 @@ public class Operand {
      *
      * Calling classes ignore operator if operand is the last in the equation
      *
-     * @param range      Largest number of the operand
+     * @param rangeHigh  Highest number of the operand
+     * @param rangeLow   Lowest number of the operand
      * @param precision  Precision of the operand (0 means no decimals)
      * @param negative   Are negative operands allowed?
      * @param operators  Array of operators that may be randomly selected along side this operand
      */
     public Operand(
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int precision,
             boolean negative,
             char[] operators
     ) {
         //Set parameters
-        this.range = range;
+        this.rangeHigh = rangeHigh;
+        this.rangeLow = rangeLow;
         this.precision = precision;
         this.negative = negative;
         this.operators = operators;
-        this.calcAnswer = range; //When calcAnswer isn't provided, we just set it to range effectively ensuring it is ignored
+        this.calcAnswer = rangeHigh; //When calcAnswer isn't provided, we just set it to high range effectively ensuring it is ignored
         this.prevOperator = '?';
 
         Log.i("OPERAND_INIT", "Operand Object Initialized");
@@ -73,7 +77,8 @@ public class Operand {
      *
      * Calling classes ignore operator if operand is the last in the equation
      *
-     * @param range        Largest number of the operand
+     * @param rangeHigh    Highest number of the operand
+     * @param rangeLow     Lowest number of the operand
      * @param precision    Precision of the operand (0 means no decimals)
      * @param negative     Are negative operands allowed?
      * @param operators    Array of operators that may be randomly selected along side this operand
@@ -81,7 +86,8 @@ public class Operand {
      * @param prevOperator Operator from previous operand
      */
     public Operand(
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int precision,
             boolean negative,
             char[] operators,
@@ -89,7 +95,8 @@ public class Operand {
             char prevOperator
     ) {
         //Set parameters
-        this.range = range;
+        this.rangeHigh = rangeHigh;
+        this.rangeLow = rangeLow;
         this.precision = precision;
         this.negative = negative;
         this.operators = operators;
@@ -107,31 +114,32 @@ public class Operand {
      *
      * Calling classes ignore operator if operand is the last in the equation
      *
-     * @param range     Largest number of the operand
+     * @param rangeHigh    Highest number of the operand
+     * @param rangeLow     Lowest number of the operand
      * @param precision Precision of the operand (0 means no decimals)
      * @param negative  Are negative operands allowed?
      * @param operator  Operator to use after operand
      * @param operand   The operand you want to set
      */
     public Operand(
-            int range,
+            int rangeHigh,
+            int rangeLow,
             int precision,
             boolean negative,
             char operator,
             double operand
     ) {
-        this.range = range;
+        this.rangeHigh = rangeHigh;
+        this.rangeLow = rangeLow;
         this.precision = precision;
         this.negative = negative;
         this.operator = operator;
         this.operators = new char[]{operator};
         this.operand = operand;
-        this.calcAnswer = range; //When calcAnswer isn't provided, we just set it to range effectively ensuring it is ignored
+        this.calcAnswer = rangeHigh; //When calcAnswer isn't provided, we just set it to range effectively ensuring it is ignored
         this.prevOperator = '?';
 
         Log.i("OPERAND_SET", "Operand " + String.valueOf(this.operand) + " Set");
-
-        genOperandOperator();
     }
 
     /**
@@ -210,7 +218,7 @@ public class Operand {
         if (this.operator == '/' && this.prevOperator == '?') {
 
             do {
-                this.operand = randomOpa.nextInt(this.range) + 1;
+                this.operand = randomOpa.nextInt(this.rangeHigh - (this.rangeLow - 1)) + 1 + (this.rangeLow - 1);
                 divint = (int)this.operand;
 
                 if (divint == 1) {
@@ -227,7 +235,7 @@ public class Operand {
         // * negatives are false
         // * previous operator is -
         // * calculated answer < range
-        else if (this.negative == false && this.prevOperator == '-' && this.calcAnswer < this.range) {
+        else if (this.negative == false && this.prevOperator == '-' && this.calcAnswer < this.rangeHigh) {
 
             //If calcAnswer is already 0, we can't go any further. Static set to 0
             if (this.calcAnswer == 0) {
@@ -235,6 +243,7 @@ public class Operand {
             }
             //Use calcAnswer as our range
             else {
+                //May need further work. Or we might need to accept numbers below desired range to avoid negatives
                 this.operand = randomOpa.nextInt((int)this.calcAnswer) + 1;
             }
         }
@@ -244,6 +253,7 @@ public class Operand {
         else if (this.prevOperator == '/') {
 
             //Build an array of numbers that will divide the previous operand without remainders
+            //As with subtraction, we might need to accept numbers below desired range to avoid negatives
             validDiv = new ArrayList<Integer>();
 
             for (int divCounter = 0; divCounter < this.calcAnswer; divCounter++) {
@@ -262,7 +272,7 @@ public class Operand {
         //Special consideration not required. Generate operand as per other parameters
         else {
 
-            this.operand = randomOpa.nextInt(this.range) + 1;
+            this.operand = randomOpa.nextInt(this.rangeHigh - (this.rangeLow - 1)) + 1 + (this.rangeLow - 1);
         }
 
         Log.i("OPERAND_GEN", "Operand " + String.valueOf(this.operand) + " Generated");
