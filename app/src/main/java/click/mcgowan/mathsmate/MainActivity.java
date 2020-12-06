@@ -59,28 +59,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentAddSuMulDivActivity);
     }
 
-//    /**
-//     * TEMP METHOD FOR DEBUGGING
-//     */
-//    public void startDebug (View view) {
-//
-//        String whatwegot="";
-//
-//        AddSubMulDivEquations equations = new AddSubMulDivEquations(
-//                5,
-//                3,
-//                10,
-//                0,
-//                false,
-//                new char[]{'+','-','*'});
-//
-////        for (int counter = 0; counter < equations.; counter++) {
-////
-////            whatwegot = whatwegot + "Operand and Operator : " + counter + "; " + String.valueOf(equation.getOperandNextIndex()) + " and " + String.valueOf(equation.getOperatorForIndex(counter)) + ";; ";
-////        }
-////        Toast.makeText(getApplicationContext(),whatwegot,Toast.LENGTH_LONG).show();
-//    }show
-
     /**
      * Open master settings activity for settings that effect the whole program
      *
