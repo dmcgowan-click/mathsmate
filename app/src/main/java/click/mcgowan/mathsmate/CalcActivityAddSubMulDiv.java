@@ -22,7 +22,7 @@ import click.mcgowan.mathsmate.core.TimesTablesEquations;
 /**
  * Class for Addition, Subtraction, Multiplication, Division activities. Extends CalcActivity. Uses the following resources
  *
- * * settings_addsubmuldiv.xml Layout for the Times Tables settings form. Lets you adjust parameters for Addition, Subtraction, Multiplication, Division equations
+ * * settings_addsubmuldiv.xml Layout for the Addition, Subtraction, Multiplication, Division settings form. Lets you adjust parameters for Addition, Subtraction, Multiplication, Division equations
  *
  * Specific details about the abstract classes are documented as per normal
  */
