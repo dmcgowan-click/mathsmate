@@ -49,6 +49,16 @@ public class CalcActivityTimesTables extends CalcActivity{
     }
 
     /**
+     * Set the initial flipper layout to countdown.xml
+     */
+    void setFlipperInitLayout () {
+
+        //Setup initial flipper. Use layout inflater if needed
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+    }
+
+    /**
      * Set the desired header to be the following value:
      *
      * getString(R.string.timestables)

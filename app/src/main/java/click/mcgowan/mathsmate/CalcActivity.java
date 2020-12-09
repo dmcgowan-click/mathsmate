@@ -64,10 +64,11 @@ public abstract class CalcActivity extends AppCompatActivity {
         //Call method to set parameters in extended class
         setParameters();
 
-        //Placeholder for intent. We may not need it
-
         //Set the Header
         setCalcHeader((TextView)findViewById(R.id.tvCalcHeader));
+
+        //Set the appropriate layout within flipper
+        setFlipperInitLayout();
     }
 
     /**
@@ -383,6 +384,15 @@ public abstract class CalcActivity extends AppCompatActivity {
      * Must be set by inheriting class as number and type of values will vary depending on equation type
      */
     abstract void setParameters ();
+
+    /**
+     * Called by onCreate method
+     *
+     * Set the desired initial layout within the flipper. Set as a abstract function as more advanced features may need to dynamically apply new layouts
+     *
+     * Must be set by the inheriting class to represent the type of equations we are creating
+     */
+    abstract void setFlipperInitLayout();
 
     /**
      * Called by onCreate method
