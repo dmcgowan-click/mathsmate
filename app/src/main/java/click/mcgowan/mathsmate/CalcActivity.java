@@ -247,7 +247,7 @@ public abstract class CalcActivity extends AppCompatActivity {
                 case "/" : operatorAsString = getString(R.string.division_symbol);
             }
 
-            //If current index + 1 == total number of operands, this is out last loop and we should render the = symbol and discard the final operator
+            //If current index + 1 == total number of operands, this is our last loop and we should render the = symbol and discard the final operator
             if ((equations.getOperandIndexCurrentEquation() + 1) == equations.getOperandLengthCurrentEquation()) {
                 equationString.append(operandAsString);
                 equationString.append(getString(R.string.equals_symbol));
