@@ -89,7 +89,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
     }
 
     /**
-     * Create TimesTablesEquations object and use the following parameters:
+     * Create AddSubMulDivEquations object and use the following parameters:
      *
      * * sbAsmdEqCountValue    - number of equations
      * * sbAsmdOpCountValue    - number of operands
@@ -680,7 +680,7 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
     /**
      * Triggered by btnCalcSaveSettings
      *
-     * Save settings from times tables configuration from to shared preference
+     * Save settings from Addition, Subtraction, Multiplication, Division configuration to shared preferences
      *
      * @param view
      */
