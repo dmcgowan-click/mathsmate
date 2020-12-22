@@ -88,6 +88,14 @@ public class CalcActivityTimesTables extends CalcActivity{
     }
 
     /**
+     * No post processing required. Yet (eventually will save progress here)
+     */
+    void postComplete () {
+
+        //No post processing required. Yet..
+    }
+
+    /**
      * Render a form using a resource of settings_timestables.xml so parameters for TimesTablesEquations can be customised
      *
      * @param view Required for onClick

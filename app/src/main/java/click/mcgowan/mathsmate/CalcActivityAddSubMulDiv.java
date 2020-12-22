@@ -139,6 +139,14 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
     }
 
     /**
+     * No post processing required. Yet (eventually will save progress here)
+     */
+    void postComplete () {
+
+        //No post processing required. Yet..
+    }
+
+    /**
      * Render a form using a resource of settings_addsubmuldiv.xml so parameters for AddSubMulDivEquations can be customised
      *
      * @param view Required for onClick

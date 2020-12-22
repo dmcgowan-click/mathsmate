@@ -372,6 +372,8 @@ public abstract class CalcActivity extends AppCompatActivity {
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
         incBody.setDisplayedChild(2);
         completeIn.setText(getString(R.string.time_taken, equations.getTimeTaken()));
+
+        postComplete();
     }
 
     /**
@@ -413,4 +415,13 @@ public abstract class CalcActivity extends AppCompatActivity {
      * Must be created by the inheriting class as each Equations class is different and has different parameter requirements
      */
     abstract void genNewEquations ();
+
+    /**
+     * Called by renderEquationsComplete method
+     *
+     * Depending on the equation type and whether we are in freestyle or tournament mode, we may want to perform some post tasks such as saving progress and updating menus
+     *
+     * Must be created by the inheriting class as each different mode type will have different post processing requirements
+     */
+    abstract void postComplete();
 }
