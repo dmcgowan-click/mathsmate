@@ -28,8 +28,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Create intent and start Addition, Subtraction, Multiplication, Division Activity
+     *
+     * @param view
+     */
+    public void startTorAddSubMulDivActivity (View view) {
+
+        Intent intentTorAddSuMulDivActivity = new Intent(this, CalcTorActivityAddSubMulDiv.class);
+
+        //Eventual code to setup and pass in profile
+        intentTorAddSuMulDivActivity.putExtra("action_id", "toraddsubmuldiv");
+
+        startActivity(intentTorAddSuMulDivActivity);
+    }
+
+    /**
      * Create intent and start Times Table Calculator Activity
-     * Determine action to perform based on button ID
      *
      * @param view
      */
@@ -45,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Create intent and start Addition, Subtraction, Multiplication, Division Activity
-     * Determine action to perform based on button ID
      *
      * @param view
      */
@@ -57,15 +70,5 @@ public class MainActivity extends AppCompatActivity {
         intentAddSuMulDivActivity.putExtra("action_id", "addsubmuldiv");
 
         startActivity(intentAddSuMulDivActivity);
-    }
-
-    /**
-     * Open master settings activity for settings that effect the whole program
-     *
-     * @param view
-     */
-    public void masterSettings (View view) {
-
-        Toast.makeText(getApplicationContext(), "Under Construction",Toast.LENGTH_LONG).show();
     }
 }
