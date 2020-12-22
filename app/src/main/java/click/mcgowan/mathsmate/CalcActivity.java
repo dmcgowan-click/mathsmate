@@ -85,7 +85,7 @@ public abstract class CalcActivity extends AppCompatActivity {
      */
     public void startCalculator (View view) {
 
-        Button btnBegin = (Button)findViewById(R.id.btnBegin);
+        final Button btnBegin = (Button)findViewById(R.id.btnBegin);
         final TextView tvRenderCount = (TextView)findViewById(R.id.tvRenderCount);
 
         //Hide button and enable textview
@@ -102,6 +102,10 @@ public abstract class CalcActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
+
+                //Lets set everything back in case we want to reuse the countdown view
+                btnBegin.setVisibility(View.VISIBLE);
+                tvRenderCount.setVisibility(View.GONE);
 
                 //Render the calculator view
                 ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
