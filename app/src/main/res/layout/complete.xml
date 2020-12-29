@@ -21,4 +21,11 @@
         android:gravity="center"
         android:text="Completed in"/>
 
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/next"/>
+
 </LinearLayout>
