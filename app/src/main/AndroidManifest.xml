@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".CalcActivityTimesTables"></activity>
-        <activity android:name=".CalcActivityAddSubMulDiv"></activity>
+        <activity android:name=".CalcActivityTimesTables" />
+        <activity android:name=".CalcActivityAddSubMulDiv" />
+        <activity android:name=".CalcTorActivityAddSubMulDiv" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

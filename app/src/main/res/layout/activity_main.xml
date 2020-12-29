@@ -21,33 +21,67 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvWelcome">
+
+        <TextView
+            style="@style/Header2"
+            android:id="@+id/tvTournament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tournament"/>
+
+        <Button
+            android:id="@+id/btnTimestablesTor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startTimesTableCalcActivity"
+            android:text="@string/timestables_tor" />
+
+        <Button
+            android:id="@+id/btnAddSubMulDivTor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startTorAddSubMulDivActivity"
+            android:text="@string/tor_addsubmuldiv" />
+
+        <TextView
+            style="@style/Header2"
+            android:id="@+id/tvFreestyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="50dp"
+            android:text="@string/freestyle"/>
 
         <Button
             android:id="@+id/btnTimesTables"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/timestables"
-            android:onClick="startTimesTableCalcActivity"/>
+            android:onClick="startTimesTableCalcActivity"
+            android:text="@string/timestables" />
 
         <Button
-            android:id="@+id/btnAddition"
+            android:id="@+id/btnAddSubMulDiv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/addsubmuldiv"
-            android:onClick="startAddSubMulDivActivity"/>
+            android:onClick="startAddSubMulDivActivity"
+            android:text="@string/addsubmuldiv" />
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/btnSettings"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/settings_icon"
+    <!--<com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="masterSettings"/>
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutMenu"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutMenu" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

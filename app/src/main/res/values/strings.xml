@@ -1,13 +1,18 @@
 <resources>
     <string name="app_name">Maths Mate</string>
     <string name="welcome">Welcome to Maths Mate</string>
+    <string name="tournament">Tournament</string>
+    <string name="freestyle">Freestyle</string>
     <string name="settings">Settings</string>
     <string name="click_to_begin">Click to Begin!</string>
+    <string name="next">Next</string>
     <string name="back">Back</string>
 
     <string name="addition">Addition</string>
-    <string name="timestables">Times Tables</string>
+    <string name="timestables">Random Times Tables</string>
+    <string name="timestables_tor">Master Times Tables</string>
     <string name="addsubmuldiv">Random Arithmetic</string>
+    <string name="tor_addsubmuldiv">Master Arithmetic</string>
     <string name="addition_symbol">\u0020\u0020+\u0020\u0020</string>
     <string name="subtraction_symbol">\u0020\u0020-\u0020\u0020</string>
     <string name="multiplication_symbol">\u0020\u0020\u00D7\u0020\u0020</string>
@@ -37,6 +42,18 @@
     <string name="settings_random">Random Order?</string>
     <string name="settings_true">True</string>
     <string name="settings_false">False</string>
+    <string name="tick">\u2713</string>
+    <string name="cross">\u274C</string>
+
+    <string name="tor_asmd_level_1">Easy Addition</string>
+    <string name="tor_asmd_level_2">Easy Subtraction</string>
+    <string name="tor_asmd_level_3">Medium Addition</string>
+    <string name="tor_asmd_level_4">Medium Subtraction</string>
+    <string name="tor_asmd_level_5">Easy Multiplication</string>
+    <string name="tor_asmd_level_6">Medium Multiplication</string>
+    <string name="tor_asmd_level_7">Division Easy</string>
+    <string name="tor_asmd_level_8">Division Medium</string>
+    <string name="tor_asmd_level_9">Mix Medium</string>
 
     <string name="one">1</string>
     <string name="two">2</string>

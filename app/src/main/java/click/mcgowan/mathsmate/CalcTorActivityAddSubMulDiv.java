@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import click.mcgowan.mathsmate.core.Equations;
  * Class for Tournament Addition, Subtraction, Multiplication, Division activities. Extends CalcActivity. Uses the following resources
  *
  * * tor_menu_addsubmuldiv.xml Layout for the sub menu where you can select equations from easy to hard
- * * tor_settings_addsubmuldiv.xml Layout for the Addition, Subtraction, Multiplication, Division settings form. Lets you adjust parameters for Addition, Subtraction, Multiplication, Division equations
+ * * tor_settings_addsubmuldiv.xml Layout for the Tournament Addition, Subtraction, Multiplication, Division settings form. Main options will be to reset progress
  *
  * Specific details about the abstract classes are documented as per normal
  */
@@ -33,20 +34,42 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
     int asmdRangeHigh;
     int asmdRangeLow;
     char[] asmdOperators;
+    int asmdLevel;
+
+    //Shared preference settings
+    final boolean[] asmdLevel1Prg = new boolean[1];
+    final boolean[] asmdLevel2Prg = new boolean[1];
+    final boolean[] asmdLevel3Prg = new boolean[1];
+    final boolean[] asmdLevel4Prg = new boolean[1];
+    final boolean[] asmdLevel5Prg = new boolean[1];
+    final boolean[] asmdLevel6Prg = new boolean[1];
+    final boolean[] asmdLevel7Prg = new boolean[1];
+    final boolean[] asmdLevel8Prg = new boolean[1];
+    final boolean[] asmdLevel9Prg = new boolean[1];
+    final int[] asmdTotalPrg = new int[1];
 
     /**
-     * Load parameters or set defaults if they don't exist so they can be provided to the desired Equations class
+     * Load parameters or set defaults if they don't exist
      *
-     * For addition, subtraction, multiplication and division, this includes:
+     * For tournament addition, subtraction, multiplication and division, this is just the progress of the various levels:
      *
-     * * sbAsmdEqCountValue    - number of equations
+     * * asmdLevel1Prg - completion of the first level
      *
      */
     void setParameters() {
 
         SharedPreferences spr = getSharedPreferences(mathsMateSettings,0);
 
-        //sbAsmdDivValue[0] = spr.getBoolean("asmd_div", false);
+        asmdLevel1Prg[0] = spr.getBoolean("asmd_tor_level1", false);
+        asmdLevel2Prg[0] = spr.getBoolean("asmd_tor_level2", false);
+        asmdLevel3Prg[0] = spr.getBoolean("asmd_tor_level3", false);
+        asmdLevel4Prg[0] = spr.getBoolean("asmd_tor_level4", false);
+        asmdLevel5Prg[0] = spr.getBoolean("asmd_tor_level5", false);
+        asmdLevel6Prg[0] = spr.getBoolean("asmd_tor_level6", false);
+        asmdLevel7Prg[0] = spr.getBoolean("asmd_tor_level7", false);
+        asmdLevel8Prg[0] = spr.getBoolean("asmd_tor_level8", false);
+        asmdLevel9Prg[0] = spr.getBoolean("asmd_tor_level9", false);
+        asmdTotalPrg[0] = spr.getInt("asmd_tor_total", 0);
     }
 
     /**
@@ -59,6 +82,81 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
         View childLayout = getLayoutInflater().inflate(R.layout.tor_menu_addsubmuldiv, null);
         incBody.addView(childLayout);
         incBody.setDisplayedChild(3); //prefer this to be an ID, but don't know how to retrieve it
+
+        ProgressBar prgLevel1 = (ProgressBar)findViewById(R.id.prgLevel1);
+        if (asmdLevel1Prg[0] == true) {
+            prgLevel1.setProgress(1);
+        }
+        else {
+            prgLevel1.setProgress(0);
+        }
+
+        ProgressBar prgLevel2 = (ProgressBar)findViewById(R.id.prgLevel2);
+        if (asmdLevel2Prg[0] == true) {
+            prgLevel2.setProgress(1);
+        }
+        else {
+            prgLevel2.setProgress(0);
+        }
+
+        ProgressBar prgLevel3 = (ProgressBar)findViewById(R.id.prgLevel3);
+        if (asmdLevel3Prg[0] == true) {
+            prgLevel3.setProgress(1);
+        }
+        else {
+            prgLevel3.setProgress(0);
+        }
+
+        ProgressBar prgLevel4 = (ProgressBar)findViewById(R.id.prgLevel4);
+        if (asmdLevel4Prg[0] == true) {
+            prgLevel4.setProgress(1);
+        }
+        else {
+            prgLevel4.setProgress(0);
+        }
+
+        ProgressBar prgLevel5 = (ProgressBar)findViewById(R.id.prgLevel5);
+        if (asmdLevel5Prg[0] == true) {
+            prgLevel5.setProgress(1);
+        }
+        else {
+            prgLevel5.setProgress(0);
+        }
+
+        ProgressBar prgLevel6 = (ProgressBar)findViewById(R.id.prgLevel6);
+        if (asmdLevel6Prg[0] == true) {
+            prgLevel6.setProgress(1);
+        }
+        else {
+            prgLevel6.setProgress(0);
+        }
+
+        ProgressBar prgLevel7 = (ProgressBar)findViewById(R.id.prgLevel7);
+        if (asmdLevel7Prg[0] == true) {
+            prgLevel7.setProgress(1);
+        }
+        else {
+            prgLevel7.setProgress(0);
+        }
+
+        ProgressBar prgLevel8 = (ProgressBar)findViewById(R.id.prgLevel8);
+        if (asmdLevel8Prg[0] == true) {
+            prgLevel8.setProgress(1);
+        }
+        else {
+            prgLevel8.setProgress(0);
+        }
+
+        ProgressBar prgLevel9 = (ProgressBar)findViewById(R.id.prgLevel9);
+        if (asmdLevel9Prg[0] == true) {
+            prgLevel9.setProgress(1);
+        }
+        else {
+            prgLevel9.setProgress(0);
+        }
+
+        ProgressBar prgTotal = (ProgressBar)findViewById(R.id.prgTotal);
+        prgTotal.setProgress(asmdTotalPrg[0]);
     }
 
     /**
@@ -92,29 +190,107 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
     }
 
     /**
-     * No post processing required. Yet (eventually will save progress here)
+     * For tournament mode, we need to record the progress, save it and re-render the tournament menu
+     *
+     * We will display the next button which will allow this activity to occur
      */
     void postComplete () {
 
-        //Start countdown timer and render calculator.xml on countdown completion
-        new CountDownTimer(4000, 1000) {
+        Button btnNext = (Button)findViewById(R.id.btnNext);
+        btnNext.setVisibility(View.VISIBLE);
+        btnNext.setOnClickListener(new View.OnClickListener() {
 
-            //No need to display progress
-            public void onTick(long millisUntilFinished) {}
+            @Override
+            public void onClick(View view) {
 
-            //Save progress and reload initial layout
-            public void onFinish() {
-
-                //Code to save progress yet to be added
-
-                //Reload initial layout
                 setFlipperInitLayout();
             }
-        }.start();
+        });
+
+        //Code to save and render progress
+        SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
+
+        //Alter progress based on the level that was chosen. Only adjust where a levels existing status has actually changed
+        switch (asmdLevel) {
+            case 1 :
+                if (asmdLevel1Prg[0] == false) {
+
+                    asmdLevel1Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level1", asmdLevel1Prg[0]);
+                }
+                break;
+            case 2 :
+                if (asmdLevel2Prg[0] == false) {
+
+                    asmdLevel2Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level2", asmdLevel2Prg[0]);
+                }
+                break;
+            case 3 :
+                if (asmdLevel3Prg[0] == false) {
+
+                    asmdLevel3Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level3", asmdLevel3Prg[0]);
+                }
+                break;
+            case 4 :
+                if (asmdLevel4Prg[0] == false) {
+
+                    asmdLevel4Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level4", asmdLevel4Prg[0]);
+                }
+                break;
+            case 5 :
+                if (asmdLevel5Prg[0] == false) {
+
+                    asmdLevel5Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level5", asmdLevel5Prg[0]);
+                }
+                break;
+            case 6 :
+                if (asmdLevel6Prg[0] == false) {
+
+                    asmdLevel6Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level6", asmdLevel6Prg[0]);
+                }
+                break;
+            case 7 :
+                if (asmdLevel7Prg[0] == false) {
+
+                    asmdLevel7Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level7", asmdLevel7Prg[0]);
+                }
+                break;
+            case 8 :
+                if (asmdLevel8Prg[0] == false) {
+
+                    asmdLevel8Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level8", asmdLevel8Prg[0]);
+                }
+                break;
+            case 9 :
+                if (asmdLevel9Prg[0] == false) {
+
+                    asmdLevel9Prg[0] = true;
+                    asmdTotalPrg[0] = asmdTotalPrg[0] + 1;
+                    spe.putBoolean("asmd_tor_level9", asmdLevel9Prg[0]);
+            }
+        }
+
+        spe.putInt("asmd_tor_total", asmdTotalPrg[0]);
+        spe.apply();
     }
 
     /**
-     * for Addition Easy, set appropriate parameters for genNewEquations and render countdown.xml
+     * For Addition Easy, set appropriate parameters for genNewEquations and render countdown.xml
      *
      * @param view Required for onClick
      */
@@ -128,6 +304,151 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
         asmdRangeLow = 1;
         asmdRangeHigh = 10;
         asmdOperators = new char[]{'+'};
+        asmdLevel = 1;
+    }
+
+    /**
+     * For Subtraction Easy, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startSubEasy (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 1;
+        asmdRangeHigh = 10;
+        asmdOperators = new char[]{'-'};
+        asmdLevel = 2;
+    }
+
+    /**
+     * For Addition Medium, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startAddMedium (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 5;
+        asmdRangeHigh = 20;
+        asmdOperators = new char[]{'+'};
+        asmdLevel = 3;
+    }
+
+    /**
+     * For Subtraction Medium, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startSubMedium (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 5;
+        asmdRangeHigh = 20;
+        asmdOperators = new char[]{'-'};
+        asmdLevel = 4;
+    }
+
+    /**
+     * For Multiplication Easy, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startMulEasy (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 1;
+        asmdRangeHigh = 5;
+        asmdOperators = new char[]{'*'};
+        asmdLevel = 5;
+    }
+
+    /**
+     * For Multiplication Medium, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startMulMedium (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 2;
+        asmdRangeHigh = 10;
+        asmdOperators = new char[]{'*'};
+        asmdLevel = 6;
+    }
+
+    /**
+     * For Division Easy, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startDivEasy (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 1;
+        asmdRangeHigh = 10;
+        asmdOperators = new char[]{'/'};
+        asmdLevel = 7;
+    }
+
+    /**
+     * For Division Medium, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startDivMedium (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 1;
+        asmdRangeHigh = 20;
+        asmdOperators = new char[]{'/'};
+        asmdLevel = 8;
+    }
+
+    /**
+     * For Mix Medium, set appropriate parameters for genNewEquations and render countdown.xml
+     *
+     * @param view Required for onClick
+     */
+    public void startMixMedium (View view) {
+
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(0);
+
+        asmdEqCount = 10;
+        asmdOpCount = 2;
+        asmdRangeLow = 1;
+        asmdRangeHigh = 10;
+        asmdOperators = new char[]{'+','-','*','/'};
+        asmdLevel = 9;
     }
 
     /**
