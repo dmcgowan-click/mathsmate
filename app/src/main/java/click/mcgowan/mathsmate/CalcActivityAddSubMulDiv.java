@@ -219,12 +219,12 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         if (sbAsmdAddValue[0] == false) {
             sbAsmdAdd.setProgress(0);
             sbAsmdAdd.refreshDrawableState();
-            tvAsmdAddVal.setText(String.valueOf('N'));
+            tvAsmdAddVal.setText(R.string.cross);
         }
         else {
             sbAsmdAdd.setProgress(1);
             sbAsmdAdd.refreshDrawableState();
-            tvAsmdAddVal.setText(String.valueOf('Y'));
+            tvAsmdAddVal.setText(R.string.tick);
         }
 
         sbAsmdSub.setMin(0);
@@ -233,12 +233,12 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         if (sbAsmdSubValue[0] == false) {
             sbAsmdSub.setProgress(0);
             sbAsmdSub.refreshDrawableState();
-            tvAsmdSubVal.setText(String.valueOf('N'));
+            tvAsmdSubVal.setText(R.string.cross);
         }
         else {
             sbAsmdSub.setProgress(1);
             sbAsmdSub.refreshDrawableState();
-            tvAsmdSubVal.setText(String.valueOf('Y'));
+            tvAsmdSubVal.setText(R.string.tick);
         }
 
         sbAsmdMul.setMin(0);
@@ -247,12 +247,12 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         if (sbAsmdMulValue[0] == false) {
             sbAsmdMul.setProgress(0);
             sbAsmdMul.refreshDrawableState();
-            tvAsmdMulVal.setText(String.valueOf('N'));
+            tvAsmdMulVal.setText(R.string.cross);
         }
         else {
             sbAsmdMul.setProgress(1);
             sbAsmdMul.refreshDrawableState();
-            tvAsmdMulVal.setText(String.valueOf('Y'));
+            tvAsmdMulVal.setText(R.string.tick);
         }
 
         sbAsmdDiv.setMin(0);
@@ -261,12 +261,12 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
         if (sbAsmdDivValue[0] == false) {
             sbAsmdDiv.setProgress(0);
             sbAsmdDiv.refreshDrawableState();
-            tvAsmdDivVal.setText(String.valueOf('N'));
+            tvAsmdDivVal.setText(R.string.cross);
         }
         else {
             sbAsmdDiv.setProgress(1);
             sbAsmdDiv.refreshDrawableState();
-            tvAsmdDivVal.setText(String.valueOf('Y'));
+            tvAsmdDivVal.setText(R.string.tick);
         }
 
         //Setup Handlers for the sbAsmdEqCount
@@ -471,11 +471,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
 
                 if (progress == 0) {
                     sbAsmdAddValue[0] = false;
-                    tvAsmdAddVal.setText("N");
+                    tvAsmdAddVal.setText(R.string.cross);
                 }
                 else {
                     sbAsmdAddValue[0] = true;
-                    tvAsmdAddVal.setText("Y");
+                    tvAsmdAddVal.setText(R.string.tick);
                 }
             }
 
@@ -488,10 +488,10 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             public void onStartTrackingTouch(SeekBar seekBar) {
 
                 if (sbAsmdAddValue[0] == false) {
-                    tvAsmdAddVal.setText("N");
+                    tvAsmdAddVal.setText(R.string.cross);
                 }
                 else {
-                    tvAsmdAddVal.setText("Y");
+                    tvAsmdAddVal.setText(R.string.tick);
                 }
             }
 
@@ -525,11 +525,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
 
                 if (progress == 0) {
                     sbAsmdSubValue[0] = false;
-                    tvAsmdSubVal.setText("N");
+                    tvAsmdSubVal.setText(R.string.cross);
                 }
                 else {
                     sbAsmdSubValue[0] = true;
-                    tvAsmdSubVal.setText("Y");
+                    tvAsmdSubVal.setText(R.string.tick);
                 }
 
                 if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
@@ -548,10 +548,10 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             public void onStartTrackingTouch(SeekBar seekBar) {
 
                 if (sbAsmdSubValue[0] == false) {
-                    tvAsmdSubVal.setText("N");
+                    tvAsmdSubVal.setText(R.string.cross);
                 }
                 else {
-                    tvAsmdSubVal.setText("Y");
+                    tvAsmdSubVal.setText(R.string.tick);
                 }
             }
 
@@ -584,11 +584,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
 
                 if (progress == 0) {
                     sbAsmdMulValue[0] = false;
-                    tvAsmdMulVal.setText("N");
+                    tvAsmdMulVal.setText(R.string.cross);
                 }
                 else {
                     sbAsmdMulValue[0] = true;
-                    tvAsmdMulVal.setText("Y");
+                    tvAsmdMulVal.setText(R.string.tick);
                 }
 
                 if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
@@ -607,10 +607,10 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             public void onStartTrackingTouch(SeekBar seekBar) {
 
                 if (sbAsmdMulValue[0] == false) {
-                    tvAsmdMulVal.setText("N");
+                    tvAsmdMulVal.setText(R.string.cross);
                 }
                 else {
-                    tvAsmdSubVal.setText("Y");
+                    tvAsmdSubVal.setText(R.string.tick);
                 }
             }
 
@@ -643,11 +643,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
 
                 if (progress == 0) {
                     sbAsmdDivValue[0] = false;
-                    tvAsmdDivVal.setText("N");
+                    tvAsmdDivVal.setText(R.string.cross);
                 }
                 else {
                     sbAsmdDivValue[0] = true;
-                    tvAsmdDivVal.setText("Y");
+                    tvAsmdDivVal.setText(R.string.tick);
                 }
 
                 if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
@@ -666,10 +666,10 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             public void onStartTrackingTouch(SeekBar seekBar) {
 
                 if (sbAsmdDivValue[0] == false) {
-                    tvAsmdDivVal.setText("N");
+                    tvAsmdDivVal.setText(R.string.cross);
                 }
                 else {
-                    tvAsmdDivVal.setText("Y");
+                    tvAsmdDivVal.setText(R.string.tick);
                 }
             }
 

@@ -106,7 +106,7 @@
         android:layout_row="3"
         android:padding="10dp"
         android:gravity="center_vertical"
-        android:text="@string/settings_range_high_count"/>
+        android:text="@string/settings_range_low_count"/>
 
     <SeekBar
         style="@style/Paragraph2"
@@ -129,7 +129,7 @@
         android:gravity="center_vertical" />
 
     <TextView
-        style="@style/Paragraph2"
+        style="@style/Paragraph3"
         android:id="@+id/tvAsmdAdd"
         android:layout_height="wrap_content"
         android:layout_column="0"
@@ -219,7 +219,7 @@
         android:gravity="center_vertical" />
 
     <TextView
-        style="@style/Paragraph2"
+        style="@style/Paragraph3"
         android:id="@+id/tvAsmdDiv"
         android:layout_height="wrap_content"
         android:layout_column="0"
