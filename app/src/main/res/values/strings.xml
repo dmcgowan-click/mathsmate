@@ -34,6 +34,10 @@
     <string name="settings_op_count">Number of Operands</string>
     <string name="settings_range_high_count">Operand Range High</string>
     <string name="settings_range_low_count">Operand Range Low</string>
+    <string name="settings_x_range_high_count">X Operand Range High</string>
+    <string name="settings_x_range_low_count">X Operand Range Low</string>
+    <string name="settings_y_range_high_count">Y Operand Range High</string>
+    <string name="settings_y_range_low_count">Y Operand Range Low</string>
     <string name="settings_add">Enable Addition?</string>
     <string name="settings_sub">Enable Subtraction?</string>
     <string name="settings_mul">Enable Multiplication?</string>

@@ -17,30 +17,37 @@ import java.util.Random;
  * * Precision hard coded to 0. Never decimal places in times tables
  * * Negative is hard coded to false. Never negative numbers in times tables
  * * Array of allowed operators is always set to {'*'}
+ * * Additional range parameters to control x axis as well as y axis
  * * rangeHigh and rangeLow parameters also control number of questions. Number questions are calculated as follows:
- * * * (rangeHigh - (rangeLow - 1)) * 12,
+ * * * (rangeHigh - (rangeLow - 1)) * (yRangeHigh - (yRangeLow - 1))),
  */
 public class TimesTablesEquations extends Equations {
 
     //Parameters
     private boolean random; //Do we want the order of equations to be random
+    private int yRangeHigh; //Highest number of the operand for the Y axis
+    private int yRangeLow; //Highest number of the operand for the Y axis
 
     /**
      * Create a new Times Table Equations object
      *
      * All parameters except for range are statically defined
      *
-     * @param rangeHigh Highest number of the operand (applicable for first operand only)
-     * @param rangeLow  Lowest number of the operand  (applicable for first operand only)
-     * @param random    One extra parameter for times tables. Do we want the questions out of order
+     * @param rangeHigh  Highest number of the operand (applicable for x operand)
+     * @param rangeLow   Lowest number of the operand  (applicable for x operand)
+     * @param yRangeHigh Highest number of the operand (applicable for y operand)
+     * @param yRangeLow  Lowest number of the operand  (applicable for y operand)
+     * @param random     One extra parameter for times tables. Do we want the questions out of order
      */
     public TimesTablesEquations (
             int rangeHigh,
             int rangeLow,
+            int yRangeHigh,
+            int yRangeLow,
             boolean random
     ) {
         super (
-                (rangeHigh - (rangeLow - 1)) * 12,
+                (rangeHigh - (rangeLow - 1)) * (yRangeHigh - (yRangeLow - 1)),
                 2,
                 rangeHigh,
                 rangeLow,
@@ -49,6 +56,8 @@ public class TimesTablesEquations extends Equations {
                 new char[]{'*'}
         );
 
+        this.yRangeHigh = yRangeHigh;
+        this.yRangeLow = yRangeLow;
         this.random = random;
 
         Log.i ("EQUATIONS_TT_INIT", "Equations Object Initialized");
@@ -74,10 +83,10 @@ public class TimesTablesEquations extends Equations {
         Collections.shuffle(rndIndex);
 
         //Loop from start of rangeLow to the upper limit of rangeHigh
-        for (int countx = (this.rangeLow -1); countx < this.rangeHigh; countx++) {
+        for (int countx = (this.rangeLow -1 ); countx < this.rangeHigh; countx++) {
 
-            //Loop exactly 12 times for y axis
-            for (int county=0; county < 12; county++) {
+            //Loop from start of yRangeLow to the upper limit of yRangeHigh
+            for (int county = (this.yRangeLow - 1); county < this.yRangeHigh; county++) {
 
                 //Create new TimesTableEquation object and generate the equation
                 prepEquation = new TimesTablesEquation(
