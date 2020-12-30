@@ -38,6 +38,9 @@
     <string name="settings_sub">Enable Subtraction?</string>
     <string name="settings_mul">Enable Multiplication?</string>
     <string name="settings_div">Enable Division?</string>
+    <string name="settings_tor_addsubmuldiv">Tournament Arithmetic Settings</string>
+    <string name="settings_tor_clear">Clear Progress?</string>
+    <string name="settings_tor_clear_confirm">Clear</string>
     <string name="settings_range">Equation Range</string>
     <string name="settings_random">Random Order?</string>
     <string name="settings_true">True</string>

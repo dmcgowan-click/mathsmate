@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        style="@style/Paragraph2"
+        android:id="@+id/tvTorAsmdClear"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/settings_tor_clear"/><!-- Not Happy about using marginTop, but unable to get appConstraint setting to work as desired-->
+
+    <Button
+        style="@style/Paragraph2"
+        android:id="@+id/btnTorAsmdClear"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/settings_tor_clear_confirm"
+        android:onClick="clearProgress"/><!-- Not Happy about using marginTop, but unable to get appConstraint setting to work as desired-->
+
+</GridLayout>

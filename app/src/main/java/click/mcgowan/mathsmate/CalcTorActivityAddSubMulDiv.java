@@ -22,7 +22,7 @@ import click.mcgowan.mathsmate.core.Equations;
  * Class for Tournament Addition, Subtraction, Multiplication, Division activities. Extends CalcActivity. Uses the following resources
  *
  * * tor_menu_addsubmuldiv.xml Layout for the sub menu where you can select equations from easy to hard
- * * tor_settings_addsubmuldiv.xml Layout for the Tournament Addition, Subtraction, Multiplication, Division settings form. Main options will be to reset progress
+ * * settings_tor_addsubmuldiv.xml Layout for the Tournament Addition, Subtraction, Multiplication, Division settings form. Main options will be to reset progress
  *
  * Specific details about the abstract classes are documented as per normal
  */
@@ -171,7 +171,6 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
         calcHeader.setText(getString(R.string.tor_addsubmuldiv));
     }
 
-    //Following under construction
     /**
      * Create AddSubMulDivEquations object and use parameters set by difficulty options in tor_menu_addsubmuldiv.xml:
      */
@@ -452,7 +451,7 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
     }
 
     /**
-     * Render a form using a resource of settings_addsubmuldiv.xml so parameters for AddSubMulDivEquations can be customised
+     * Render a form using a resource of settings_tor_addsubmuldiv.xml so parameters for AddSubMulDivEquations can be customised
      *
      * @param view Required for onClick
      */
@@ -460,7 +459,68 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
 
         //Setup flipper and add settings_addsubmuldiv.xml to it. All other element setting will fail otherwise
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        View childLayout = getLayoutInflater().inflate(R.layout.settings_tor_addsubmuldiv, null);
+        incBody.addView(childLayout);
+        incBody.setDisplayedChild(4);
 
+        //Setup elements common to all settings
+        TextView calcHeader = (TextView) findViewById(R.id.tvCalcHeader);
+        ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
+        Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
+
+        //Set header and save button
+        calcHeader.setText(R.string.settings_tor_addsubmuldiv);
+        openSettings.setVisibility(View.GONE);
+        saveSettings.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Triggered by btnTorAsmdClear. Clear settings
+     *
+     * @param view Required for onClick
+     */
+    public void clearProgress (View view) {
+
+        //Code to save and render progress
+        SharedPreferences.Editor spe = getSharedPreferences(mathsMateSettings,0).edit();
+
+        asmdLevel1Prg[0] = false;
+        asmdLevel2Prg[0] = false;
+        asmdLevel3Prg[0] = false;
+        asmdLevel4Prg[0] = false;
+        asmdLevel5Prg[0] = false;
+        asmdLevel6Prg[0] = false;
+        asmdLevel7Prg[0] = false;
+        asmdLevel8Prg[0] = false;
+        asmdLevel9Prg[0] = false;
+        asmdTotalPrg[0] = 0;
+
+        spe.putBoolean("asmd_tor_level1", asmdLevel1Prg[0]);
+        spe.putBoolean("asmd_tor_level2", asmdLevel2Prg[0]);
+        spe.putBoolean("asmd_tor_level3", asmdLevel3Prg[0]);
+        spe.putBoolean("asmd_tor_level4", asmdLevel4Prg[0]);
+        spe.putBoolean("asmd_tor_level5", asmdLevel5Prg[0]);
+        spe.putBoolean("asmd_tor_level6", asmdLevel6Prg[0]);
+        spe.putBoolean("asmd_tor_level7", asmdLevel7Prg[0]);
+        spe.putBoolean("asmd_tor_level8", asmdLevel8Prg[0]);
+        spe.putBoolean("asmd_tor_level9", asmdLevel9Prg[0]);
+        spe.putInt("asmd_tor_total", asmdTotalPrg[0]);
+
+        spe.apply();
+
+        //Setup flipper and add tor_menu_addsubmuldiv.xml to it. All other element setting will fail otherwise
+        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
+        incBody.setDisplayedChild(3);
+
+        //Setup elements common to all settings
+        TextView calcHeader = (TextView) findViewById(R.id.tvCalcHeader);
+        ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
+        Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
+
+        //Set header and save button
+        calcHeader.setText(R.string.tor_addsubmuldiv);
+        openSettings.setVisibility(View.VISIBLE);
+        saveSettings.setVisibility(View.GONE);
     }
 
     /**
