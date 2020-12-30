@@ -508,6 +508,9 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
 
         spe.apply();
 
+        //Notify settings saved
+        Toast.makeText(getApplicationContext(), getString(R.string.settings_saved), Toast.LENGTH_SHORT).show();
+
         //Setup flipper and add tor_menu_addsubmuldiv.xml to it. All other element setting will fail otherwise
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
         incBody.setDisplayedChild(3);
