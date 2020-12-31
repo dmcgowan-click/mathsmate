@@ -54,7 +54,14 @@ public class CalcTorActivityAddSubMulDiv extends CalcActivity {
      * For tournament addition, subtraction, multiplication and division, this is just the progress of the various levels:
      *
      * * asmdLevel1Prg - completion of the first level
-     *
+     * * asmdLevel2Prg - completion of the second level
+     * * asmdLevel3Prg - completion of the third level
+     * * asmdLevel4Prg - completion of the fourth level
+     * * asmdLevel5Prg - completion of the fifth level
+     * * asmdLevel6Prg - completion of the sixth level
+     * * asmdLevel7Prg - completion of the seventh level
+     * * asmdLevel8Prg - completion of the eighth level
+     * * asmdLevel9Prg - completion of the ninth level
      */
     void setParameters() {
 
