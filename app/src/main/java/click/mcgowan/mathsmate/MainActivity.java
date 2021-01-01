@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +26,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * Create intent and start Addition, Subtraction, Multiplication, Division Activity
+     *
+     * @param view
+     */
+    public void startTorTimestablesActivity (View view) {
+
+        Intent intentTorTimestablesActivity = new Intent(this, CalcTorActivityTimesTables.class);
+
+        //Eventual code to setup and pass in profile
+        intentTorTimestablesActivity.putExtra("action_id", "tortimestables");
+
+        startActivity(intentTorTimestablesActivity);
     }
 
     /**

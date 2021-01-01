@@ -11,6 +11,7 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity android:name=".CalcActivityTimesTables" />
         <activity android:name=".CalcActivityAddSubMulDiv" />
+        <activity android:name=".CalcTorActivityTimesTables" />
         <activity android:name=".CalcTorActivityAddSubMulDiv" />
         <activity android:name=".MainActivity">
             <intent-filter>

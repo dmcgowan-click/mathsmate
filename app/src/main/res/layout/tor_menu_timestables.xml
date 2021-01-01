@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center_horizontal">
+
+    <ProgressBar
+        android:id="@+id/prgTotal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:paddingVertical="40dp"
+        android:max="9"
+        android:progress="0"
+        android:indeterminate="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prgTotal">
+
+        <ProgressBar
+            android:id="@+id/prgLevel1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/btnLevel1"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:text="@string/tor_ttes_level_1"
+            android:onClick="startOneX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/btnLevel2"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:text="@string/tor_ttes_level_2"
+            android:onClick="startTwoX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel3"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel3"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:text="@string/tor_ttes_level_3"
+            android:onClick="startThreeX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel4"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingTop="40dp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel4"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="0"
+            android:layout_row="3"
+            android:text="@string/tor_ttes_level_4"
+            android:onClick="startFourX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel5"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingTop="40dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="1"
+            android:layout_row="2"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel5"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="1"
+            android:layout_row="3"
+            android:text="@string/tor_ttes_level_5"
+            android:onClick="startFiveX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel6"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingTop="40dp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="2"
+            android:layout_row="2"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel6"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="2"
+            android:layout_row="3"
+            android:text="@string/tor_ttes_level_6"
+            android:onClick="startSixX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel7"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingTop="40dp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:layout_column="0"
+            android:layout_row="4"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel7"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="0"
+            android:layout_row="5"
+            android:text="@string/tor_ttes_level_7"
+            android:onClick="startSevenX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel8"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingTop="40dp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="1"
+            android:layout_row="4"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel8"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="1"
+            android:layout_row="5"
+            android:text="@string/tor_ttes_level_8"
+            android:onClick="startEightX"/>
+
+        <ProgressBar
+            android:id="@+id/prgLevel9"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:paddingTop="40dp"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="2"
+            android:layout_row="4"
+            android:max="1"
+            android:progress="0"
+            android:indeterminate="false"/>
+
+        <Button
+            android:id="@+id/tvLevel9"
+            style="@style/Paragraph3"
+            android:paddingHorizontal="10dp"
+            android:layout_gravity="center"
+            android:layout_width="115dp"
+            android:gravity="center"
+            android:layout_column="2"
+            android:layout_row="5"
+            android:text="@string/tor_ttes_level_9"
+            android:onClick="startNineX"/>
+
+    </GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

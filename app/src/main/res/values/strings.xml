@@ -13,6 +13,7 @@
     <string name="timestables_tor">Master Times Tables</string>
     <string name="addsubmuldiv">Random Arithmetic</string>
     <string name="tor_addsubmuldiv">Master Arithmetic</string>
+    <string name="tor_timestables">Master Timestables</string>
     <string name="addition_symbol">\u0020\u0020+\u0020\u0020</string>
     <string name="subtraction_symbol">\u0020\u0020-\u0020\u0020</string>
     <string name="multiplication_symbol">\u0020\u0020\u00D7\u0020\u0020</string>
@@ -51,6 +52,16 @@
     <string name="settings_false">False</string>
     <string name="tick">\u2713</string>
     <string name="cross">\u274C</string>
+
+    <string name="tor_ttes_level_1">1x Timetables</string>
+    <string name="tor_ttes_level_2">2x Timetables</string>
+    <string name="tor_ttes_level_3">3x Timetables</string>
+    <string name="tor_ttes_level_4">4x Timetables</string>
+    <string name="tor_ttes_level_5">5x Timetables</string>
+    <string name="tor_ttes_level_6">6x Timetables</string>
+    <string name="tor_ttes_level_7">7x Timetables</string>
+    <string name="tor_ttes_level_8">8x Timetables</string>
+    <string name="tor_ttes_level_9">9x Timetables</string>
 
     <string name="tor_asmd_level_1">Easy Addition</string>
     <string name="tor_asmd_level_2">Easy Subtraction</string>

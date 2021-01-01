@@ -38,7 +38,7 @@
             android:id="@+id/btnTimestablesTor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="startTimesTableCalcActivity"
+            android:onClick="startTorTimestablesActivity"
             android:text="@string/timestables_tor" />
 
         <Button
