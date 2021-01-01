@@ -213,7 +213,7 @@ public class CalcTorActivityTimesTables extends CalcActivity {
         switch (ttesLevel) {
             case 1 :
                 if (ttesLevel1Prg[0] == false) {
-                    Toast.makeText(getApplicationContext(), "DEBUG", Toast.LENGTH_SHORT).show();
+
                     ttesLevel1Prg[0] = true;
                     ttesTotalPrg[0] = ttesTotalPrg[0] + 1;
                     spe.putBoolean("ttes_tor_level1", ttesLevel1Prg[0]);
@@ -442,15 +442,15 @@ public class CalcTorActivityTimesTables extends CalcActivity {
     }
 
     /**
-     * Render a form using a resource of settings_tor_addsubmuldiv.xml so parameters for AddSubMulDivEquations can be customised
+     * Render a form using a resource of settings_tor_timestables.xml so parameters for TimestablesEquations can be customised
      *
      * @param view Required for onClick
      */
     public void calcSettings (View view) {
-
+        Toast.makeText(getApplicationContext(), "DEBUG", Toast.LENGTH_SHORT).show();
         //Setup flipper and add settings_addsubmuldiv.xml to it. All other element setting will fail otherwise
         ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
-        View childLayout = getLayoutInflater().inflate(R.layout.settings_tor_addsubmuldiv, null);
+        View childLayout = getLayoutInflater().inflate(R.layout.settings_tor_timestables, null);
         incBody.addView(childLayout);
         incBody.setDisplayedChild(4);
 
@@ -460,7 +460,7 @@ public class CalcTorActivityTimesTables extends CalcActivity {
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
 
         //Set header and save button
-        calcHeader.setText(R.string.settings_tor_addsubmuldiv);
+        calcHeader.setText(R.string.settings_tor_timestables);
         openSettings.setVisibility(View.GONE);
         saveSettings.setVisibility(View.VISIBLE);
     }
@@ -512,7 +512,7 @@ public class CalcTorActivityTimesTables extends CalcActivity {
         Button saveSettings = (Button) findViewById(R.id.btnCalcSettingsSave);
 
         //Set header and save button
-        calcHeader.setText(R.string.tor_addsubmuldiv);
+        calcHeader.setText(R.string.tor_timestables);
         openSettings.setVisibility(View.VISIBLE);
         saveSettings.setVisibility(View.GONE);
     }
