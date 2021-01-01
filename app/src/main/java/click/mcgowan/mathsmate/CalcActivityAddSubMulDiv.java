@@ -227,6 +227,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
             tvAsmdAddVal.setText(R.string.tick);
         }
 
+        if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
+
+            sbAsmdAdd.setEnabled(false);
+        }
+
         sbAsmdSub.setMin(0);
         sbAsmdSub.setMax(1);
 
@@ -535,7 +540,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                 if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
                     sbAsmdAdd.setProgress(1);
                     sbAsmdAdd.refreshDrawableState();
-                    tvAsmdAddVal.setText(String.valueOf('Y'));
+                    tvAsmdAddVal.setText(R.string.tick);
+                    sbAsmdAdd.setEnabled(false);
+                }
+                else {
+                    sbAsmdAdd.setEnabled(true);
                 }
             }
 
@@ -594,7 +603,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                 if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
                     sbAsmdAdd.setProgress(1);
                     sbAsmdAdd.refreshDrawableState();
-                    tvAsmdAddVal.setText(String.valueOf('Y'));
+                    tvAsmdAddVal.setText(R.string.tick);
+                    sbAsmdAdd.setEnabled(false);
+                }
+                else {
+                    sbAsmdAdd.setEnabled(true);
                 }
             }
 
@@ -653,7 +666,11 @@ public class CalcActivityAddSubMulDiv extends CalcActivity{
                 if (sbAsmdSubValue[0] == false && sbAsmdMulValue[0] == false && sbAsmdDivValue[0] == false) {
                     sbAsmdAdd.setProgress(1);
                     sbAsmdAdd.refreshDrawableState();
-                    tvAsmdAddVal.setText(String.valueOf('Y'));
+                    tvAsmdAddVal.setText(R.string.tick);
+                    sbAsmdAdd.setEnabled(false);
+                }
+                else {
+                    sbAsmdAdd.setEnabled(true);
                 }
             }
 
