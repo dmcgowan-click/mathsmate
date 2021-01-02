@@ -45,7 +45,7 @@ public class AddSubMulDivEquations extends Equations {
                 operators
         );
 
-        Log.i ("EQUATIONS_ASMD_INIT", "Equations Object Initialized");
+        //Log.i ("EQUATIONS_ASMD_INIT", "Equations Object Initialized");
 
         this.genEquations();
     }
@@ -72,6 +72,6 @@ public class AddSubMulDivEquations extends Equations {
             equationMap.put(counter, prepEquation);
         }
 
-        Log.i("EQUATIONS_TT_GEN","Generated " + this.equationCount + " Equations");
+        //Log.i("EQUATIONS_TT_GEN","Generated " + this.equationCount + " Equations");
     }
 }

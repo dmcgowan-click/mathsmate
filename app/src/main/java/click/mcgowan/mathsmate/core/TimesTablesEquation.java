@@ -51,7 +51,7 @@ public class TimesTablesEquation extends Equation {
         this.operandA = operandA;
         this.operandB = operandB;
 
-        Log.i("EQUATION_TT_INIT","Equation Object Initialized");
+        //Log.i("EQUATION_TT_INIT","Equation Object Initialized");
 
         this.genEquation();
     }
@@ -89,6 +89,6 @@ public class TimesTablesEquation extends Equation {
             }
         }
 
-        Log.i("EQUATION_TT_GEN", "Generated Equation with Operands " + String.valueOf(this.operandA) + " and " + String.valueOf(this.operandB));
+        //Log.i("EQUATION_TT_GEN", "Generated Equation with Operands " + String.valueOf(this.operandA) + " and " + String.valueOf(this.operandB));
     }
 }

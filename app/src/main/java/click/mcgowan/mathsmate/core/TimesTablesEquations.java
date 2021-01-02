@@ -60,7 +60,7 @@ public class TimesTablesEquations extends Equations {
         this.yRangeLow = yRangeLow;
         this.random = random;
 
-        Log.i ("EQUATIONS_TT_INIT", "Equations Object Initialized");
+        //Log.i ("EQUATIONS_TT_INIT", "Equations Object Initialized");
 
         this.genEquations();
     }
@@ -114,6 +114,6 @@ public class TimesTablesEquations extends Equations {
             }
         }
 
-        Log.i("EQUATIONS_TT_GEN","Generated " + String.valueOf(index) + " Equations");
+        //Log.i("EQUATIONS_TT_GEN","Generated " + String.valueOf(index) + " Equations");
     }
 }

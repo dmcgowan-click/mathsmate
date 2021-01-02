@@ -63,7 +63,7 @@ public class Operand {
         this.calcAnswer = rangeHigh; //When calcAnswer isn't provided, we just set it to high range effectively ensuring it is ignored
         this.prevOperator = '?';
 
-        Log.i("OPERAND_INIT", "Operand Object Initialized");
+        //Log.i("OPERAND_INIT", "Operand Object Initialized");
 
         genOperandOperator();
     }

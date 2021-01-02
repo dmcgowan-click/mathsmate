@@ -43,7 +43,7 @@ public class AddSubMulDivEquation extends Equation {
                 operators
         );
 
-        Log.i("EQUATION_ASMD_INIT","Equation Object Initialized");
+        //Log.i("EQUATION_ASMD_INIT","Equation Object Initialized");
 
         genEquation();
     }
@@ -123,6 +123,6 @@ public class AddSubMulDivEquation extends Equation {
             }
         }
 
-        Log.i("EQUATION_ASMD_GEN", "Generated Equation with Randomly Generated Operands");
+        //Log.i("EQUATION_ASMD_GEN", "Generated Equation with Randomly Generated Operands");
     }
 }
