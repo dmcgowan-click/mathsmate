@@ -502,10 +502,6 @@ public class CalcTorActivityTimesTables extends CalcActivity {
         //Notify settings saved
         Toast.makeText(getApplicationContext(), getString(R.string.settings_saved), Toast.LENGTH_SHORT).show();
 
-        //Setup flipper and add tor_menu_addsubmuldiv.xml to it. All other element setting will fail otherwise
-        ViewFlipper incBody = (ViewFlipper)findViewById(R.id.incBody);
-        incBody.setDisplayedChild(3);
-
         //Setup elements common to all settings
         TextView calcHeader = (TextView) findViewById(R.id.tvCalcHeader);
         ImageButton openSettings = (ImageButton) findViewById(R.id.btnCalcSettings);
@@ -515,6 +511,9 @@ public class CalcTorActivityTimesTables extends CalcActivity {
         calcHeader.setText(R.string.tor_timestables);
         openSettings.setVisibility(View.VISIBLE);
         saveSettings.setVisibility(View.GONE);
+
+        //Now load initial flipper layout
+        setFlipperInitLayout();
     }
 
     /**
